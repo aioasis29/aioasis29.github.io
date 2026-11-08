@@ -700,7 +700,12 @@ fieldset.field{border:0;margin:0;padding:0}
 .cx-final p{font:500 clamp(1.2rem,1rem + .8vw,1.6rem)/1.35 var(--f-display);letter-spacing:-.015em;color:var(--on-dark);max-width:34em}
 .cx-final .cx-final-sub{font:400 1rem/1.5 var(--f-body);color:var(--on-dark-2)}
 .cx-final .btn{margin-top:8px}
-.cx-label{position:absolute;left:0;top:0;white-space:nowrap;font:500 .72rem/1.2 var(--f-body);color:var(--silk);padding:5px 10px;border-radius:999px;background:rgba(10,14,15,.62);box-shadow:inset 0 0 0 1px rgba(225,164,146,.3);opacity:0;will-change:transform,opacity}
+.cx-label{position:absolute;left:0;top:0;display:flex;align-items:center;gap:7px;white-space:nowrap;font:500 .7rem/1 var(--f-display);letter-spacing:.02em;color:rgba(234,247,244,.88);padding:6px 11px 6px 9px;border-radius:9px;
+  background:linear-gradient(135deg,rgba(234,247,244,.1),rgba(234,247,244,.025) 60%,rgba(95,223,222,.05));-webkit-backdrop-filter:blur(10px) saturate(140%);backdrop-filter:blur(10px) saturate(140%);
+  box-shadow:inset 0 1px 0 rgba(234,247,244,.14),inset 0 0 0 1px rgba(160,227,216,.16),0 8px 24px -10px rgba(0,0,0,.6);opacity:0;will-change:transform,opacity}
+.cx-label i{width:5px;height:5px;border-radius:50%;background:var(--ai-1);box-shadow:0 0 8px rgba(95,223,222,.7);flex:none}
+.cx-label.key{font-weight:600;font-size:.76rem;color:var(--on-dark);padding:7px 13px 7px 10px;box-shadow:inset 0 1px 0 rgba(234,247,244,.18),inset 0 0 0 1px rgba(225,164,146,.32),0 10px 28px -10px rgba(0,0,0,.65)}
+.cx-label.key i{background:var(--coral);box-shadow:0 0 9px rgba(225,140,115,.7)}
 @media (max-width:960px){
   .cx-options{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cx-all{grid-column:1/-1;justify-content:center}
@@ -714,7 +719,7 @@ fieldset.field{border:0;margin:0;padding:0}
   .chaos.all .cx-input{opacity:0}
   .cx-system{bottom:auto;top:16px;font-size:.8rem}
   .cx-opt{font-size:.86rem;padding:10px 12px}
-  .cx-label{font-size:.64rem;padding:4px 8px}
+  .cx-label{font-size:.62rem;padding:5px 8px 5px 7px;gap:5px}.cx-label.key{font-size:.66rem}
 }
 
 /* ---------- «Знакомые ситуации»: последовательный рассказ при прокрутке ----------
@@ -3513,126 +3518,255 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
   const world = new THREE.Group(); scene.add(world);
 
-  /* ---------- фон, который преломляет стекло ---------- */
-  const U = { uTime: { value: 0 }, uAspect: { value: 1 }, uRes: { value: new THREE.Vector2(1, 1) }, uOrder: { value: 0 }, uFog: { value: new THREE.Vector2(6, 9) } };
+  /* ---------- окружение, которое преломляет стекло ----------
+     Хаос: контровой источник за облаком фрагментов, лучи в дымке (как свет за разломом).
+     Порядок: спокойная студия — размытые вертикальные световые полосы и мягкий бирюзовый объём. */
+  const U = { uTime: { value: 0 }, uAspect: { value: 1 }, uRes: { value: new THREE.Vector2(1, 1) }, uOrder: { value: 0 }, uFog: { value: new THREE.Vector2(6, 9) },
+    uCamL: { value: new V() }, uDof: { value: new V(6, 2.2, 1) }, uFloor: { value: -1.42 } };
   const BG = `
     uniform float uTime; uniform float uAspect; uniform float uOrder;
     vec3 bg(vec2 uv){
       vec2 a = uAspect<1. ? vec2(1.,1./uAspect) : vec2(uAspect,1.);
-      vec3 col=vec3(.035,.05,.055);
-      vec2 d=(uv-vec2(.5,.52))*a; col=mix(col,vec3(.045,.25,.28),.9*exp(-2.4*dot(d,d)));
-      vec2 d2=(uv-vec2(.5+.12*sin(uTime*.07),.5+.08*cos(uTime*.09)))*a; col+=vec3(.16,.7,.68)*.07*exp(-8.*dot(d2,d2));
-      vec2 d3=(uv-vec2(.06,.04))*a; col=mix(col,vec3(.3,.13,.1),.5*exp(-4.*dot(d3,d3)));
-      col+=vec3(.88,.64,.57)*.05*uOrder*exp(-10.*dot(d,d));
+      vec3 col=vec3(.026,.036,.044);
+      vec2 d=(uv-vec2(.5,.5))*a; float r2=dot(d,d);
+      col=mix(col,vec3(.035,.17,.2),.85*exp(-2.2*r2));
+      vec2 d3=(uv-vec2(.06,.04))*a; col=mix(col,vec3(.24,.11,.09),.45*exp(-4.*dot(d3,d3)));
+      float ch=1.-uOrder;
+      vec2 dc=(uv-vec2(.5,.58))*a; float rc=length(dc), ang=atan(dc.y,dc.x);
+      float rays=.5+.5*sin(ang*7.+sin(ang*3.+uTime*.05)*2.2)*sin(ang*11.-uTime*.04);
+      col+=vec3(.45,.86,.88)*ch*(.2*exp(-rc*rc*34.)+.035*exp(-rc*4.5)*rays*rays);
+      col+=vec3(.86,.8,.95)*ch*.18*exp(-rc*rc*180.);
+      float sx=uv.x*a.x, strips=0.;
+      for(int i=0;i<7;i++){ float fi=float(i); float px=(.06+fi*.148+.025*sin(fi*3.1))*a.x; float w=.004+.011*fract(fi*.618+.1);
+        strips+=exp(-pow((sx-px)/w,2.))*(.45+.55*fract(fi*.37+.2)); }
+      float vf=smoothstep(.12,.42,uv.y)*smoothstep(1.05,.62,uv.y);
+      col+=vec3(.5,1.,.92)*strips*vf*.2*uOrder;
+      col+=vec3(.2,.7,.68)*.06*uOrder*exp(-3.*r2);
+      col+=vec3(.88,.64,.57)*.04*uOrder*exp(-10.*r2);
       float cs=sin(uv.x*a.x*17.+sin(uv.y*13.+uTime*.3)*1.4)*sin(uv.y*15.+sin(uv.x*a.x*10.-uTime*.25)*1.2);
-      col+=vec3(.35,.85,.8)*.022*smoothstep(.55,1.,cs)*exp(-2.6*dot(d,d));
+      col+=vec3(.35,.85,.8)*.016*smoothstep(.55,1.,cs)*exp(-2.6*r2);
       float v=length((uv-.5)*vec2(1.,1.2)); col*=1.-.45*smoothstep(.35,.95,v);
       return col;
     }`;
   const bg = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: U, depthTest: false, depthWrite: false,
     vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
-    fragmentShader: BG + 'varying vec2 vUv;void main(){gl_FragColor=vec4(bg(vUv),1.);}' }));
+    fragmentShader: BG + 'varying vec2 vUv;void main(){gl_FragColor=vec4(bg(vUv),.18);}' }));  /* альфа — размытие глубины для фона */
   bg.frustumCulled = false; bg.renderOrder = -10; scene.add(bg);
 
-  /* ---------- элементы: инстансированное жидкое стекло с узором на лицевой грани ---------- */
-  const N = mobile ? 72 : 108;
-  const mat = new THREE.ShaderMaterial({
-    uniforms: U, transparent: true, depthWrite: true,
-    vertexShader: `
-      attribute float aFace; attribute float aGlow;
-      varying vec3 vN; varying vec3 vP; varying vec3 vC; varying vec3 vL; varying vec3 vLN; varying float vF; varying float vG; varying vec3 vS;
-      void main(){
-        vC=instanceColor; vF=aFace; vG=aGlow; vL=position; vLN=normal;
-        vS=vec3(length(instanceMatrix[0].xyz),length(instanceMatrix[1].xyz),length(instanceMatrix[2].xyz));
-        vec4 mv=modelViewMatrix*instanceMatrix*vec4(position,1.); vP=mv.xyz;
-        vN=normalize(normalMatrix*mat3(instanceMatrix)*normal); gl_Position=projectionMatrix*mv; }`,
-    fragmentShader: BG + `
-      uniform vec2 uRes; uniform vec2 uFog;
-      varying vec3 vN; varying vec3 vP; varying vec3 vC; varying vec3 vL; varying vec3 vLN; varying float vF; varying float vG; varying vec3 vS;
-      float st(float e, float x){ float w=max(fwidth(x)*.8,1e-4); return smoothstep(e-w,e+w,x); }
-      float box(vec2 p, vec2 a, vec2 b){ return st(a.x,p.x)*st(p.x,b.x)*st(a.y,p.y)*st(p.y,b.y); }
-      float pattern(vec2 uv, float f){
-        if(f<.5) return 0.;
-        if(f<1.5){ /* строки текста */
-          float y=uv.y*6.; float r=floor(y); float fy=fract(y); float w=.45+.4*fract(sin(r*12.9)*437.5);
-          return st(.38,fy)*st(fy,.62)*st(.14,uv.x)*st(uv.x,.14+w*.72)*st(.5,r)*st(r,4.5);
-        }
-        if(f<2.5){ /* сетка данных */
-          vec2 g=fract(uv*vec2(4.,3.)); float e=min(min(g.x,1.-g.x),min(g.y,1.-g.y)); return (1.-smoothstep(.02,.08,e))*.8;
-        }
-        if(f<3.5){ /* код: строки с отступами */
-          float y=uv.y*7.; float r=floor(y); float fy=fract(y); float ind=.12+.1*mod(r,3.); float w=.2+.45*fract(sin(r*7.3)*91.7);
-          return st(.35,fy)*st(fy,.65)*st(ind,uv.x)*st(uv.x,ind+w)*st(.5,r)*st(r,5.5);
-        }
-        /* интерфейс: шапка, колонка, карточки */
-        return max(max(box(uv,vec2(.06,.82),vec2(.94,.92)), box(uv,vec2(.06,.1),vec2(.24,.74))*.6),
-               max(box(uv,vec2(.3,.46),vec2(.6,.74))*.7, max(box(uv,vec2(.64,.46),vec2(.94,.74))*.7, box(uv,vec2(.3,.1),vec2(.94,.4))*.5)));
+  /* ---------- геометрия: один гранёный объём, который умеет быть и осколком, и чистой плитой ----------
+     Каждая вершина знает свой угол (aC) и грань (aAx). В шейдере скос строится в мировых единицах,
+     поэтому тонкие пластины не искажаются. В хаосе вершины углов смещаются по детерминированному шуму
+     элемента — получается неправильный кристалл с плоскими гранями; в порядке смещение уходит в ноль. */
+  function facetGeo() {
+    const pos = [], aC = [], aAx = [];
+    const AX = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+    const rest = (c, a) => c.map((s, i) => s * (0.5 - (AX[a][i] ? 0 : 0.12)));
+    const tri = (vs) => {
+      const p = vs.map(v => rest(v[0], v[1]));
+      const u = [p[1][0] - p[0][0], p[1][1] - p[0][1], p[1][2] - p[0][2]], w = [p[2][0] - p[0][0], p[2][1] - p[0][1], p[2][2] - p[0][2]];
+      const n = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]];
+      const m = [(p[0][0] + p[1][0] + p[2][0]), (p[0][1] + p[1][1] + p[2][1]), (p[0][2] + p[1][2] + p[2][2])];
+      if (n[0] * m[0] + n[1] * m[1] + n[2] * m[2] < 0) vs = [vs[0], vs[2], vs[1]];
+      vs.forEach(([c, a]) => { pos.push(...rest(c, a)); aC.push(...c); aAx.push(...AX[a]); });
+    };
+    const quad = (a, b, c, d) => { tri([a, b, c]); tri([a, c, d]); };
+    const S = [-1, 1];
+    for (let a = 0; a < 3; a++) for (const s of S) {   /* 6 граней */
+      const b = (a + 1) % 3, c = (a + 2) % 3, v = (sb, sc) => { const k = [0, 0, 0]; k[a] = s; k[b] = sb; k[c] = sc; return [k, a]; };
+      quad(v(-1, -1), v(1, -1), v(1, 1), v(-1, 1));
+    }
+    for (let a = 0; a < 3; a++) {                        /* 12 скосов рёбер */
+      const b = (a + 1) % 3, c = (a + 2) % 3;
+      for (const sb of S) for (const sc of S) {
+        const k = s => { const q = [0, 0, 0]; q[a] = s; q[b] = sb; q[c] = sc; return q; };
+        quad([k(-1), b], [k(1), b], [k(1), c], [k(-1), c]);
       }
-      void main(){
-        vec3 N=normalize(vN); vec3 Vv=normalize(-vP); if(dot(N,Vv)<0.) N=-N;
-        float ndv=clamp(dot(N,Vv),0.,1.);
-        float fres=.04+.96*pow(1.-ndv,5.);
-        vec2 suv=gl_FragCoord.xy/uRes;
-        float k=.17*(.5+1.25*(1.-ndv));
-        vec3 rr=refract(-Vv,N,1./1.38), rg=refract(-Vv,N,1./1.45), rb=refract(-Vv,N,1./1.55);
-        vec3 trans=vec3(bg(suv+rr.xy*k).r,bg(suv+rg.xy*k).g,bg(suv+rb.xy*k).b);
-        /* поглощение: на скосах и толще — глубже бирюза */
-        vec3 absorb=mix(vec3(1.),vC*vec3(.72,1.,.97),.5+.4*(1.-ndv));
-        vec3 col=trans*absorb*1.55+vC*.03;
-        /* студийный свет: верхний софтбокс, вертикальная световая полоса, холодный боковой, тёплый контровой снизу */
-        vec3 R=reflect(-Vv,N);
-        float top=smoothstep(.45,.95,R.y)*(1.-smoothstep(.5,1.,abs(R.x)));
-        float strip=(1.-smoothstep(.0,.13,abs(R.x-.38)))*smoothstep(.0,.5,R.y+.25)*smoothstep(-.2,.3,R.z);
-        float side=pow(max(dot(R,normalize(vec3(-.8,.25,.5))),0.),26.);
-        float spec=pow(max(dot(R,normalize(vec3(.4,.62,.68))),0.),240.);
-        float warm=pow(max(dot(R,normalize(vec3(.25,-.8,.5))),0.),7.);
-        vec3 refl=vec3(.93,1.,.98)*(top*.55+strip*.95+side*.55)+vec3(1.)*spec*1.8+vec3(1.,.6,.48)*warm*.26;
-        /* крупные плоские панели отражают софтбокс всей гранью — приглушаем, чтобы не было пересвета */
-        float big=clamp(vS.x*vS.y*2.2,0.,1.);
-        col+=refl*clamp(fres*1.7+.22,0.,1.)*mix(1.,.28,big);
-        /* тонкий чистый край */
-        float rim=smoothstep(.7,.985,1.-ndv);
-        col+=mix(vC,vec3(.92,1.,.98),.45)*rim*.85;
-        /* узор на лицевой грани */
-        float front=smoothstep(.7,.9,abs(vLN.z));
-        float pt=pattern(vL.xy+.5, vF)*front;
-        col+=mix(vec3(.88,1.,.98),vC,.25)*pt*mix(.7,.42,big)*(vF>3.5?.38:1.);
-        if(vF>3.5) col*=.82; /* экран продукта — глубже и спокойнее, карточки на нём читаются лучше */
-        col+=vec3(1.,.64,.52)*vG*(.3+fres*1.3)+vec3(1.,.82,.72)*vG*rim*.7;
-        /* воздушная перспектива: дальние элементы растворяются в глубине */
-        float fz=smoothstep(uFog.x,uFog.y,-vP.z); col=mix(col,bg(suv)*1.15,fz*.6);
-        gl_FragColor=vec4(col,.95);
-      }`
-  });
-  const geo = window.AIO_ROUNDED_BOX(1, 1, 1, 0.14, 8);
+    }
+    for (const x of S) for (const y of S) for (const z of S) tri([[[x, y, z], 0], [[x, y, z], 1], [[x, y, z], 2]]); /* 8 углов */
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('aC', new THREE.Float32BufferAttribute(aC, 3));
+    g.setAttribute('aAx', new THREE.Float32BufferAttribute(aAx, 3));
+    return g;
+  }
+
+  /* ---------- материалы: оптическое стекло, перелив тонкой плёнки, графит, шлифованный металл, свет ---------- */
+  const N = mobile ? 72 : 108;
+  const VS = `
+    attribute vec3 aC; attribute vec3 aAx; attribute float aSeed; attribute float aMorph; attribute vec4 aMat; attribute float aFace; attribute float aGlow;
+    uniform vec3 uCamL;
+    varying vec3 vP; varying vec3 vC; varying vec3 vPL; varying vec3 vVL; varying vec3 vS; varying vec3 vAx; varying vec3 vCs;
+    varying vec4 vM; varying float vF; varying float vG; varying float vMo; varying float vSeed; varying float vWY;
+    vec3 h3(vec3 p){ p=fract(p*vec3(.1031,.103,.0973)); p+=dot(p,p.yxz+33.33); return fract((p.xxy+p.yxx)*p.zyx); }
+    void main(){
+      vec3 S=max(vec3(length(instanceMatrix[0].xyz),length(instanceMatrix[1].xyz),length(instanceMatrix[2].xyz)),vec3(1e-5));
+      float mS=min(min(S.x,S.y),S.z), k=1.-aMorph;
+      float bw=mix(min(mS*.2,.012),mS*.3,k);
+      vec3 p=aC*(.5*S-(1.-aAx)*bw);
+      if(k>0.){
+        vec3 h=h3(aC*1.37+aAx*2.71+aSeed*17.3)-.5;
+        p+=h*S*.42*k;
+        vec3 hs=h3(vec3(aSeed*7.1,aSeed*3.3+1.,aSeed*5.7+2.))-.5;
+        p.xz*=1.+hs.x*.8*k*aC.y; p.y+=p.x*hs.y*.5*k;
+      }
+      vPL=p; vS=S; vAx=aAx; vCs=aC; vC=instanceColor; vM=aMat; vF=aFace; vG=aGlow; vMo=aMorph; vSeed=aSeed;
+      vec4 wp=instanceMatrix*vec4(p/S,1.); vWY=wp.y;
+      mat3 R=mat3(instanceMatrix[0].xyz/S.x,instanceMatrix[1].xyz/S.y,instanceMatrix[2].xyz/S.z);
+      vVL=p-transpose(R)*(uCamL-instanceMatrix[3].xyz);
+      vec4 mv=modelViewMatrix*wp; vP=mv.xyz; gl_Position=projectionMatrix*mv;
+    }`;
+  const FS = BG + `
+    uniform vec2 uRes; uniform vec2 uFog; uniform vec3 uDof; uniform float uFloor;
+    varying vec3 vP; varying vec3 vC; varying vec3 vPL; varying vec3 vVL; varying vec3 vS; varying vec3 vAx; varying vec3 vCs;
+    varying vec4 vM; varying float vF; varying float vG; varying float vMo; varying float vSeed; varying float vWY;
+    float st(float e, float x){ float w=max(fwidth(x)*.8,1e-4); return smoothstep(e-w,e+w,x); }
+    float box(vec2 p, vec2 a, vec2 b){ return st(a.x,p.x)*st(p.x,b.x)*st(a.y,p.y)*st(p.y,b.y); }
+    float pattern(vec2 uv, float f){
+      if(f<.5) return 0.;
+      if(f<1.5){ float y=uv.y*6.; float r=floor(y); float fy=fract(y); float w=.45+.4*fract(sin(r*12.9)*437.5);
+        return st(.38,fy)*st(fy,.62)*st(.14,uv.x)*st(uv.x,.14+w*.72)*st(.5,r)*st(r,4.5); }
+      if(f<2.5){ vec2 g=fract(uv*vec2(4.,3.)); float e=min(min(g.x,1.-g.x),min(g.y,1.-g.y)); return (1.-smoothstep(.02,.08,e))*.8; }
+      if(f<3.5){ float y=uv.y*7.; float r=floor(y); float fy=fract(y); float ind=.12+.1*mod(r,3.); float w=.2+.45*fract(sin(r*7.3)*91.7);
+        return st(.35,fy)*st(fy,.65)*st(ind,uv.x)*st(uv.x,ind+w)*st(.5,r)*st(r,5.5); }
+      return max(max(box(uv,vec2(.06,.82),vec2(.94,.92)), box(uv,vec2(.06,.1),vec2(.24,.74))*.6),
+                 max(box(uv,vec2(.3,.46),vec2(.6,.74))*.7, max(box(uv,vec2(.64,.46),vec2(.94,.74))*.7, box(uv,vec2(.3,.1),vec2(.94,.4))*.5)));
+    }
+    /* расстояние до ближайшего ребра коробки: второе по малости расстояние до граней */
+    float edgeD(vec3 p, vec3 h){ vec3 q=h-abs(p); float a=min(q.x,min(q.y,q.z)), c=max(q.x,max(q.y,q.z)); return max(q.x+q.y+q.z-a-c,0.); }
+    /* студийное окружение для отражений: верхний софтбокс, вертикальные полосы, холодный боковой, тёплый снизу */
+    vec3 studio(vec3 R){
+      float top=smoothstep(.45,.95,R.y)*(1.-smoothstep(.5,1.,abs(R.x)));
+      float strip=(1.-smoothstep(.0,.12,abs(R.x-.38)))*smoothstep(.0,.5,R.y+.25)*smoothstep(-.2,.3,R.z);
+      float strip2=(1.-smoothstep(.0,.06,abs(R.x+.52)))*smoothstep(-.1,.4,R.y+.3)*smoothstep(-.2,.3,R.z)*.6;
+      float side=pow(max(dot(R,normalize(vec3(-.8,.25,.5))),0.),26.);
+      float spec=pow(max(dot(R,normalize(vec3(.4,.62,.68))),0.),260.);
+      float warm=pow(max(dot(R,normalize(vec3(.25,-.8,.5))),0.),7.);
+      return vec3(.93,1.,.98)*(top*.55+(strip+strip2)*.95+side*.5)+vec3(1.)*spec*2.+vec3(1.,.6,.48)*warm*.24;
+    }
+    void main(){
+    #ifdef MIRROR
+      if(vWY<uFloor) discard;
+    #endif
+      vec3 N=normalize(cross(dFdx(vP),dFdy(vP)));
+      vec3 Vv=normalize(-vP); if(dot(N,Vv)<0.) N=-N;
+      float ndv=clamp(dot(N,Vv),0.,1.);
+      float fres=.04+.96*pow(1.-ndv,5.);
+      vec2 suv=gl_FragCoord.xy/uRes;
+      vec3 R=reflect(-Vv,N), env=studio(R);
+      float gr=vM.x, me=vM.y, li=vM.z, ir=vM.w, gl=clamp(1.-gr-me-li,0.,1.);
+      float big=clamp(vS.x*vS.y*2.2,0.,1.);
+      /* оптическое стекло: преломление окружения с дисперсией, поглощение в толще, отражение по Френелю */
+      float k=.17*(.5+1.25*(1.-ndv));
+    #ifdef MIRROR
+      vec3 trans=bg(suv+refract(-Vv,N,1./1.45).xy*k);
+    #else
+      vec3 rr=refract(-Vv,N,1./1.38), rg=refract(-Vv,N,1./1.45), rb=refract(-Vv,N,1./1.56);
+      vec3 trans=vec3(bg(suv+rr.xy*k).r,bg(suv+rg.xy*k).g,bg(suv+rb.xy*k).b);
+    #endif
+      vec3 absorb=mix(vec3(1.),vC*vec3(.7,1.,.96),.5+.4*(1.-ndv));
+      vec3 glass=trans*absorb*1.5+vC*.025;
+      /* тонкая плёнка: грани переливаются лавандой, бирюзой и персиком в зависимости от угла */
+      vec3 film=mix(vec3(.8),.5+.5*cos(6.2832*(vec3(0.,.33,.67)+(1.-ndv)*1.4+vSeed*.7)),.6);
+      vec3 envG=env*mix(vec3(1.),film*1.45,ir*.65+.08);
+      glass+=envG*clamp(fres*1.7+.22,0.,1.)*mix(1.,.3,big)+film*ir*pow(1.-ndv,2.)*.14;
+      /* графит: матовый тёмный камень; верхние грани ловят холодный лавандовый свет, контур — бирюзовый */
+      float up=smoothstep(-.15,.95,N.y);
+      vec3 gcol=vec3(.034,.04,.052)+vec3(.56,.52,.66)*.4*up*up+vec3(.18,.7,.74)*.08*max(dot(N,normalize(vec3(.7,-.1,.7))),0.)
+        +env*fres*.45+vec3(.3,.85,.88)*pow(1.-ndv,3.)*.3;
+      /* шлифованный металл: окружение растянуто тонкими штрихами вдоль элемента */
+      float br=.8+.4*fract(sin((floor(vPL.y*900.)+vSeed*50.)*12.9898)*43758.5);
+      vec3 mcol=vec3(.24,.28,.29)+env*vec3(.85,.96,.96)*.95*br+vec3(.55,.92,.88)*pow(1.-ndv,4.)*.35;
+      /* световой элемент: свечение изнутри, холодный край */
+      vec3 lcol=mix(vec3(.5,.5,.58),vec3(.98,.86,.8)*.98,smoothstep(.15,.95,ndv))*(.8+.25*up)+vec3(.45,1.,.95)*pow(1.-ndv,2.)*.6+env*fres*.4;
+      vec3 col=glass*gl+gcol*gr+mcol*me+lcol*li;
+      /* кромки собранного стекла: свет идёт по толщине и выходит на рёбрах (как у торца акрила) */
+      vec3 h=.5*vS; float ed=edgeD(vPL,h); float fw=fwidth(ed);
+      float mo=smoothstep(.6,1.,vMo);
+      float edge=(1.-smoothstep(.0012,.0012+fw*1.5,ed))*.75+exp(-ed/.01)*.22;
+      col+=vec3(.62,1.,.95)*edge*mo*(gl+ir*.4+me*.35)*1.05;
+    #ifndef MIRROR
+      /* внутренняя структура: вложенные рамки и диагонали — эффект бесконечного зеркала внутри блока */
+      if(mo>.02 && gl>.05){
+        vec3 d=normalize(vVL);
+        vec3 hv=max(h,vec3(.5*max(h.x,h.y)));
+        vec3 p0=vPL/h*hv; float acc=0., mh=min(hv.x,min(hv.y,hv.z));
+        for(int i=0;i<3;i++){
+          float s=.8-float(i)*.2; vec3 hk=hv*s;
+          vec3 t1=(-hk-p0)/d, t2=(hk-p0)/d, tn=min(t1,t2), tf=max(t1,t2);
+          float tN=max(max(tn.x,tn.y),tn.z), tF=min(min(tf.x,tf.y),tf.z);
+          if(tF>max(tN,0.)){
+            float e1=edgeD(p0+d*max(tN,0.),hk), e2=edgeD(p0+d*tF,hk);
+            acc+=(exp(-e1/(mh*.05+.0015))+exp(-e2/(mh*.04+.001))*.45)*(1.-float(i)*.25);
+          }
+        }
+        vec3 tb3=(sign(d)*hv-p0)/d; float tb=min(min(tb3.x,tb3.y),tb3.z); vec3 qb=abs(p0+d*tb)/hv;
+        float dg=min(abs(qb.x-qb.y),min(abs(qb.y-qb.z),abs(qb.x-qb.z)));
+        acc+=exp(-dg*28.)*.3;
+        float sp=step(.985,fract(sin(dot(floor((p0+d*tb*.5)*180.),vec3(12.9,78.2,37.7)))*43758.5));
+        col+=vec3(.45,1.,.92)*acc*mo*gl*.3+vec3(.9,1.,1.)*sp*mo*gl*.4;
+      }
+    #endif
+      /* узор на лицевой грани: строки, сетка, код, интерфейс */
+      float front=step(.99,vAx.z)*step(0.,vCs.z);
+      float pt=pattern(vPL.xy/vS.xy+.5, vF)*front;
+      col+=mix(vec3(.88,1.,.98),vC,.25)*pt*mix(.7,.42,big)*(vF>3.5?.38:1.)*(1.-li*.6);
+      if(vF>3.5) col*=.82;
+      float rim=smoothstep(.7,.985,1.-ndv);
+      col+=vec3(1.,.64,.52)*vG*(.3+fres*1.3)+vec3(1.,.82,.72)*vG*rim*.7;
+      float fz=smoothstep(uFog.x,uFog.y,-vP.z); col=mix(col,bg(suv)*1.15,fz*.6);
+      /* глубина резкости: в альфе — сила размытия для постобработки */
+      float coc=clamp((abs(-vP.z-uDof.x)-uDof.y*.22)/uDof.y,0.,1.)*uDof.z;
+    #ifdef MIRROR
+      col*=(.1+.32*uOrder)*exp(-(vWY-uFloor)*1.1); coc=max(coc,.6);
+    #endif
+      gl_FragColor=vec4(col,coc);
+    }`;
+  const mat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: VS, fragmentShader: FS });
+  const mirMat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: VS, fragmentShader: FS, defines: { MIRROR: '' }, side: THREE.BackSide });
+  const geo = facetGeo();
   const mesh = new THREE.InstancedMesh(geo, mat, N);
   mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); mesh.frustumCulled = false; world.add(mesh);
-  const aFace = new THREE.InstancedBufferAttribute(new Float32Array(N), 1).setUsage(THREE.DynamicDrawUsage);
-  const aGlow = new THREE.InstancedBufferAttribute(new Float32Array(N), 1).setUsage(THREE.DynamicDrawUsage);
-  geo.setAttribute('aFace', aFace); geo.setAttribute('aGlow', aGlow);
+  mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(N * 3), 3).setUsage(THREE.DynamicDrawUsage);
+  const IA = (n) => new THREE.InstancedBufferAttribute(new Float32Array(N * n), n).setUsage(THREE.DynamicDrawUsage);
+  const aFace = IA(1), aGlow = IA(1), aMorph = IA(1), aMat = IA(4), aSeed = IA(1);
+  geo.setAttribute('aFace', aFace); geo.setAttribute('aGlow', aGlow); geo.setAttribute('aMorph', aMorph); geo.setAttribute('aMat', aMat); geo.setAttribute('aSeed', aSeed);
+  /* отражение в глянцевом полу: та же геометрия, зеркально под платформой, размытая и приглушённая */
+  const FLOOR = -1.42;
+  const mirG = new THREE.Group(); mirG.scale.y = -1; mirG.position.y = 2 * FLOOR; world.add(mirG);
+  const mirror = new THREE.InstancedMesh(geo, mirMat, N); mirror.frustumCulled = false;
+  mirror.instanceMatrix = mesh.instanceMatrix; mirror.instanceColor = mesh.instanceColor; mirG.add(mirror);
 
   let seed = 29; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
   const TINT = { chaos: [0.62, 0.92, 0.88], method: [0.95, 0.93, 0.9], process: [0.66, 1, 0.9], data: [0.42, 0.92, 0.82], auto: [0.5, 1, 1], soft: [0.72, 0.88, 1], ai: [1, 0.78, 0.68] };
-  /* хаос: несколько роёв и пересекающиеся потоки */
+  /* хаос: несколько роёв в разной глубине и крупные осколки у самой камеры (уходят в размытие) */
   const SWARMS = [[-1.5, 0.55, -0.4], [1.35, 0.7, -0.6], [-0.4, -0.75, 0.3], [1.0, -0.55, 0.5], [0.1, 0.25, -1.1]];
+  const FG = mobile ? [[-1.25, -1.9, 2.2], [1.3, 2.1, 2.0], [1.45, -1.2, 2.6]] :
+    [[-2.15, -0.8, 2.3], [2.2, -0.6, 2.0], [1.85, 0.95, 2.7], [-1.75, 1.0, 2.9], [0.55, -1.25, 3.0]];
+  /* материал хаоса: графит, металл, свет, перелив (остальное — стекло) */
+  const CHAOS_MAT = r => r < 0.4 ? [1, 0, 0, 0] : r < 0.5 ? [0, 0, 0, 1] : r < 0.56 ? [0, 0, 1, 0] : r < 0.6 ? [0, 1, 0, 0] : [0, 0, 0, r > 0.85 ? 0.6 : 0.15];
   const E = [];
   for (let i = 0; i < N; i++) {
     const kind = i % 3; // 0 осколок, 1 карточка данных, 2 узел
     const sw = SWARMS[i % SWARMS.length];
+    const fg = i < FG.length ? FG[i] : null, mr = rnd();
     E.push({
-      kind, rank: rnd(), sw, off: new V((rnd() - 0.5) * 1.3, (rnd() - 0.5) * 0.9, (rnd() - 0.5) * 0.9),
+      kind, rank: rnd(), sw, fg, off: new V((rnd() - 0.5) * 1.3, (rnd() - 0.5) * 0.9, (rnd() - 0.5) * 0.9),
       ph: rnd() * TAU, fr: 0.15 + rnd() * 0.25, spin: new V((rnd() - 0.5) * 0.8, (rnd() - 0.5) * 0.8, (rnd() - 0.5) * 0.5),
-      cs: kind === 0 ? new V(0.22 + rnd() * 0.2, 0.05 + rnd() * 0.05, 0.12 + rnd() * 0.18) : kind === 1 ? new V(0.2, 0.26, 0.025) : new V(0.075, 0.075, 0.075),
-      cface: kind === 1 ? 1 : 0, partner: 0,
-      dir: null, j: 0, P: new V(), Qt: new Q(), S: new V(0.001, 0.001, 0.001), C: new V(...TINT.chaos), G: 0, F: 0,
-      fP: new V(), fQ: new Q(), fS: new V(), fC: new V(), fG: 0, t0: -9, links: []
+      cs: fg ? new V(0.42 + rnd() * 0.25, 0.3 + rnd() * 0.2, 0.28 + rnd() * 0.2) :
+        kind === 0 ? new V(0.16 + rnd() * 0.24, 0.08 + rnd() * 0.16, 0.08 + rnd() * 0.16) : kind === 1 ? new V(0.2, 0.26, 0.025) : new V(0.09, 0.09, 0.09),
+      cface: kind === 1 ? 1 : 0, cmo: kind === 1 ? 0.55 : 0, cmat: fg ? (i % 2 ? [1, 0, 0, 0] : [0, 0, 0, 0.5]) : kind === 1 ? [0, 0, 0, 0.1] : CHAOS_MAT(mr),
+      seed: rnd(), partner: 0,
+      dir: null, j: 0, P: new V(), Qt: new Q(), S: new V(0.001, 0.001, 0.001), C: new V(...TINT.chaos), G: 0, Mo: 0, M: [0, 0, 0, 0],
+      fP: new V(), fQ: new Q(), fS: new V(), fC: new V(), fG: 0, fMo: 0, fM: [0, 0, 0, 0], t0: -9, links: []
     });
   }
-  E.forEach((e, i) => { e.partner = (i + 3 + Math.floor(e.rank * 9)) % N; });
+  E.forEach((e, i) => { e.partner = (i + 3 + Math.floor(e.rank * 9)) % N; aSeed.array[i] = e.seed; });
 
   /* ---------- формации подходов (локально, радиус ~1.25) ---------- */
   const te = new THREE.Euler();
   const F = {};
+  /* классы материалов: [графит, металл, свет, перелив]; остальное — оптическое стекло */
+  const MG = [0, 0, 0, 0], MGR = [1, 0, 0, 0], MME = [0, 1, 0, 0], MLI = [0, 0, 1, 0], MLG = [0, 0, 0.35, 0.3], MIRH = [0, 0, 0, 0.55];
   /* Методология: многоуровневая архитектура — платформы, уровни, иерархия */
   F.method = (j, n, t, o) => {
     const w = [1, 2, 3, 4], tot = 10; let lv = 0, acc = 0; const cnt = w.map(x => Math.max(1, Math.round(x / tot * n)));
@@ -3640,7 +3774,7 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     const k = j - acc, c = lv === 3 ? n - acc : cnt[lv], cols = Math.max(1, Math.ceil(Math.sqrt(c * 1.8))), rows = Math.ceil(c / cols);
     const x = (k % cols - (cols - 1) / 2) * 0.42, z = (Math.floor(k / cols) - (rows - 1) / 2) * 0.36;
     o.p.set(x, 0.95 - lv * 0.62, z); o.s.set(0.36, 0.055, 0.28); te.set(0, 0, 0);
-    o.face = 0; o.glow = lv === 0 ? 0.6 : 0;
+    o.face = 0; o.glow = lv === 0 ? 0.6 : 0; o.m = lv === 0 ? MIRH : lv === 3 ? MGR : MG;
     o.link = lv && k % 2 === 0 ? acc - Math.max(1, cnt[lv - 1]) + Math.min(cnt[lv - 1] - 1, Math.floor(k * cnt[lv - 1] / c)) : -1;
   };
   /* Новый порядок работы: этапы по направленной траектории, от входа к результату */
@@ -3655,13 +3789,13 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       const cx = k % cols, ry = Math.floor(k / cols);
       o.p.x += (cx - (cols - 1) / 2) * 0.16; o.p.y += (ry ? -0.11 : 0.11) + 0.02; o.p.z += 0.05 * ry;
       te.set(0, -0.15, 0); o.s.set(0.13, 0.17, 0.02); o.face = 1;
-      o.glow = s2 === st - 1 ? 0.75 : 0;
+      o.glow = s2 === st - 1 ? 0.75 : 0; o.m = MG;
       o.link = k === cardsPer - 1 && s2 < st - 1 ? j + 1 : (k + 1 < cardsPer ? j + 1 : -1);
     } else {
       const m = j - cards, total = n - cards, u = ((t * 0.045 + m / Math.max(total, 1)) % 1);
       path(u, o.p); o.p.y -= 0.32; o.p.z += 0.1;
       const stageGlow = Math.max(0, 1 - Math.abs((u * st) % 1 - 0.5) * 4);
-      te.set(0, 0, 0); o.s.set(0.07, 0.045, 0.045); o.face = 0; o.glow = stageGlow * 0.5; o.link = -1;
+      te.set(0, 0, 0); o.s.set(0.07, 0.045, 0.045); o.face = 0; o.glow = stageGlow * 0.5; o.link = -1; o.m = MLI;
     }
   };
   /* Данные и аналитика: матрица данных и панель показателей */
@@ -3670,11 +3804,11 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     if (j < m) {
       const cols = Math.ceil(Math.sqrt(m * 1.4)), r = Math.floor(j / cols), c = j % cols, rows = Math.ceil(m / cols);
       o.p.set(-1.55 + c * 0.24, (rows - 1) / 2 * 0.24 - r * 0.24, 0); o.s.set(0.2, 0.2, 0.03); te.set(0, 0.35, 0);
-      o.face = 0; o.glow = 0; o.link = c === cols - 1 && r < n - m ? m + r : -1;
+      o.face = 0; o.glow = 0; o.m = MG; o.link = c === cols - 1 && r < n - m ? m + r : -1;
     } else {
       const k = j - m, c = n - m, h = 0.25 + 1.25 * (0.5 + 0.5 * Math.sin(k * 1.7 + 0.8)) * (0.6 + 0.4 * k / c);
       o.p.set(0.45 + k * (1.25 / Math.max(c - 1, 1)), -0.75 + h / 2, 0.15); o.s.set(0.13, h, 0.13); te.set(0, -0.3, 0);
-      o.face = 0; o.glow = k === c - 1 ? 0.8 : 0; o.link = k + 1 < c ? j + 1 : -1;
+      o.face = 0; o.glow = k === c - 1 ? 0.8 : 0; o.m = k === c - 1 ? MLG : MIRH; o.link = k + 1 < c ? j + 1 : -1;
     }
   };
   /* Автоматизация: связанные потоки операций, которые идут сами */
@@ -3684,20 +3818,20 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     const cx = loop ? 0.62 : -0.62;
     o.p.set(cx + Math.cos(a) * 0.95, Math.sin(a) * 0.62, Math.sin(a) * 0.35 * (loop ? -1 : 1));
     te.set(0, 0, a + Math.PI / 2);
-    const op = k % 5 === 0; o.s.set(op ? 0.22 : 0.15, op ? 0.22 : 0.07, op ? 0.05 : 0.07); o.face = op ? 1 : 0; o.glow = op ? 0.35 : 0;
+    const op = k % 5 === 0; o.s.set(op ? 0.22 : 0.15, op ? 0.22 : 0.07, op ? 0.05 : 0.07); o.face = op ? 1 : 0; o.glow = op ? 0.35 : 0; o.m = op ? MLG : MME;
     o.link = j + 2 < n ? j + 2 : loop;
   };
   /* Разработка цифровых решений: экран интерфейса, модули и связи между ними */
   F.soft = (j, n, t, o) => {
     /* экран продукта спереди, за ним — архитектура модулей */
     te.set(0, -0.22, 0);
-    if (j === 0) { o.p.set(0.1, 0.12, 0.25); o.s.set(1.75, 1.12, 0.04); o.face = 4; o.glow = 0; o.link = -1; return; }
-    if (j < 5) { o.p.set(-0.58 + (j - 1) * 0.46, 0.84, 0.33); o.s.set(0.4, 0.09, 0.03); o.face = 0; o.glow = j === 1 ? 0.55 : 0; o.link = -1; return; }
-    if (j < 13) { const k = j - 5; o.p.set(-0.38 + (k % 4) * 0.36, 0.36 - Math.floor(k / 4) * 0.42, 0.34); o.s.set(0.3, 0.34, 0.03); o.face = 3; o.glow = 0; o.link = -1; return; }
+    if (j === 0) { o.p.set(0.1, 0.12, 0.25); o.s.set(1.75, 1.12, 0.04); o.face = 4; o.glow = 0; o.m = MG; o.link = -1; return; }
+    if (j < 5) { o.p.set(-0.58 + (j - 1) * 0.46, 0.84, 0.33); o.s.set(0.4, 0.09, 0.03); o.face = 0; o.glow = j === 1 ? 0.55 : 0; o.m = MME; o.link = -1; return; }
+    if (j < 13) { const k = j - 5; o.p.set(-0.38 + (k % 4) * 0.36, 0.36 - Math.floor(k / 4) * 0.42, 0.34); o.s.set(0.3, 0.34, 0.03); o.face = 3; o.glow = 0; o.m = MG; o.link = -1; return; }
     const k = j - 13, c = n - 13, cols = Math.max(2, Math.ceil(Math.sqrt(c * 1.9))), rows = Math.ceil(c / cols), sp = Math.min(0.26, 2.9 / cols);
     const cx = k % cols, ry = Math.floor(k / cols);
     o.p.set((cx - (cols - 1) / 2) * sp, ((rows - 1) / 2 - ry) * sp * 0.95, -0.55 - (cx + ry) % 2 * 0.12);
-    o.s.setScalar(sp * 0.6); o.s.z = sp * 0.35; o.face = 0; o.glow = 0;
+    o.s.setScalar(sp * 0.6); o.s.z = sp * 0.35; o.face = 0; o.glow = 0; o.m = (cx + ry) % 5 === 0 ? MLG : MGR;
     o.link = cx + 1 < cols && k + 1 < c && ry % 2 === 0 ? j + 1 : (ry + 1 < rows && k + cols < c && cx % 3 === 0 ? j + cols : (ry === 0 && cx % 4 === 1 ? 0 : -1));
   };
   /* Искусственный интеллект: потоки входят в оболочку сопоставлений, на выходе — единый результат */
@@ -3706,14 +3840,14 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     if (j < inN) {
       const a = j / inN * TAU, r = 0.25 + (j % 3) * 0.12, f = ((t * 0.12 + j * 0.13) % 1);
       o.p.set(-1.75 + f * 0.7, Math.sin(a) * (0.75 - f * 0.4) * r * 2.4, Math.cos(a) * 0.4); o.s.set(0.16, 0.2, 0.02); te.set(0, 0.5, 0);
-      o.face = 1; o.glow = 0; o.link = inN + (j * 5) % coreN;
+      o.face = 1; o.glow = 0; o.m = MG; o.link = inN + (j * 5) % coreN;
     } else if (j < inN + coreN) {
       const k = j - inN, y = 1 - 2 * (k + 0.5) / coreN, rr = Math.sqrt(1 - y * y), th = k * 2.39996 + t * 0.15;
       o.p.set(Math.cos(th) * rr * 0.7, y * 0.7, Math.sin(th) * rr * 0.7); o.s.set(0.07, 0.07, 0.07); te.set(th, th, 0);
-      o.face = 0; o.glow = 0; o.link = inN + (k + 1) % coreN; o.link2 = k % 3 === 0 ? inN + (k + 7) % coreN : -1;
+      o.face = 0; o.glow = 0; o.m = MLI; o.link = inN + (k + 1) % coreN; o.link2 = k % 3 === 0 ? inN + (k + 7) % coreN : -1;
     } else {
       const k = j - inN - coreN; o.p.set(1.35, 0.32 - k * 0.32, 0.1 - k * 0.05); o.s.set(0.4, 0.27, 0.035); te.set(0, -0.4, 0);
-      o.face = 1; o.glow = 1; o.link = inN + k * 3;
+      o.face = 1; o.glow = 1; o.m = MG; o.link = inN + k * 3;
     }
   };
 
@@ -3741,6 +3875,9 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     sel.forEach(d => { cx += slot(d)[0]; cy += slot(d)[1]; });
     if (k) { cx /= k; cy /= k; }
     const sc = k === 1 ? 1 : k === 2 ? 0.72 : k <= 4 ? 0.62 : 0.56;
+    /* платформа всегда под композицией: в вертикальной раскладке она опускается ниже */
+    const fy = portrait && k > 1 ? -2.85 : FLOOR;
+    floor.position.y = fy; mirG.position.y = 2 * fy; U.uFloor.value = fy;
     const spread = k === 1 ? 0 : k === 2 ? 0.85 : 1;
     sel.forEach(d => {
       const members = E.filter(e => e.dir === d).sort((a, b) => a.rank - b.rank);
@@ -3750,7 +3887,9 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   }
 
   /* ---------- связи и частицы ---------- */
-  const MAXL = N * 2 + 16 * 15;
+  /* сложение цвета без изменения альфы: в альфе кадра хранится сила размытия глубины */
+  const ADD = { blending: THREE.CustomBlending, blendSrc: THREE.SrcAlphaFactor, blendDst: THREE.OneFactor, blendSrcAlpha: THREE.ZeroFactor, blendDstAlpha: THREE.OneFactor };
+  const MAXL = N * 8 + 16 * 30;
   /* связи: экранные ленты с мягкими краями (обычные WebGL-линии всегда толщиной в 1 пиксель) */
   const LV = MAXL * 4;
   const lGeo = new THREE.BufferGeometry();
@@ -3767,7 +3906,7 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   lGeo.setAttribute('aSide', new THREE.BufferAttribute(side, 1)); lGeo.setAttribute('aT', new THREE.BufferAttribute(tt, 1));
   lGeo.setIndex(new THREE.BufferAttribute(idx, 1));
   const lMat = new THREE.ShaderMaterial({
-    transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, uniforms: { uView: { value: new THREE.Vector2(1, 1) }, uFog: U.uFog },
+    transparent: true, depthWrite: false, side: THREE.DoubleSide, ...ADD, uniforms: { uView: { value: new THREE.Vector2(1, 1) }, uFog: U.uFog },
     vertexShader: `attribute vec3 aEnd; attribute vec3 aCol; attribute float aW; attribute float aSide; attribute float aT;
       uniform vec2 uView; uniform vec2 uFog; varying vec3 vC; varying float vS;
       void main(){
@@ -3790,7 +3929,7 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   pGeo.setAttribute('aColor', new THREE.BufferAttribute(new Float32Array(PN * 3), 3).setUsage(THREE.DynamicDrawUsage));
   pGeo.setAttribute('aSize', new THREE.BufferAttribute(new Float32Array(PN), 1).setUsage(THREE.DynamicDrawUsage));
   const pMat = new THREE.ShaderMaterial({
-    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uPR: { value: 1 }, uH: { value: 500 } },
+    transparent: true, depthWrite: false, ...ADD, uniforms: { uPR: { value: 1 }, uH: { value: 500 } },
     vertexShader: `attribute vec3 aColor; attribute float aSize; uniform float uPR; uniform float uH; varying vec3 vC;
       void main(){ vC=aColor; vec4 mv=modelViewMatrix*vec4(position,1.); gl_PointSize=aSize*uPR*uH*.03/-mv.z; gl_Position=projectionMatrix*mv; }`,
     fragmentShader: `varying vec3 vC; void main(){ float d=length(gl_PointCoord-.5); float a=(1.-smoothstep(.08,.5,d))+(1.-smoothstep(.0,.16,d))*.6; if(a<.01) discard; gl_FragColor=vec4(vC*a,a); }`
@@ -3808,11 +3947,13 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
 
   /* ---------- подписи в пространстве (при сочетании подходов) ---------- */
   const labels = {};
-  DIRS.forEach(d => { const el = document.createElement('span'); el.className = 'cx-label'; el.textContent = SHORT[d]; labelsEl.appendChild(el); labels[d] = { el, op: 0, w: 0 }; });
+  DIRS.forEach(d => { const el = document.createElement('span'); el.className = 'cx-label'; el.innerHTML = '<i></i>'; el.appendChild(document.createTextNode(SHORT[d])); labelsEl.appendChild(el); labels[d] = { el, op: 0, w: 0 }; });
+  const inputEl = sceneEl.querySelector('.cx-input'), sysEl = sceneEl.querySelector('.cx-system');
 
-  /* ---------- платформа: на неё «опирается» собранная система ---------- */
+  /* ---------- глянцевая платформа: на неё «опирается» собранная система, в ней отражаются элементы ---------- */
   const floorMat = new THREE.ShaderMaterial({
-    uniforms: { uTime: U.uTime, uOrder: U.uOrder }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: { uTime: U.uTime, uOrder: U.uOrder }, transparent: true, depthWrite: false,
+    blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor, blendSrcAlpha: THREE.ZeroFactor, blendDstAlpha: THREE.OneFactor,
     vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
     fragmentShader: `uniform float uTime; uniform float uOrder; varying vec2 vUv;
       void main(){
@@ -3820,13 +3961,19 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
         float glow=exp(-r*r*.16);
         float rings=0.; for(int i=0;i<3;i++){ float rr=1.1+float(i)*.95; float w=fwidth(r)*1.2; rings+=(1.-smoothstep(0.,w+.012,abs(r-rr)))*(1.-float(i)*.25); }
         float sweep=.5+.5*sin(atan(p.y,p.x)*2.-uTime*.35);
-        vec3 c=vec3(.16,.62,.6)*glow*.22+vec3(.45,.92,.86)*rings*.22*(.5+.5*sweep)*exp(-r*.25)+vec3(.95,.6,.48)*rings*.06*(1.-sweep);
-        float a=(.25+.75*uOrder);
-        gl_FragColor=vec4(c*a,1.);
+        /* отражения студийных полос — вытянутые блики к зрителю */
+        float sx=vUv.x, strips=0.;
+        for(int i=0;i<7;i++){ float fi=float(i); float px=.06+fi*.148+.025*sin(fi*3.1); strips+=exp(-pow((sx-px)/(.006+.01*fract(fi*.618+.1)),2.))*(.45+.55*fract(fi*.37+.2)); }
+        float near=smoothstep(.2,.75,vUv.y);
+        vec3 add=vec3(.16,.62,.6)*glow*.16+vec3(.45,.92,.86)*rings*.07*(.5+.5*sweep)*exp(-r*.25)+vec3(.95,.6,.48)*rings*.02*(1.-sweep)
+          +vec3(.4,.95,.88)*strips*near*.05*uOrder;
+        float edge=smoothstep(4.4,2.2,length(p*vec2(1.,1.3)));
+        float a=(.3+.45*uOrder)*edge;
+        gl_FragColor=vec4(vec3(.01,.026,.03)*a+add*(.3+.7*uOrder),a);
       }`
   });
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(9, 6), floorMat);
-  floor.rotation.x = -Math.PI / 2; floor.position.y = -1.42; floor.renderOrder = -5; world.add(floor);
+  floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR; floor.renderOrder = -5; world.add(floor);
 
   /* ---------- боке: крупные расфокусированные пятна света спереди и в глубине ---------- */
   const BK = 18, bkGeo = new THREE.BufferGeometry();
@@ -3834,13 +3981,13 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   for (let i = 0; i < BK; i++) {
     const near = i % 3 === 0;
     bk.push({ x: (rnd() - 0.5) * 5.4, y: (rnd() - 0.5) * 3, z: near ? 1.6 + rnd() * 1.2 : -1.8 - rnd() * 1.8, ph: rnd() * 6.28, sp: 0.03 + rnd() * 0.04 });
-    const warm = i % 5 === 0, a = near ? 0.05 : 0.08;
+    const warm = i % 5 === 0, a = (near ? 0.028 : 0.05) * (mobile ? 0.7 : 1);
     bkCol.set(warm ? [0.95 * a, 0.6 * a, 0.48 * a] : [0.3 * a, 0.85 * a, 0.8 * a], i * 3); bkSize[i] = near ? 70 + rnd() * 70 : 22 + rnd() * 26;
   }
   bkGeo.setAttribute('position', new THREE.BufferAttribute(bkPos, 3).setUsage(THREE.DynamicDrawUsage));
   bkGeo.setAttribute('aColor', new THREE.BufferAttribute(bkCol, 3)); bkGeo.setAttribute('aSize', new THREE.BufferAttribute(bkSize, 1));
   const bkMat = new THREE.ShaderMaterial({
-    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uPR: { value: 1 } },
+    transparent: true, depthWrite: false, ...ADD, uniforms: { uPR: { value: 1 } },
     vertexShader: `attribute vec3 aColor; attribute float aSize; uniform float uPR; varying vec3 vC;
       void main(){ vC=aColor; vec4 mv=modelViewMatrix*vec4(position,1.); gl_PointSize=min(aSize*uPR,240.); gl_Position=projectionMatrix*mv; }`,
     fragmentShader: `varying vec3 vC; void main(){ float d=length(gl_PointCoord-.5)*2.; if(d>1.) discard;
@@ -3858,11 +4005,11 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   let lastChange = 0;
 
   /* ---------- состояние ---------- */
-  const tmpO = { p: new V(), s: new V(), face: 0, glow: 0, link: -1, link2: -1 }, tq = new Q(), tv = new V(), tc = new V();
+  const tmpO = { p: new V(), s: new V(), face: 0, glow: 0, link: -1, link2: -1, m: MG, mo: 0 }, tq = new Q(), tv = new V(), tc = new V();
   let order = 0;
   function relayout() {
     const now = clock;
-    E.forEach(e => { e.fP.copy(e.P); e.fQ.copy(e.Qt); e.fS.copy(e.S); e.fC.copy(e.C); e.fG = e.G; e.prevDir = e.dir; e.prevJ = e.j; });
+    E.forEach(e => { e.fP.copy(e.P); e.fQ.copy(e.Qt); e.fS.copy(e.S); e.fC.copy(e.C); e.fG = e.G; e.fMo = e.Mo; e.fM = e.M.slice(); e.prevDir = e.dir; e.prevJ = e.j; });
     assign();
     /* изменившиеся элементы перелетают с небольшим разбросом; остальные плавно смещаются вместе со своей группой */
     E.forEach(e => { e.t0 = (e.dir !== e.prevDir || e.j !== e.prevJ) ? now + (e.dir ? e.rank * 0.45 : e.rank * 0.25) : now; });
@@ -3871,12 +4018,17 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   onChange = () => { lastChange = clock; relayout(); kick(); };
 
   function target(e, t) {
-    tmpO.link = -1; tmpO.link2 = -1; tmpO.glow = 0;
+    tmpO.link = -1; tmpO.link2 = -1; tmpO.glow = 0; tmpO.m = MG; tmpO.mo = 1;
+    if (!e.dir && e.fg) { /* крупный осколок у камеры: медленно дрейфует и поворачивается */
+      const f = e.fg; tmpO.p.set(f[0] + Math.sin(t * 0.11 + e.ph) * 0.12, f[1] + Math.cos(t * 0.09 + e.ph) * 0.1, f[2]);
+      tmpO.s.copy(e.cs); tmpO.face = 0; tmpO.m = e.cmat; tmpO.mo = 0;
+      te.set(e.ph + t * 0.05, e.ph * 2 + t * 0.07, e.ph); tq.setFromEuler(te); tc.set(...TINT.chaos); return;
+    }
     if (!e.dir) {
       const a = t * e.fr + e.ph, sw = e.sw;
       const swirl = t * 0.06 + sw[0];
       tmpO.p.set(sw[0] * 1.1 + e.off.x * Math.cos(swirl) + Math.sin(a) * 0.22, sw[1] + e.off.y + Math.cos(a * 1.3) * 0.18, sw[2] + e.off.z + Math.sin(a * 0.7) * 0.2);
-      tmpO.s.copy(e.cs); tmpO.face = e.cface;
+      tmpO.s.copy(e.cs); tmpO.face = e.cface; tmpO.m = e.cmat; tmpO.mo = e.cmo;
       te.set(e.ph + t * e.spin.x, e.ph * 2 + t * e.spin.y, t * e.spin.z); tq.setFromEuler(te);
       tc.set(...TINT.chaos);
       return;
@@ -3896,6 +4048,8 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   const HF = THREE.HalfFloatType;
   const rtMain = new THREE.WebGLRenderTarget(1, 1, { type: HF, samples: 4 });
   const rtA = new THREE.WebGLRenderTarget(1, 1, { type: HF }), rtB = new THREE.WebGLRenderTarget(1, 1, { type: HF });
+  /* глубина резкости: половинное разрешение, размытие с учётом альфы (сила размытия) */
+  const rtD = new THREE.WebGLRenderTarget(1, 1, { type: HF }), rtE = new THREE.WebGLRenderTarget(1, 1, { type: HF });
   const post = new THREE.Scene(), postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2)); quad.frustumCulled = false; post.add(quad);
   const VQ = 'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
@@ -3903,17 +4057,19 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     fragmentShader: 'uniform sampler2D t;varying vec2 vUv;void main(){vec3 c=texture2D(t,vUv).rgb;float l=max(max(c.r,c.g),c.b);gl_FragColor=vec4(c*smoothstep(.75,1.45,l),1.);}' });
   const blurMat = new THREE.ShaderMaterial({ uniforms: { t: { value: null }, dir: { value: new THREE.Vector2() } }, vertexShader: VQ, depthTest: false,
     fragmentShader: `uniform sampler2D t;uniform vec2 dir;varying vec2 vUv;void main(){
-      vec3 c=texture2D(t,vUv).rgb*.2270270270;
-      c+=(texture2D(t,vUv+dir*1.3846153846).rgb+texture2D(t,vUv-dir*1.3846153846).rgb)*.3162162162;
-      c+=(texture2D(t,vUv+dir*3.2307692308).rgb+texture2D(t,vUv-dir*3.2307692308).rgb)*.0702702703;
-      gl_FragColor=vec4(c,1.);}` });
-  const compMat = new THREE.ShaderMaterial({ uniforms: { tBase: { value: rtMain.texture }, tBloom: { value: rtA.texture }, uTime: U.uTime, uStr: { value: 0.65 }, uOut: { value: new THREE.Vector2(1, 1) }, uSS: { value: 1 } }, vertexShader: VQ, depthTest: false,
-    fragmentShader: `uniform sampler2D tBase;uniform sampler2D tBloom;uniform float uTime;uniform float uStr;uniform vec2 uOut;uniform float uSS;varying vec2 vUv;
+      vec4 c=texture2D(t,vUv)*.2270270270;
+      c+=(texture2D(t,vUv+dir*1.3846153846)+texture2D(t,vUv-dir*1.3846153846))*.3162162162;
+      c+=(texture2D(t,vUv+dir*3.2307692308)+texture2D(t,vUv-dir*3.2307692308))*.0702702703;
+      gl_FragColor=c;}` });
+  const compMat = new THREE.ShaderMaterial({ uniforms: { tBase: { value: rtMain.texture }, tBloom: { value: rtA.texture }, tDof: { value: rtD.texture }, uDofOn: { value: 1 }, uTime: U.uTime, uStr: { value: 0.65 }, uOut: { value: new THREE.Vector2(1, 1) }, uSS: { value: 1 } }, vertexShader: VQ, depthTest: false,
+    fragmentShader: `uniform sampler2D tBase;uniform sampler2D tBloom;uniform sampler2D tDof;uniform float uDofOn;uniform float uTime;uniform float uStr;uniform vec2 uOut;uniform float uSS;varying vec2 vUv;
       float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
       void main(){
-        vec3 base;
-        if(uSS>1.01){ vec2 o=.25/uOut; base=(texture2D(tBase,vUv+vec2(-o.x,-o.y)).rgb+texture2D(tBase,vUv+vec2(o.x,-o.y)).rgb+texture2D(tBase,vUv+vec2(-o.x,o.y)).rgb+texture2D(tBase,vUv+vec2(o.x,o.y)).rgb)*.25; }
-        else base=texture2D(tBase,vUv).rgb;
+        vec4 b4;
+        if(uSS>1.01){ vec2 o=.25/uOut; b4=(texture2D(tBase,vUv+vec2(-o.x,-o.y))+texture2D(tBase,vUv+vec2(o.x,-o.y))+texture2D(tBase,vUv+vec2(-o.x,o.y))+texture2D(tBase,vUv+vec2(o.x,o.y)))*.25; }
+        else b4=texture2D(tBase,vUv);
+        vec3 base=b4.rgb;
+        if(uDofOn>.5){ vec4 dz=texture2D(tDof,vUv); float coc=max(b4.a,smoothstep(.3,.9,dz.a)); base=mix(base,dz.rgb,smoothstep(.02,.85,coc)); }
         vec3 c=base+texture2D(tBloom,vUv).rgb*uStr;
         c=c/(1.+c*.22)*1.12;                       /* мягкое сжатие бликов без пересвета */
         c=mix(vec3(dot(c,vec3(.299,.587,.114))),c,1.08); /* немного сочности */
@@ -3928,6 +4084,16 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       quad.material = blurMat;
       blurMat.uniforms.t.value = rtA.texture; blurMat.uniforms.dir.value.set((1 + i) / bw, 0); renderer.setRenderTarget(rtB); renderer.render(post, postCam);
       blurMat.uniforms.t.value = rtB.texture; blurMat.uniforms.dir.value.set(0, (1 + i) / bh); renderer.setRenderTarget(rtA); renderer.render(post, postCam);
+    }
+    if (compMat.uniforms.uDofOn.value > 0.5) {
+      const dw = rtD.width, dh = rtD.height, it = mobile ? 2 : 3;
+      quad.material = blurMat;
+      blurMat.uniforms.t.value = rtMain.texture; blurMat.uniforms.dir.value.set(1 / dw, 0); renderer.setRenderTarget(rtE); renderer.render(post, postCam);
+      blurMat.uniforms.t.value = rtE.texture; blurMat.uniforms.dir.value.set(0, 1 / dh); renderer.setRenderTarget(rtD); renderer.render(post, postCam);
+      for (let i = 1; i < it; i++) {
+        blurMat.uniforms.t.value = rtD.texture; blurMat.uniforms.dir.value.set((1 + i * 1.5) / dw, 0); renderer.setRenderTarget(rtE); renderer.render(post, postCam);
+        blurMat.uniforms.t.value = rtE.texture; blurMat.uniforms.dir.value.set(0, (1 + i * 1.5) / dh); renderer.setRenderTarget(rtD); renderer.render(post, postCam);
+      }
     }
     quad.material = compMat; renderer.setRenderTarget(null); renderer.render(post, postCam);
   }
@@ -3951,7 +4117,8 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     pMat.uniforms.uPR.value = pr * SS; pMat.uniforms.uH.value = H;
     lMat.uniforms.uView.value.set(rw, rh); bkMat.uniforms.uPR.value = pr * SS;
     rtMain.setSize(rw, rh);
-    const bw = Math.max(1, rw >> 1), bh = Math.max(1, rh >> 1); rtA.setSize(bw, bh); rtB.setSize(bw, bh);
+    const bw = Math.max(1, rw >> 1), bh = Math.max(1, rh >> 1); rtA.setSize(bw, bh); rtB.setSize(bw, bh); rtD.setSize(bw, bh); rtE.setSize(bw, bh);
+    compMat.uniforms.uDofOn.value = quality < 3 ? 1 : 0;
     compMat.uniforms.uOut.value.copy(db); compMat.uniforms.uSS.value = SS;
     Object.values(labels).forEach(L => (L.w = 0));
   }
@@ -3984,15 +4151,23 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       const kk = ease((t - e.t0) / 1.5);
       e.P.lerpVectors(e.fP, tmpO.p, kk); e.S.lerpVectors(e.fS, tmpO.s, kk); e.Qt.slerpQuaternions(e.fQ, tq, kk);
       e.C.lerpVectors(e.fC, tc, kk); e.G = e.fG + (tmpO.glow - e.fG) * kk;
-      if (kk >= 1) { e.fP.copy(e.P); e.fS.copy(e.S); e.fQ.copy(e.Qt); e.fC.copy(e.C); e.fG = e.G; } /* дальше следуем за движущейся целью */
+      /* осколок «шлифуется» в чистую плиту чуть позже, чем долетает: форма догоняет движение */
+      const km = ease((t - e.t0 - 0.25) / 1.6);
+      e.Mo = e.fMo + (tmpO.mo - e.fMo) * km;
+      for (let q = 0; q < 4; q++) e.M[q] = e.fM[q] + (tmpO.m[q] - e.fM[q]) * km;
+      if (kk >= 1 && km >= 1) { e.fP.copy(e.P); e.fS.copy(e.S); e.fQ.copy(e.Qt); e.fC.copy(e.C); e.fG = e.G; e.fMo = e.Mo; e.fM = e.M.slice(); } /* дальше следуем за движущейся целью */
       if (e.dir && !reduce) e.P.y += Math.sin(t * 1.2 + i) * 0.006;
       e.L1 = tmpO.link; e.L2 = tmpO.link2; e.organised = kk > 0.6 && !!e.dir;
       const ap = appearT < 0 ? 0 : Math.min(1, Math.max(0, (appearT - 0.35 - e.rank * 1.8) / 0.9)); const ape = ap * ap * (3 - 2 * ap);
       apS.copy(e.S).multiplyScalar(Math.max(0.001, ape));
       m4.compose(e.P, e.Qt, apS); mesh.setMatrixAt(i, m4); mesh.setColorAt(i, col.setRGB(e.C.x, e.C.y, e.C.z));
       aFace.array[i] = e.dir ? tmpO.face : e.cface; aGlow.array[i] = e.G * (0.75 + 0.25 * Math.sin(t * 2 + i));
+      aMorph.array[i] = e.Mo; aMat.array.set(e.M, i * 4);
     }
-    mesh.instanceMatrix.needsUpdate = true; mesh.instanceColor.needsUpdate = true; aFace.needsUpdate = true; aGlow.needsUpdate = true;
+    mesh.instanceMatrix.needsUpdate = true; mesh.instanceColor.needsUpdate = true;
+    aFace.needsUpdate = true; aGlow.needsUpdate = true; aMorph.needsUpdate = true; aMat.needsUpdate = true;
+    world.updateMatrixWorld(); U.uCamL.value.copy(camera.position); world.worldToLocal(U.uCamL.value);
+    U.uDof.value.set(camera.position.length(), 2.2, (mobile ? 0.8 : 1) * (1 - order * 0.55));
 
     /* связи: незавершённые в хаосе, полные и яркие в собранных структурах, мосты между подходами */
     let n = 0; const PR = renderer.getPixelRatio() * SS;
@@ -4008,7 +4183,18 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
         const a = Math.max(0, 1 - d / 1.3) * 0.5; tv.lerpVectors(e.P, p.P, 0.35 + 0.25 * Math.sin(t * 0.6 + e.ph));
         seg(e.P, tv, 0.5 * a, 0.85 * a, 0.8 * a, 0, 0, 0, 1.5);
       } else if (e.organised) {
-        for (const L of [e.L1, e.L2]) if (L && L.dir === e.dir) seg(e.P, L.P, 0.26, 0.55, 0.52, 0.26, 0.55, 0.52, 1.5);
+        /* связи внутри структуры — мягкие пространственные кривые; поток светлеет к цели */
+        for (const L of [e.L1, e.L2]) if (L && L.dir === e.dir) {
+          const len = e.P.distanceTo(L.P), lift = Math.min(0.12, len * 0.18);
+          ctl.set((e.P.x + L.P.x) / 2, (e.P.y + L.P.y) / 2 + lift, (e.P.z + L.P.z) / 2 + lift * 0.8);
+          let pr = tmpA.copy(e.P);
+          for (let q = 1; q <= 3; q++) {
+            const u = q / 3, iu = 1 - u, cur = (q % 2 ? tmpB : tmpA2).set(iu * iu * e.P.x + 2 * iu * u * ctl.x + u * u * L.P.x, iu * iu * e.P.y + 2 * iu * u * ctl.y + u * u * L.P.y, iu * iu * e.P.z + 2 * iu * u * ctl.z + u * u * L.P.z);
+            const f0 = 0.55 + 0.45 * (q - 1) / 3, f1 = 0.55 + 0.45 * u;
+            seg(pr, cur, 0.22 * f0, 0.5 * f0, 0.48 * f0, 0.22 * f1, 0.5 * f1, 0.48 * f1, 1.4);
+            pr = (pr === tmpA ? tmpA3 : tmpA).copy(cur);
+          }
+        }
       }
     }
     /* мосты: при сочетании подходов связываем группы между собой, ИИ — с каждым */
@@ -4028,8 +4214,10 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       for (let q = 1; q <= SEG; q++) {
         const u = q / SEG, cur = arcPt(a, b, u, q % 2 ? tmpB : tmpA2);
         const f0 = Math.sin((u - 1 / SEG) * Math.PI), f1 = Math.sin(u * Math.PI);  /* ярче в середине, гаснут к концам */
-        const c = warm ? [0.95, 0.62, 0.5] : [0.4, 0.78, 0.74], m = 0.55 * bOp;
-        seg(prev, cur, c[0] * f0 * m, c[1] * f0 * m, c[2] * f0 * m, c[0] * f1 * m, c[1] * f1 * m, c[2] * f1 * m, 1.7);
+        const c = warm ? [0.95, 0.62, 0.5] : [0.4, 0.78, 0.74], m = 0.5 * bOp, m2 = 0.12 * bOp;
+        /* полупрозрачный канал и тонкое ядро внутри него */
+        seg(prev, cur, c[0] * f0 * m2, c[1] * f0 * m2, c[2] * f0 * m2, c[0] * f1 * m2, c[1] * f1 * m2, c[2] * f1 * m2, 7);
+        seg(prev, cur, c[0] * f0 * m, c[1] * f0 * m, c[2] * f0 * m, c[0] * f1 * m, c[1] * f1 * m, c[2] * f1 * m, 1.3);
         prev = (prev === tmpA ? tmpA3 : tmpA).copy(cur);
       }
     }
@@ -4069,21 +4257,51 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     bkGeo.attributes.position.needsUpdate = true;
     renderFrame();
 
-    /* подписи подходов в общей композиции */
+    /* подписи подходов: стеклянные метки с иерархией; раскладка без наложений друг на друга
+       и на служебные надписи сцены */
     world.updateMatrixWorld();
+    const act = [];
     for (const d of DIRS) {
       const L = labels[d], g = groups[d];
       const on = k > 1 && g && g.members.length;
       L.op += ((on ? 1 : 0) - L.op) * Math.min(1, dt * 3);
-      if (L.op < 0.01) { L.el.style.opacity = 0; continue; }
-      const top = d === 'data' || d === 'soft' ? -0.95 : 0.85;
-      if (g) L.pos = [g.x, g.y + top * g.sc * (d === 'ai' ? 1.1 : 1), g.z]; /* при исчезновении подпись гаснет на прежнем месте */
+      if (L.op < 0.01) { L.el.style.opacity = 0; L.placed = false; continue; }
+      const below = d === 'data' || d === 'soft';
+      if (g) L.pos = [g.x, g.y + (below ? -0.95 : 0.85) * g.sc * (d === 'ai' ? 1.1 : 1), g.z]; /* при исчезновении подпись гаснет на прежнем месте */
       if (!L.pos) continue;
       proj.set(L.pos[0], L.pos[1], L.pos[2]).applyMatrix4(world.matrixWorld).project(camera);
-      if (!L.w) L.w = L.el.offsetWidth || 80;
-      const x = Math.min(W - L.w / 2 - 8, Math.max(L.w / 2 + 8, (proj.x * 0.5 + 0.5) * W)), y = (-proj.y * 0.5 + 0.5) * H;
+      if (!L.w) { L.w = L.el.offsetWidth || 80; L.h = L.el.offsetHeight || 24; }
+      L.tx = (proj.x * 0.5 + 0.5) * W; L.ty = (-proj.y * 0.5 + 0.5) * H;
+      L.el.classList.toggle('key', d === 'ai' && k > 2); L.el.classList.toggle('below', below);
+      act.push(L);
+    }
+    const PAD = 8, keep = [];
+    if (inputEl && inputEl.offsetWidth) keep.push([inputEl.offsetLeft - PAD, inputEl.offsetTop - PAD, inputEl.offsetLeft + inputEl.offsetWidth + PAD, inputEl.offsetTop + inputEl.offsetHeight + PAD]);
+    if (sysEl && k === 6) keep.push([sysEl.offsetLeft - sysEl.offsetWidth / 2 - PAD, sysEl.offsetTop - PAD, sysEl.offsetLeft + sysEl.offsetWidth / 2 + PAD, sysEl.offsetTop + sysEl.offsetHeight + PAD]);
+    for (let it = 0; it < 8; it++) {
+      for (const L of act) {
+        L.tx = Math.min(W - L.w / 2 - 10, Math.max(L.w / 2 + 10, L.tx)); L.ty = Math.min(H - L.h / 2 - 10, Math.max(L.h / 2 + 10, L.ty));
+        for (const r of keep) { /* служебная надпись: метка уходит вниз или вверх от неё */
+          if (L.tx + L.w / 2 > r[0] && L.tx - L.w / 2 < r[2] && L.ty + L.h / 2 > r[1] && L.ty - L.h / 2 < r[3]) {
+            const up = L.ty - (r[1] - L.h / 2), dn = (r[3] + L.h / 2) - L.ty;
+            if (up < dn && r[1] - L.h / 2 > 10) L.ty = r[1] - L.h / 2; else L.ty = r[3] + L.h / 2;
+          }
+        }
+      }
+      for (let a2 = 0; a2 < act.length; a2++) for (let b2 = a2 + 1; b2 < act.length; b2++) {
+        const A = act[a2], B = act[b2];
+        const ox = (A.w + B.w) / 2 + PAD - Math.abs(A.tx - B.tx), oy = (A.h + B.h) / 2 + 4 - Math.abs(A.ty - B.ty);
+        if (ox > 0 && oy > 0) {
+          if (oy < ox) { const sy = A.ty < B.ty ? -1 : 1; A.ty += sy * oy / 2; B.ty -= sy * oy / 2; }
+          else { const sx = A.tx < B.tx ? -1 : 1; A.tx += sx * ox / 2; B.tx -= sx * ox / 2; }
+        }
+      }
+    }
+    for (const L of act) {
+      if (!L.placed) { L.x = L.tx; L.y = L.ty; L.placed = true; }
+      else { const f = Math.min(1, dt * 9); L.x += (L.tx - L.x) * f; L.y += (L.ty - L.y) * f; }
       L.el.style.opacity = L.op.toFixed(3);
-      L.el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%,-50%)';
+      L.el.style.transform = 'translate(' + L.x.toFixed(1) + 'px,' + L.y.toFixed(1) + 'px) translate(-50%,-50%)';
     }
   }
 
@@ -4119,7 +4337,7 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : visible && start()));
   }
   /* освобождаем ресурсы видеокарты при уходе со страницы */
-  addEventListener('pagehide', ev => { if (ev.persisted) { stop(); return; } stop(); geo.dispose(); mat.dispose(); lGeo.dispose(); lMat.dispose(); rtMain.dispose(); rtA.dispose(); rtB.dispose(); [brightMat, blurMat, compMat].forEach(m => m.dispose()); pGeo.dispose(); pMat.dispose(); renderer.dispose(); });
+  addEventListener('pagehide', ev => { if (ev.persisted) { stop(); return; } stop(); geo.dispose(); mat.dispose(); lGeo.dispose(); lMat.dispose(); rtMain.dispose(); rtA.dispose(); rtB.dispose(); rtD.dispose(); rtE.dispose(); mirMat.dispose(); floorMat.dispose(); [brightMat, blurMat, compMat].forEach(m => m.dispose()); pGeo.dispose(); pMat.dispose(); renderer.dispose(); });
   requestAnimationFrame(() => root.classList.add('gl-ready'));
 })();
 </script>
