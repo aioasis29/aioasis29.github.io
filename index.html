@@ -964,6 +964,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .intro-light{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;will-change:transform;transition:opacity 1.2s var(--ease)}
 .intro-light.l1{width:60vmax;height:60vmax;left:-14vmax;top:-18vmax;background:radial-gradient(circle,rgba(15,92,99,0.900) 0%,rgba(15,92,99,0.856) 8.4%,rgba(15,92,99,0.736) 16.8%,rgba(15,92,99,0.569) 25.2%,rgba(15,92,99,0.393) 33.6%,rgba(15,92,99,0.239) 42.0%,rgba(15,92,99,0.125) 50.4%,rgba(15,92,99,0.054) 58.8%,rgba(15,92,99,0.017) 67.2%,rgba(15,92,99,0.003) 75.6%,rgba(15,92,99,0.000) 84%);animation:drift1 14s ease-in-out infinite alternate}
 .intro-light.l2{width:52vmax;height:52vmax;right:-16vmax;bottom:-20vmax;background:radial-gradient(circle,rgba(8,126,131,0.700) 0%,rgba(8,126,131,0.666) 8.4%,rgba(8,126,131,0.572) 16.8%,rgba(8,126,131,0.443) 25.2%,rgba(8,126,131,0.306) 33.6%,rgba(8,126,131,0.186) 42.0%,rgba(8,126,131,0.097) 50.4%,rgba(8,126,131,0.042) 58.8%,rgba(8,126,131,0.013) 67.2%,rgba(8,126,131,0.002) 75.6%,rgba(8,126,131,0.000) 84%);animation:drift2 17s ease-in-out infinite alternate}
+.intro-light.l4{width:70vmax;height:60vmax;left:-26vmax;bottom:-30vmax;filter:none;opacity:.5;background:radial-gradient(closest-side at 50% 50%,rgba(150,72,52,0.4200) 0.0%,rgba(150,72,52,0.4122) 6.2%,rgba(150,72,52,0.3895) 12.5%,rgba(150,72,52,0.3543) 18.8%,rgba(150,72,52,0.3098) 25.0%,rgba(150,72,52,0.2599) 31.2%,rgba(150,72,52,0.2088) 37.5%,rgba(150,72,52,0.1600) 43.8%,rgba(150,72,52,0.1164) 50.0%,rgba(150,72,52,0.0799) 56.2%,rgba(150,72,52,0.0512) 62.5%,rgba(150,72,52,0.0301) 68.8%,rgba(150,72,52,0.0158) 75.0%,rgba(150,72,52,0.0070) 81.2%,rgba(150,72,52,0.0024) 87.5%,rgba(150,72,52,0.0004) 93.8%,rgba(150,72,52,0.0000) 100.0%);animation:drift2 19s ease-in-out infinite alternate-reverse}
 .intro-light.l3{width:30vmax;height:30vmax;left:50%;top:50%;margin:-15vmax 0 0 -15vmax;background:radial-gradient(circle,rgba(41,180,174,0.350) 0%,rgba(41,180,174,0.333) 8.4%,rgba(41,180,174,0.286) 16.8%,rgba(41,180,174,0.221) 25.2%,rgba(41,180,174,0.153) 33.6%,rgba(41,180,174,0.093) 42.0%,rgba(41,180,174,0.049) 50.4%,rgba(41,180,174,0.021) 58.8%,rgba(41,180,174,0.007) 67.2%,rgba(41,180,174,0.001) 75.6%,rgba(41,180,174,0.000) 84%);animation:drift3 11s ease-in-out infinite alternate}
 @keyframes drift1{to{transform:translate3d(9vmax,6vmax,0)}}
 @keyframes drift2{to{transform:translate3d(-8vmax,-7vmax,0)}}
@@ -971,19 +972,18 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .intro.is-leaving .intro-light{opacity:.15}
 .intro.is-leaving .intro-veil{transition-duration:1.6s}
 /* едва заметная стеклянная форма и отражение */
-.intro-ring{position:absolute;left:50%;top:50%;width:min(78vmin,640px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
-  background:radial-gradient(circle at 32% 26%,rgba(234,247,244,0.070) 0%,rgba(234,247,244,0.067) 5.2%,rgba(234,247,244,0.057) 10.4%,rgba(234,247,244,0.044) 15.6%,rgba(234,247,244,0.031) 20.8%,rgba(234,247,244,0.019) 26.0%,rgba(234,247,244,0.010) 31.2%,rgba(234,247,244,0.004) 36.4%,rgba(234,247,244,0.001) 41.6%,rgba(234,247,244,0.000) 46.8%,rgba(234,247,244,0.000) 52%),radial-gradient(circle,transparent 58%,rgba(160,227,216,.05) 70%,transparent 72%);
-  box-shadow:inset 0 0 0 1px rgba(160,227,216,.08),inset 0 0 80px rgba(160,227,216,.04);animation:ringBreath 9s ease-in-out infinite alternate}
-@keyframes ringBreath{to{transform:translate(-50%,-50%) scale(1.04)}}
-.intro-sheen{position:absolute;inset:-20%;background:linear-gradient(115deg,transparent 42%,rgba(234,247,244,.045) 50%,transparent 58%);animation:sheen 9s ease-in-out infinite;pointer-events:none}
+.intro-ring{position:absolute;left:50%;top:48%;width:min(120vmin,1100px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side at 50% 50%,rgba(30,150,155,0.3400) 0.0%,rgba(30,150,155,0.3337) 6.2%,rgba(30,150,155,0.3153) 12.5%,rgba(30,150,155,0.2868) 18.8%,rgba(30,150,155,0.2508) 25.0%,rgba(30,150,155,0.2104) 31.2%,rgba(30,150,155,0.1690) 37.5%,rgba(30,150,155,0.1295) 43.8%,rgba(30,150,155,0.0943) 50.0%,rgba(30,150,155,0.0647) 56.2%,rgba(30,150,155,0.0414) 62.5%,rgba(30,150,155,0.0243) 68.8%,rgba(30,150,155,0.0128) 75.0%,rgba(30,150,155,0.0057) 81.2%,rgba(30,150,155,0.0019) 87.5%,rgba(30,150,155,0.0003) 93.8%,rgba(30,150,155,0.0000) 100.0%),radial-gradient(closest-side at 38% 34%,rgba(234,247,244,0.0500) 0.0%,rgba(234,247,244,0.0490) 6.2%,rgba(234,247,244,0.0459) 12.5%,rgba(234,247,244,0.0413) 18.8%,rgba(234,247,244,0.0355) 25.0%,rgba(234,247,244,0.0292) 31.2%,rgba(234,247,244,0.0228) 37.5%,rgba(234,247,244,0.0170) 43.8%,rgba(234,247,244,0.0119) 50.0%,rgba(234,247,244,0.0079) 56.2%,rgba(234,247,244,0.0048) 62.5%,rgba(234,247,244,0.0027) 68.8%,rgba(234,247,244,0.0013) 75.0%,rgba(234,247,244,0.0006) 81.2%,rgba(234,247,244,0.0002) 87.5%,rgba(234,247,244,0.0000) 93.8%,rgba(234,247,244,0.0000) 100.0%);animation:ringBreath 11s ease-in-out infinite alternate}
+@keyframes ringBreath{to{transform:translate(-50%,-50%) scale(1.06)}}
+.intro-sheen{display:none}
 @keyframes sheen{from{transform:translateX(-25%)}to{transform:translateX(25%)}}
 /* центр */
-.intro-center::before{content:"";position:absolute;left:50%;top:45%;width:min(560px,130vw);aspect-ratio:1.4;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(4,17,21,.82),rgba(4,17,21,.45) 55%,transparent);z-index:-1}
+.intro-center::before{content:"";position:absolute;left:50%;top:45%;width:min(760px,150vw);aspect-ratio:1.35;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side at 50% 50%,rgba(4,17,21,0.6200) 0.0%,rgba(4,17,21,0.6109) 6.2%,rgba(4,17,21,0.5841) 12.5%,rgba(4,17,21,0.5417) 18.8%,rgba(4,17,21,0.4867) 25.0%,rgba(4,17,21,0.4230) 31.2%,rgba(4,17,21,0.3547) 37.5%,rgba(4,17,21,0.2860) 43.8%,rgba(4,17,21,0.2207) 50.0%,rgba(4,17,21,0.1618) 56.2%,rgba(4,17,21,0.1116) 62.5%,rgba(4,17,21,0.0712) 68.8%,rgba(4,17,21,0.0409) 75.0%,rgba(4,17,21,0.0201) 81.2%,rgba(4,17,21,0.0075) 87.5%,rgba(4,17,21,0.0015) 93.8%,rgba(4,17,21,0.0000) 100.0%);z-index:-1}
 .intro-center{position:relative;isolation:isolate;display:grid;justify-items:center;gap:26px;text-align:center;padding:0 24px}
 .intro-mark{position:relative;width:clamp(120px,22vmin,184px)}
 .intro-mark img{display:block;width:100%;height:auto;opacity:0;filter:blur(10px);animation:logoIn 1.9s .9s var(--ease) forwards}
 .intro-glow{position:absolute;left:50%;top:46%;width:260%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
-  background:radial-gradient(circle,rgba(95,223,222,.32),rgba(41,180,174,.12) 35%,transparent 65%);opacity:0;animation:glowIn 4s .1s ease-out forwards}
+  background:radial-gradient(closest-side at 50% 50%,rgba(95,223,222,0.3000) 0.0%,rgba(95,223,222,0.2940) 6.2%,rgba(95,223,222,0.2765) 12.5%,rgba(95,223,222,0.2495) 18.8%,rgba(95,223,222,0.2158) 25.0%,rgba(95,223,222,0.1785) 31.2%,rgba(95,223,222,0.1410) 37.5%,rgba(95,223,222,0.1059) 43.8%,rgba(95,223,222,0.0753) 50.0%,rgba(95,223,222,0.0503) 56.2%,rgba(95,223,222,0.0313) 62.5%,rgba(95,223,222,0.0178) 68.8%,rgba(95,223,222,0.0090) 75.0%,rgba(95,223,222,0.0039) 81.2%,rgba(95,223,222,0.0012) 87.5%,rgba(95,223,222,0.0002) 93.8%,rgba(95,223,222,0.0000) 100.0%);opacity:0;animation:glowIn 4s .1s ease-out forwards}
 @keyframes logoIn{to{opacity:1;filter:blur(0)}}
 @keyframes glowIn{0%{opacity:0}35%{opacity:1}100%{opacity:.35}}
 .intro.is-leaving .intro-mark img{opacity:.85}
@@ -996,8 +996,8 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .w-fill.thin{stroke-width:1;opacity:.6}
 .w-head{fill:#FFF4EC;filter:drop-shadow(0 0 6px rgba(255,155,74,.9));opacity:0;transition:opacity .4s}
 .intro-status{position:relative;height:1.2em;width:100%;font-size:.8rem;color:var(--on-dark-2);opacity:0;animation:fadeUp 1.2s 2.7s var(--ease) forwards}
-.intro-status span{position:absolute;left:0;right:0;opacity:0;transition:opacity .6s var(--ease)}
-.intro-status span.on{opacity:1}
+.intro-status span{position:absolute;left:0;right:0;opacity:0;transition:opacity .35s var(--ease)}
+.intro-status span.on{opacity:1;transition:opacity .6s var(--ease) .35s}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 /* короткий вариант для повторного открытия в той же сессии: только мягкое проявление */
 .intro-short .intro-center,.intro-short .intro-ring,.intro-short .intro-sheen{display:none}
@@ -1335,7 +1335,7 @@ strong.hl{font-weight:500}
 <body>
 <noscript><div><img src="https://mc.yandex.ru/watch/114126002" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <div class="intro" id="intro" aria-hidden="true">
-  <div class="intro-light l1"></div><div class="intro-light l2"></div><div class="intro-light l3"></div>
+  <div class="intro-light l4"></div><div class="intro-light l1"></div><div class="intro-light l2"></div><div class="intro-light l3"></div>
   <div class="intro-veil"></div>
   <div class="intro-ring"></div><div class="intro-sheen"></div>
   <div class="intro-center">
