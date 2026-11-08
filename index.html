@@ -133,7 +133,7 @@ a{color:inherit}
 .burger span{display:block;width:18px;height:1.5px;background:currentColor;margin:5px auto;transition:transform .3s var(--ease)}
 .burger[aria-expanded="true"] span:first-child{transform:translateY(3.3px) rotate(45deg)}
 .burger[aria-expanded="true"] span:last-child{transform:translateY(-3.3px) rotate(-45deg)}
-.mobile-nav{position:fixed;inset:0;z-index:45;background:radial-gradient(90% 60% at 100% 0%,rgba(12,69,76,.9),transparent 70%),radial-gradient(80% 60% at 0% 100%,rgba(69,30,25,.8),transparent 70%),var(--graphite);padding:calc(100px + env(safe-area-inset-top,0px)) var(--gutter-r) 40px var(--gutter);display:flex;flex-direction:column;gap:6px}
+.mobile-nav{position:fixed;inset:0;z-index:45;background:radial-gradient(90% 60% at 100% 0%,rgba(12,69,76,0.900) 0%,rgba(12,69,76,0.856) 9.1%,rgba(12,69,76,0.736) 18.2%,rgba(12,69,76,0.569) 27.3%,rgba(12,69,76,0.393) 36.4%,rgba(12,69,76,0.239) 45.5%,rgba(12,69,76,0.125) 54.6%,rgba(12,69,76,0.054) 63.7%,rgba(12,69,76,0.017) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),radial-gradient(80% 60% at 0% 100%,rgba(69,30,25,0.800) 0%,rgba(69,30,25,0.761) 9.1%,rgba(69,30,25,0.654) 18.2%,rgba(69,30,25,0.506) 27.3%,rgba(69,30,25,0.349) 36.4%,rgba(69,30,25,0.213) 45.5%,rgba(69,30,25,0.111) 54.6%,rgba(69,30,25,0.048) 63.7%,rgba(69,30,25,0.015) 72.8%,rgba(69,30,25,0.003) 81.9%,rgba(69,30,25,0.000) 91%),var(--graphite);padding:calc(100px + env(safe-area-inset-top,0px)) var(--gutter-r) 40px var(--gutter);display:flex;flex-direction:column;gap:6px}
 .mobile-nav[hidden]{display:none}
 .mobile-nav a{color:var(--on-dark);text-decoration:none;font:500 1.7rem/1.2 var(--f-display);letter-spacing:-.02em;padding:10px 0;border-bottom:1px solid var(--line-dark)}
 .mobile-nav .btn{margin-top:24px;align-self:flex-start;font:600 1rem/1 var(--f-body)}
@@ -141,8 +141,8 @@ a{color:inherit}
 /* ---------- HERO ---------- */
 .hero{position:relative;min-height:min(100svh, 980px);display:flex;flex-direction:column;justify-content:flex-end;color:var(--on-dark);overflow:hidden;isolation:isolate;
   background:
-    radial-gradient(50% 60% at 85% 45%, rgba(12,69,76,.95), transparent 70%),
-    radial-gradient(45% 55% at 0% 55%, rgba(69,30,25,.95), transparent 70%),
+    radial-gradient(50% 60% at 85% 45%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),
+    radial-gradient(45% 55% at 0% 55%,rgba(69,30,25,0.950) 0%,rgba(69,30,25,0.904) 9.1%,rgba(69,30,25,0.777) 18.2%,rgba(69,30,25,0.601) 27.3%,rgba(69,30,25,0.415) 36.4%,rgba(69,30,25,0.252) 45.5%,rgba(69,30,25,0.132) 54.6%,rgba(69,30,25,0.057) 63.7%,rgba(69,30,25,0.018) 72.8%,rgba(69,30,25,0.003) 81.9%,rgba(69,30,25,0.000) 91%),
     var(--graphite);}
 .hero-inner{position:relative;z-index:1}
 .hero canvas.fire-wave{z-index:0;opacity:1;pointer-events:none}
@@ -175,7 +175,7 @@ a{color:inherit}
 
 /* Узнавание проблемы: «мысль посетителя» → «спокойный ответ» */
 .recognize{position:relative;overflow:hidden}
-.recognize::before{content:"";position:absolute;width:900px;height:900px;right:-380px;top:-300px;border-radius:50%;background:radial-gradient(circle,rgba(160,227,216,.55),transparent 62%);pointer-events:none}
+.recognize::before{content:"";position:absolute;width:900px;height:900px;right:-380px;top:-300px;border-radius:50%;background:radial-gradient(circle,rgba(160,227,216,0.550) 0%,rgba(160,227,216,0.523) 8.1%,rgba(160,227,216,0.450) 16.2%,rgba(160,227,216,0.348) 24.3%,rgba(160,227,216,0.240) 32.4%,rgba(160,227,216,0.146) 40.5%,rgba(160,227,216,0.077) 48.6%,rgba(160,227,216,0.033) 56.7%,rgba(160,227,216,0.010) 64.8%,rgba(160,227,216,0.002) 72.9%,rgba(160,227,216,0.000) 81%);pointer-events:none}
 .thoughts{margin-top:clamp(56px,7vw,96px);display:grid;gap:0;position:relative}
 .thought{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:start;padding-block:clamp(28px,3.4vw,44px);border-top:1px solid var(--line)}
 .thought:last-child{border-bottom:1px solid var(--line)}
@@ -191,10 +191,9 @@ a{color:inherit}
 /* ---------- ФИЛОСОФИЯ ---------- */
 .dark{color:var(--on-dark);position:relative;overflow:hidden;isolation:isolate}
 .philosophy{background:
-   radial-gradient(45% 50% at 0% 20%, rgba(69,30,25,.85), transparent 70%),
-   radial-gradient(55% 60% at 100% 75%, rgba(12,69,76,.9), transparent 70%),
+   radial-gradient(45% 50% at 0% 20%,rgba(69,30,25,0.850) 0%,rgba(69,30,25,0.808) 9.1%,rgba(69,30,25,0.695) 18.2%,rgba(69,30,25,0.537) 27.3%,rgba(69,30,25,0.371) 36.4%,rgba(69,30,25,0.226) 45.5%,rgba(69,30,25,0.118) 54.6%,rgba(69,30,25,0.051) 63.7%,rgba(69,30,25,0.016) 72.8%,rgba(69,30,25,0.003) 81.9%,rgba(69,30,25,0.000) 91%),
+   radial-gradient(55% 60% at 100% 75%,rgba(12,69,76,0.900) 0%,rgba(12,69,76,0.856) 9.1%,rgba(12,69,76,0.736) 18.2%,rgba(12,69,76,0.569) 27.3%,rgba(12,69,76,0.393) 36.4%,rgba(12,69,76,0.239) 45.5%,rgba(12,69,76,0.125) 54.6%,rgba(12,69,76,0.054) 63.7%,rgba(12,69,76,0.017) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),
    var(--graphite);}
-.philosophy .light-leak{position:absolute;inset:-20%;z-index:-1;background:conic-gradient(from 200deg at 30% 40%, transparent 0deg, rgba(41,180,174,.16) 40deg, transparent 90deg, rgba(160,227,216,.1) 160deg, transparent 220deg);filter:blur(40px);animation:drift 26s ease-in-out infinite alternate}
 @keyframes drift{to{transform:translate3d(6%, -4%, 0) rotate(8deg)}}
 .manifest{display:grid;gap:12px}
 .manifest .eyebrow{color:var(--coral)}
@@ -220,7 +219,7 @@ a{color:inherit}
   linear-gradient(200deg, rgba(160,227,216,.55), rgba(41,180,174,.25) 45%, rgba(8,126,131,.55));
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .prism .edge{position:absolute;inset:0;width:100%;height:100%}
-.prism::after{content:"";position:absolute;left:50%;top:60%;width:210px;height:210px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(41,180,174,.45),transparent 65%);z-index:-1;filter:blur(8px)}
+.prism::after{content:"";position:absolute;left:50%;top:60%;width:210px;height:210px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(41,180,174,0.450) 0%,rgba(41,180,174,0.428) 8.4%,rgba(41,180,174,0.368) 16.8%,rgba(41,180,174,0.284) 25.2%,rgba(41,180,174,0.196) 33.6%,rgba(41,180,174,0.120) 42.0%,rgba(41,180,174,0.063) 50.4%,rgba(41,180,174,0.027) 58.8%,rgba(41,180,174,0.009) 67.2%,rgba(41,180,174,0.001) 75.6%,rgba(41,180,174,0.000) 84%);z-index:-1;filter:blur(8px)}
 .options{list-style:none;margin:0;padding:0;display:grid;grid-template-rows:repeat(6,1fr);align-items:center}
 .options li{display:flex;align-items:center;gap:12px;font:500 1.05rem/1.25 var(--f-display);color:var(--on-dark);letter-spacing:-.01em}
 .options li::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--mint) 40%,var(--aqua));box-shadow:0 0 12px rgba(160,227,216,.7)}
@@ -247,8 +246,8 @@ a{color:inherit}
 
 /* ---------- МЕТОД ---------- */
 .method{background:
-   radial-gradient(60% 60% at 10% 0%, rgba(12,69,76,.95), transparent 70%),
-   radial-gradient(40% 50% at 100% 100%, rgba(69,30,25,.6), transparent 70%),
+   radial-gradient(60% 60% at 10% 0%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),
+   radial-gradient(40% 50% at 100% 100%,rgba(69,30,25,0.600) 0%,rgba(69,30,25,0.571) 9.1%,rgba(69,30,25,0.490) 18.2%,rgba(69,30,25,0.379) 27.3%,rgba(69,30,25,0.262) 36.4%,rgba(69,30,25,0.159) 45.5%,rgba(69,30,25,0.083) 54.6%,rgba(69,30,25,0.036) 63.7%,rgba(69,30,25,0.011) 72.8%,rgba(69,30,25,0.002) 81.9%,rgba(69,30,25,0.000) 91%),
    linear-gradient(180deg, #0B2A2F 0%, var(--graphite) 75%);}
 .method .section-head .eyebrow{color:var(--mint)}
 .method .section-head p{color:var(--on-dark-2)}
@@ -313,23 +312,23 @@ details.more .note{margin-top:14px;font-size:.88rem;color:var(--ink-2);padding:1
 /* общий «стеклянный» объект для CSS-сцен */
 .orb{background:
    radial-gradient(circle at 30% 26%, rgba(255,255,255,.9) 0 4%, rgba(255,255,255,.25) 12%, transparent 28%),
-   radial-gradient(circle at 70% 78%, rgba(160,227,216,.55), transparent 45%),
+   radial-gradient(circle at 70% 78%,rgba(160,227,216,0.550) 0%,rgba(160,227,216,0.523) 5.8%,rgba(160,227,216,0.450) 11.6%,rgba(160,227,216,0.348) 17.4%,rgba(160,227,216,0.240) 23.2%,rgba(160,227,216,0.146) 29.0%,rgba(160,227,216,0.077) 34.8%,rgba(160,227,216,0.033) 40.6%,rgba(160,227,216,0.010) 46.4%,rgba(160,227,216,0.002) 52.2%,rgba(160,227,216,0.000) 58%),
    radial-gradient(circle at 50% 50%, rgba(41,180,174,.18), rgba(8,126,131,.32) 70%, rgba(160,227,216,.5) 100%);
   box-shadow:inset 0 0 0 1px rgba(234,247,244,.35), inset -18px -24px 50px rgba(3,34,42,.45), inset 14px 18px 40px rgba(234,247,244,.18), 0 40px 80px -30px rgba(0,0,0,.55)}
 
 
 /* ---------- ОСНОВАТЕЛЬ ---------- */
 .founder{background:
-   radial-gradient(40% 55% at 0% 40%, rgba(69,30,25,.9), transparent 70%),
-   radial-gradient(45% 60% at 60% 30%, rgba(12,69,76,.75), transparent 70%),
+   radial-gradient(40% 55% at 0% 40%,rgba(69,30,25,0.900) 0%,rgba(69,30,25,0.856) 9.1%,rgba(69,30,25,0.736) 18.2%,rgba(69,30,25,0.569) 27.3%,rgba(69,30,25,0.393) 36.4%,rgba(69,30,25,0.239) 45.5%,rgba(69,30,25,0.125) 54.6%,rgba(69,30,25,0.054) 63.7%,rgba(69,30,25,0.017) 72.8%,rgba(69,30,25,0.003) 81.9%,rgba(69,30,25,0.000) 91%),
+   radial-gradient(45% 60% at 60% 30%,rgba(12,69,76,0.750) 0%,rgba(12,69,76,0.713) 9.1%,rgba(12,69,76,0.613) 18.2%,rgba(12,69,76,0.474) 27.3%,rgba(12,69,76,0.327) 36.4%,rgba(12,69,76,0.199) 45.5%,rgba(12,69,76,0.104) 54.6%,rgba(12,69,76,0.045) 63.7%,rgba(12,69,76,0.014) 72.8%,rgba(12,69,76,0.002) 81.9%,rgba(12,69,76,0.000) 91%),
    var(--graphite);}
 .founder-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
 @media (min-width:861px){.founder-photo{position:sticky;top:96px}}
 .founder-photo{margin:0;display:grid;gap:18px;max-width:520px;width:100%}
 .founder-photo img{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:cover;
   /* края фотографии растворяются в фоне секции; сам кадр не меняется */
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 82%,transparent);-webkit-mask-composite:source-in;
-  mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 82%,transparent);mask-composite:intersect}
+  -webkit-mask-image:linear-gradient(to right,transparent,rgba(0,0,0,.08) 4%,rgba(0,0,0,.3) 9%,rgba(0,0,0,.65) 15%,#000 23%,#000 77%,rgba(0,0,0,.65) 85%,rgba(0,0,0,.3) 91%,rgba(0,0,0,.08) 96%,transparent),linear-gradient(to bottom,transparent,rgba(0,0,0,.3) 5%,rgba(0,0,0,.75) 11%,#000 17%,#000 74%,rgba(0,0,0,.7) 84%,rgba(0,0,0,.25) 93%,transparent);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,rgba(0,0,0,.08) 4%,rgba(0,0,0,.3) 9%,rgba(0,0,0,.65) 15%,#000 23%,#000 77%,rgba(0,0,0,.65) 85%,rgba(0,0,0,.3) 91%,rgba(0,0,0,.08) 96%,transparent),linear-gradient(to bottom,transparent,rgba(0,0,0,.3) 5%,rgba(0,0,0,.75) 11%,#000 17%,#000 74%,rgba(0,0,0,.7) 84%,rgba(0,0,0,.25) 93%,transparent);mask-composite:intersect}
 .founder-photo figcaption{display:grid;gap:8px;justify-items:start;margin-top:-56px;position:relative;padding-left:14%}
 .founder-photo .brand-line{width:120px}
 .founder-photo .name{font:500 1.5rem/1.15 var(--f-display);letter-spacing:-.02em;color:var(--on-dark)}
@@ -351,8 +350,8 @@ details.more .note{margin-top:14px;font-size:.88rem;color:var(--ink-2);padding:1
 
 /* ---------- ФИНАЛ ---------- */
 .final{background:
-   radial-gradient(50% 55% at 100% 15%, rgba(12,69,76,.95), transparent 70%),
-   radial-gradient(50% 60% at 0% 85%, rgba(69,30,25,.85), transparent 70%),
+   radial-gradient(50% 55% at 100% 15%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),
+   radial-gradient(50% 60% at 0% 85%,rgba(69,30,25,0.850) 0%,rgba(69,30,25,0.808) 9.1%,rgba(69,30,25,0.695) 18.2%,rgba(69,30,25,0.537) 27.3%,rgba(69,30,25,0.371) 36.4%,rgba(69,30,25,0.226) 45.5%,rgba(69,30,25,0.118) 54.6%,rgba(69,30,25,0.051) 63.7%,rgba(69,30,25,0.016) 72.8%,rgba(69,30,25,0.003) 81.9%,rgba(69,30,25,0.000) 91%),
    var(--graphite);}
 .silk{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 .final .orb.f1{position:absolute;width:min(46vw,560px);aspect-ratio:1;right:-8%;top:-10%;z-index:-1;animation:float 14s ease-in-out infinite alternate}
@@ -397,7 +396,7 @@ fieldset.field{border:0;margin:0;padding:0}
 
 /* ---------- 3D-сцена кейса ---------- */
 .featured-visual.case-scene{position:relative;min-height:620px;display:block;overflow:hidden;isolation:isolate;color:var(--on-dark);
-  background:radial-gradient(60% 45% at 50% 50%,#0C454C,transparent 72%),radial-gradient(50% 40% at 0% 100%,rgba(69,30,25,.7),transparent 70%),var(--graphite)}
+  background:radial-gradient(60% 45% at 50% 50%,rgba(12,69,76,1.000) 0%,rgba(12,69,76,0.951) 9.4%,rgba(12,69,76,0.817) 18.8%,rgba(12,69,76,0.632) 28.2%,rgba(12,69,76,0.437) 37.6%,rgba(12,69,76,0.266) 47.0%,rgba(12,69,76,0.139) 56.4%,rgba(12,69,76,0.060) 65.8%,rgba(12,69,76,0.019) 75.2%,rgba(12,69,76,0.003) 84.6%,rgba(12,69,76,0.000) 94%),radial-gradient(50% 40% at 0% 100%,rgba(69,30,25,0.700) 0%,rgba(69,30,25,0.666) 9.1%,rgba(69,30,25,0.572) 18.2%,rgba(69,30,25,0.443) 27.3%,rgba(69,30,25,0.306) 36.4%,rgba(69,30,25,0.186) 45.5%,rgba(69,30,25,0.097) 54.6%,rgba(69,30,25,0.042) 63.7%,rgba(69,30,25,0.013) 72.8%,rgba(69,30,25,0.002) 81.9%,rgba(69,30,25,0.000) 91%),var(--graphite)}
 .case-scene canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s var(--ease)}
 .case-scene.gl-ready canvas{opacity:1}
 .cs-labels{position:absolute;inset:0;pointer-events:none;z-index:1}
@@ -441,13 +440,13 @@ fieldset.field{border:0;margin:0;padding:0}
 .case-story.flip .case-visual{order:2}
 .case-visual{min-width:0}
 .scene{position:relative;min-height:620px;overflow:hidden;isolation:isolate;border-radius:32px;color:var(--on-dark);
-  background:radial-gradient(60% 45% at 50% 50%,#0C454C,transparent 72%),radial-gradient(50% 40% at 0% 100%,rgba(69,30,25,.7),transparent 70%),var(--graphite);
+  background:radial-gradient(60% 45% at 50% 50%,rgba(12,69,76,1.000) 0%,rgba(12,69,76,0.951) 9.4%,rgba(12,69,76,0.817) 18.8%,rgba(12,69,76,0.632) 28.2%,rgba(12,69,76,0.437) 37.6%,rgba(12,69,76,0.266) 47.0%,rgba(12,69,76,0.139) 56.4%,rgba(12,69,76,0.060) 65.8%,rgba(12,69,76,0.019) 75.2%,rgba(12,69,76,0.003) 84.6%,rgba(12,69,76,0.000) 94%),radial-gradient(50% 40% at 0% 100%,rgba(69,30,25,0.700) 0%,rgba(69,30,25,0.666) 9.1%,rgba(69,30,25,0.572) 18.2%,rgba(69,30,25,0.443) 27.3%,rgba(69,30,25,0.306) 36.4%,rgba(69,30,25,0.186) 45.5%,rgba(69,30,25,0.097) 54.6%,rgba(69,30,25,0.042) 63.7%,rgba(69,30,25,0.013) 72.8%,rgba(69,30,25,0.002) 81.9%,rgba(69,30,25,0.000) 91%),var(--graphite);
   box-shadow:0 60px 120px -60px rgba(7,59,70,.55)}
 .scene canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s var(--ease);touch-action:pan-y}
 .scene.gl-ready canvas{opacity:1}
 .scene.no-gl{min-height:420px}
-#scene-games{background:radial-gradient(70% 55% at 50% 40%,#13525A,transparent 75%),radial-gradient(50% 40% at 100% 100%,rgba(225,164,146,.35),transparent 70%),#0B2A2F}
-#scene-motion{background:radial-gradient(55% 45% at 50% 42%,#2A2420,transparent 75%),radial-gradient(60% 50% at 100% 0%,rgba(12,69,76,.8),transparent 70%),#0B0D0E}
+#scene-games{background:radial-gradient(70% 55% at 50% 40%,rgba(19,82,90,1.000) 0%,rgba(19,82,90,0.951) 9.8%,rgba(19,82,90,0.817) 19.6%,rgba(19,82,90,0.632) 29.4%,rgba(19,82,90,0.437) 39.2%,rgba(19,82,90,0.266) 49.0%,rgba(19,82,90,0.139) 58.8%,rgba(19,82,90,0.060) 68.6%,rgba(19,82,90,0.019) 78.4%,rgba(19,82,90,0.003) 88.2%,rgba(19,82,90,0.000) 98%),radial-gradient(50% 40% at 100% 100%,rgba(225,164,146,0.350) 0%,rgba(225,164,146,0.333) 9.1%,rgba(225,164,146,0.286) 18.2%,rgba(225,164,146,0.221) 27.3%,rgba(225,164,146,0.153) 36.4%,rgba(225,164,146,0.093) 45.5%,rgba(225,164,146,0.049) 54.6%,rgba(225,164,146,0.021) 63.7%,rgba(225,164,146,0.007) 72.8%,rgba(225,164,146,0.001) 81.9%,rgba(225,164,146,0.000) 91%),#0B2A2F}
+#scene-motion{background:radial-gradient(55% 45% at 50% 42%,rgba(42,36,32,1.000) 0%,rgba(42,36,32,0.951) 9.8%,rgba(42,36,32,0.817) 19.6%,rgba(42,36,32,0.632) 29.4%,rgba(42,36,32,0.437) 39.2%,rgba(42,36,32,0.266) 49.0%,rgba(42,36,32,0.139) 58.8%,rgba(42,36,32,0.060) 68.6%,rgba(42,36,32,0.019) 78.4%,rgba(42,36,32,0.003) 88.2%,rgba(42,36,32,0.000) 98%),radial-gradient(60% 50% at 100% 0%,rgba(12,69,76,0.800) 0%,rgba(12,69,76,0.761) 9.1%,rgba(12,69,76,0.654) 18.2%,rgba(12,69,76,0.506) 27.3%,rgba(12,69,76,0.349) 36.4%,rgba(12,69,76,0.213) 45.5%,rgba(12,69,76,0.111) 54.6%,rgba(12,69,76,0.048) 63.7%,rgba(12,69,76,0.015) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),#0B0D0E}
 .case-body{display:grid;gap:18px;align-content:center;justify-items:start}
 .case-body h3{font-size:clamp(1.5rem,1.15rem + 1.1vw,2.2rem);letter-spacing:-.03em}
 .case-body .client{color:var(--ink-2);font-size:.92rem}
@@ -482,7 +481,7 @@ fieldset.field{border:0;margin:0;padding:0}
   padding:calc(24px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
 .story.is-open{display:block;animation:fadeIn .45s var(--ease) both}
 .story-panel{position:relative;max-width:1080px;margin:0 auto;border-radius:32px;overflow:hidden;color:var(--on-dark);
-  background:radial-gradient(70% 40% at 100% 0%,rgba(12,69,76,.95),transparent 70%),radial-gradient(50% 30% at 0% 0%,rgba(69,30,25,.7),transparent 70%),#0C1315;
+  background:radial-gradient(70% 40% at 100% 0%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),radial-gradient(50% 30% at 0% 0%,rgba(69,30,25,0.700) 0%,rgba(69,30,25,0.666) 9.1%,rgba(69,30,25,0.572) 18.2%,rgba(69,30,25,0.443) 27.3%,rgba(69,30,25,0.306) 36.4%,rgba(69,30,25,0.186) 45.5%,rgba(69,30,25,0.097) 54.6%,rgba(69,30,25,0.042) 63.7%,rgba(69,30,25,0.013) 72.8%,rgba(69,30,25,0.002) 81.9%,rgba(69,30,25,0.000) 91%),#0C1315;
   box-shadow:inset 0 0 0 1px rgba(160,227,216,.14),0 60px 140px -40px rgba(0,0,0,.85);animation:rise .7s var(--ease) both}
 .story-close{position:sticky;top:14px;float:right;margin:14px 14px 0 0;z-index:2}
 .story-head{padding:clamp(28px,5vw,64px) clamp(22px,5vw,64px) 24px;display:grid;gap:16px;justify-items:start;border-bottom:1px solid rgba(217,210,206,.1)}
@@ -516,7 +515,7 @@ fieldset.field{border:0;margin:0;padding:0}
 .review-meta{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
 .review-meta a{color:var(--ai-1);font-weight:500}
 .review-sign{font-size:.86rem;color:var(--on-dark-2)}
-.video-slot{display:grid;place-items:center;aspect-ratio:16/9;max-height:360px;width:100%;border-radius:20px;border:1px dashed rgba(217,210,206,.22);background:radial-gradient(60% 60% at 50% 50%,rgba(12,69,76,.5),transparent 70%)}
+.video-slot{display:grid;place-items:center;aspect-ratio:16/9;max-height:360px;width:100%;border-radius:20px;border:1px dashed rgba(217,210,206,.22);background:radial-gradient(60% 60% at 50% 50%,rgba(12,69,76,0.500) 0%,rgba(12,69,76,0.476) 9.1%,rgba(12,69,76,0.409) 18.2%,rgba(12,69,76,0.316) 27.3%,rgba(12,69,76,0.218) 36.4%,rgba(12,69,76,0.133) 45.5%,rgba(12,69,76,0.070) 54.6%,rgba(12,69,76,0.030) 63.7%,rgba(12,69,76,0.010) 72.8%,rgba(12,69,76,0.002) 81.9%,rgba(12,69,76,0.000) 91%)}
 .video-slot p{color:var(--on-dark-2);font-size:.92rem;text-align:center;padding:0 20px;max-width:28em}
 .story-foot{padding:28px clamp(22px,5vw,64px) 40px}
 @media (max-width:960px){
@@ -581,7 +580,7 @@ fieldset.field{border:0;margin:0;padding:0}
 .pub-other{display:grid;gap:6px;padding-top:18px}
 .pub-other p{font-size:.92rem;color:var(--on-dark)}
 .pub-visual{position:relative;aspect-ratio:1;width:100%;max-width:200px;border-radius:24px;overflow:hidden;
-  background:radial-gradient(70% 70% at 30% 30%,rgba(69,30,25,.55),transparent 70%),radial-gradient(70% 70% at 75% 70%,rgba(12,69,76,.95),transparent 70%),#0B1214;box-shadow:inset 0 0 0 1px rgba(217,210,206,.1)}
+  background:radial-gradient(70% 70% at 30% 30%,rgba(69,30,25,0.550) 0%,rgba(69,30,25,0.523) 9.1%,rgba(69,30,25,0.450) 18.2%,rgba(69,30,25,0.348) 27.3%,rgba(69,30,25,0.240) 36.4%,rgba(69,30,25,0.146) 45.5%,rgba(69,30,25,0.077) 54.6%,rgba(69,30,25,0.033) 63.7%,rgba(69,30,25,0.010) 72.8%,rgba(69,30,25,0.002) 81.9%,rgba(69,30,25,0.000) 91%),radial-gradient(70% 70% at 75% 70%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),#0B1214;box-shadow:inset 0 0 0 1px rgba(217,210,206,.1)}
 .pv-circle{position:absolute;top:50%;width:52%;aspect-ratio:1;margin-top:-26%;border-radius:50%;display:grid;align-items:center;
   backdrop-filter:blur(2px);box-shadow:inset 0 0 0 1px rgba(234,247,244,.3),inset -10px -14px 26px rgba(3,34,42,.45),inset 8px 10px 22px rgba(234,247,244,.12)}
 .pv-circle b{position:relative;z-index:2;font:600 .58rem/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--on-dark)}
@@ -610,7 +609,7 @@ fieldset.field{border:0;margin:0;padding:0}
 /* ---------- разработка: «цифровая среда» ---------- */
 .digital{position:relative;overflow:hidden;isolation:isolate;margin-top:clamp(56px,7vw,96px);border-radius:32px;padding:clamp(28px,4.5vw,56px);color:var(--on-dark);
   display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,4vw,64px);align-items:center;
-  background:radial-gradient(60% 80% at 100% 0%,rgba(12,69,76,.95),transparent 70%),radial-gradient(50% 70% at 0% 100%,rgba(69,30,25,.75),transparent 70%),var(--graphite);
+  background:radial-gradient(60% 80% at 100% 0%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),radial-gradient(50% 70% at 0% 100%,rgba(69,30,25,0.750) 0%,rgba(69,30,25,0.713) 9.1%,rgba(69,30,25,0.613) 18.2%,rgba(69,30,25,0.474) 27.3%,rgba(69,30,25,0.327) 36.4%,rgba(69,30,25,0.199) 45.5%,rgba(69,30,25,0.104) 54.6%,rgba(69,30,25,0.045) 63.7%,rgba(69,30,25,0.014) 72.8%,rgba(69,30,25,0.002) 81.9%,rgba(69,30,25,0.000) 91%),var(--graphite);
   box-shadow:0 50px 100px -60px rgba(7,59,70,.6)}
 .digital::after{content:"";position:absolute;width:340px;height:340px;right:-90px;bottom:-140px;border-radius:50%;z-index:-1;
   background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.45) 0 4%,rgba(255,255,255,.08) 14%,transparent 28%),radial-gradient(circle,rgba(41,180,174,.12),rgba(8,126,131,.3) 70%,rgba(160,227,216,.4));
@@ -651,7 +650,7 @@ fieldset.field{border:0;margin:0;padding:0}
 .author-links a.primary{background:rgba(95,223,222,.12);box-shadow:inset 0 0 0 1px rgba(95,223,222,.4)}
 .author-links svg{width:16px;height:16px}
 .channels{display:grid;gap:12px}
-.club.tg{background:radial-gradient(70% 90% at 100% 0%,rgba(41,180,174,.35),transparent 70%),radial-gradient(60% 80% at 0% 100%,rgba(12,69,76,.9),transparent 70%),#0E1416}
+.club.tg{background:radial-gradient(70% 90% at 100% 0%,rgba(41,180,174,0.350) 0%,rgba(41,180,174,0.333) 9.1%,rgba(41,180,174,0.286) 18.2%,rgba(41,180,174,0.221) 27.3%,rgba(41,180,174,0.153) 36.4%,rgba(41,180,174,0.093) 45.5%,rgba(41,180,174,0.049) 54.6%,rgba(41,180,174,0.021) 63.7%,rgba(41,180,174,0.007) 72.8%,rgba(41,180,174,0.001) 81.9%,rgba(41,180,174,0.000) 91%),radial-gradient(60% 80% at 0% 100%,rgba(12,69,76,0.900) 0%,rgba(12,69,76,0.856) 9.1%,rgba(12,69,76,0.736) 18.2%,rgba(12,69,76,0.569) 27.3%,rgba(12,69,76,0.393) 36.4%,rgba(12,69,76,0.239) 45.5%,rgba(12,69,76,0.125) 54.6%,rgba(12,69,76,0.054) 63.7%,rgba(12,69,76,0.017) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),#0E1416}
 .club .btn-sub{justify-self:start;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;font:600 .88rem/1 var(--f-body);color:#04181B;background:linear-gradient(135deg,#B8F4F0,var(--ai-1) 45%,var(--ai-2))}
 .club .btn-sub svg{width:16px;height:16px}
 .club.small{padding:18px 20px}
@@ -665,7 +664,7 @@ fieldset.field{border:0;margin:0;padding:0}
 .cx-head h3{font-size:clamp(1.7rem,1.2rem + 2vw,2.8rem);letter-spacing:-.035em}
 .cx-head p{color:var(--on-dark-2);font-size:var(--t-lead)}
 .cx-scene{position:relative;height:clamp(440px,52vw,620px);border-radius:32px;overflow:hidden;isolation:isolate;
-  background:radial-gradient(55% 60% at 50% 50%,#0B3A40,transparent 75%),radial-gradient(40% 50% at 0% 100%,rgba(69,30,25,.65),transparent 70%),var(--graphite);
+  background:radial-gradient(55% 60% at 50% 50%,rgba(11,58,64,1.000) 0%,rgba(11,58,64,0.951) 9.8%,rgba(11,58,64,0.817) 19.6%,rgba(11,58,64,0.632) 29.4%,rgba(11,58,64,0.437) 39.2%,rgba(11,58,64,0.266) 49.0%,rgba(11,58,64,0.139) 58.8%,rgba(11,58,64,0.060) 68.6%,rgba(11,58,64,0.019) 78.4%,rgba(11,58,64,0.003) 88.2%,rgba(11,58,64,0.000) 98%),radial-gradient(40% 50% at 0% 100%,rgba(69,30,25,0.650) 0%,rgba(69,30,25,0.618) 9.1%,rgba(69,30,25,0.531) 18.2%,rgba(69,30,25,0.411) 27.3%,rgba(69,30,25,0.284) 36.4%,rgba(69,30,25,0.173) 45.5%,rgba(69,30,25,0.090) 54.6%,rgba(69,30,25,0.039) 63.7%,rgba(69,30,25,0.012) 72.8%,rgba(69,30,25,0.002) 81.9%,rgba(69,30,25,0.000) 91%),var(--graphite);
   box-shadow:inset 0 0 0 1px rgba(160,227,216,.1),0 60px 120px -60px rgba(0,0,0,.7)}
 .cx-scene canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s var(--ease);touch-action:pan-y}
 .chaos.gl-ready .cx-scene canvas{opacity:1}
@@ -735,7 +734,7 @@ fieldset.field{border:0;margin:0;padding:0}
 /* финальный акцент: текст проявляется по фразам, за ним мягко разгорается свет */
 .relief{position:relative;isolation:isolate}
 .relief::before{content:"";position:absolute;z-index:-1;left:-6%;right:-6%;top:-70%;bottom:-70%;pointer-events:none;
-  background:radial-gradient(40% 60% at 22% 50%,rgba(41,180,174,.16),transparent 70%),radial-gradient(30% 50% at 80% 50%,rgba(225,164,146,.18),transparent 70%)}
+  background:radial-gradient(40% 60% at 22% 50%,rgba(41,180,174,0.160) 0%,rgba(41,180,174,0.152) 9.1%,rgba(41,180,174,0.131) 18.2%,rgba(41,180,174,0.101) 27.3%,rgba(41,180,174,0.070) 36.4%,rgba(41,180,174,0.043) 45.5%,rgba(41,180,174,0.022) 54.6%,rgba(41,180,174,0.010) 63.7%,rgba(41,180,174,0.003) 72.8%,rgba(41,180,174,0.001) 81.9%,rgba(41,180,174,0.000) 91%),radial-gradient(30% 50% at 80% 50%,rgba(225,164,146,0.180) 0%,rgba(225,164,146,0.171) 9.1%,rgba(225,164,146,0.147) 18.2%,rgba(225,164,146,0.114) 27.3%,rgba(225,164,146,0.079) 36.4%,rgba(225,164,146,0.048) 45.5%,rgba(225,164,146,0.025) 54.6%,rgba(225,164,146,0.011) 63.7%,rgba(225,164,146,0.003) 72.8%,rgba(225,164,146,0.001) 81.9%,rgba(225,164,146,0.000) 91%)}
 .recognize.seq-ready .relief::before{opacity:0;transform:scale(.92);transition:opacity 1.4s var(--ease) .2s,transform 1.6s var(--ease) .2s}
 .recognize.seq-ready .relief.sq-in::before{opacity:1;transform:none}
 .recognize.seq-ready .sq-t{opacity:0;transition:opacity .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,130ms))}
@@ -804,7 +803,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 
 /* ---------- Форматы работы и стоимость ---------- */
 .pricing{position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(180deg,var(--paper),#EEF5F3 60%,var(--mist));border-top:1px solid var(--line)}
-.pricing::before{content:"";position:absolute;z-index:-1;width:760px;height:760px;left:-300px;top:-220px;border-radius:50%;background:radial-gradient(circle,rgba(160,227,216,.5),transparent 62%);pointer-events:none}
+.pricing::before{content:"";position:absolute;z-index:-1;width:760px;height:760px;left:-300px;top:-220px;border-radius:50%;background:radial-gradient(circle,rgba(160,227,216,0.500) 0%,rgba(160,227,216,0.476) 8.1%,rgba(160,227,216,0.409) 16.2%,rgba(160,227,216,0.316) 24.3%,rgba(160,227,216,0.218) 32.4%,rgba(160,227,216,0.133) 40.5%,rgba(160,227,216,0.070) 48.6%,rgba(160,227,216,0.030) 56.7%,rgba(160,227,216,0.010) 64.8%,rgba(160,227,216,0.002) 72.9%,rgba(160,227,216,0.000) 81%);pointer-events:none}
 .pricing-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-areas:"aside list" "foot foot";gap:clamp(36px,5vw,80px) clamp(32px,6vw,96px);align-items:start}
 .pricing-aside{grid-area:aside;position:sticky;top:110px;display:grid;gap:28px}
 .pricing .section-head .eyebrow{color:var(--jade)}
@@ -878,7 +877,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 #directions .section-head{transform:translate3d(0,calc((var(--p,.5) - .3) * -40px),0)}
 /* «От хаоса к решению»: при приближении сцены пространство вокруг погружается во тьму */
 .cx-scene{box-shadow:inset 0 0 0 1px rgba(160,227,216,.1),0 60px 120px -60px rgba(0,0,0,.7),0 0 0 100vmax rgba(2,8,10,calc(var(--imm,0) * .5));transition:box-shadow .2s linear}
-.philosophy .light-leak{opacity:calc(1 - var(--imm,0) * .8)}
+.philosophy .studio{opacity:calc(1 - var(--imm,0) * .6)}
 .cx-controls,.cx-desc,.cx-final{position:relative}
 /* стоимость и прочие декоративные слои: лёгкий параллакс */
 .pricing::before{transform:translate3d(0,calc((var(--p,.5) - .5) * -140px),0)}
@@ -932,7 +931,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .footer a{color:var(--on-dark);text-decoration-color:rgba(217,210,206,.3);text-underline-offset:3px}
 .footer a:hover{color:var(--ai-1)}
 .club{position:relative;overflow:hidden;isolation:isolate;border-radius:22px;padding:24px;display:grid;gap:12px;color:var(--on-dark);text-decoration:none;
-  background:radial-gradient(70% 90% at 0% 100%,rgba(69,30,25,.9),transparent 70%),radial-gradient(70% 90% at 100% 0%,rgba(12,69,76,.95),transparent 70%),#0E1416;box-shadow:inset 0 0 0 1px rgba(217,210,206,.12);transition:box-shadow .3s, transform .3s var(--ease)}
+  background:radial-gradient(70% 90% at 0% 100%,rgba(69,30,25,0.900) 0%,rgba(69,30,25,0.856) 9.1%,rgba(69,30,25,0.736) 18.2%,rgba(69,30,25,0.569) 27.3%,rgba(69,30,25,0.393) 36.4%,rgba(69,30,25,0.239) 45.5%,rgba(69,30,25,0.125) 54.6%,rgba(69,30,25,0.054) 63.7%,rgba(69,30,25,0.017) 72.8%,rgba(69,30,25,0.003) 81.9%,rgba(69,30,25,0.000) 91%),radial-gradient(70% 90% at 100% 0%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),#0E1416;box-shadow:inset 0 0 0 1px rgba(217,210,206,.12);transition:box-shadow .3s, transform .3s var(--ease)}
 .footer a.club{color:var(--on-dark);text-decoration:none}
 .club:hover{box-shadow:inset 0 0 0 1px rgba(95,223,222,.5);transform:translateY(-2px)}
 .club .eyebrow{color:var(--coral);font-size:.68rem}
@@ -945,7 +944,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .modal.is-open{display:grid}
 .modal{position:fixed;inset:0;z-index:80;display:none;place-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(5,9,10,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:fadeIn .5s var(--ease) both}
 .modal-card{position:relative;width:min(560px,100%);max-height:100%;overflow:auto;border-radius:28px;padding:clamp(28px,5vw,48px);color:var(--on-dark);
-  background:radial-gradient(80% 60% at 100% 0%,rgba(12,69,76,.95),transparent 70%),radial-gradient(60% 50% at 0% 100%,rgba(41,180,174,.16),transparent 70%),#0C1315;box-shadow:inset 0 0 0 1px rgba(160,227,216,.16),0 60px 120px -40px rgba(0,0,0,.8);animation:rise .8s var(--ease) both}
+  background:radial-gradient(80% 60% at 100% 0%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),radial-gradient(60% 50% at 0% 100%,rgba(41,180,174,0.160) 0%,rgba(41,180,174,0.152) 9.1%,rgba(41,180,174,0.131) 18.2%,rgba(41,180,174,0.101) 27.3%,rgba(41,180,174,0.070) 36.4%,rgba(41,180,174,0.043) 45.5%,rgba(41,180,174,0.022) 54.6%,rgba(41,180,174,0.010) 63.7%,rgba(41,180,174,0.003) 72.8%,rgba(41,180,174,0.001) 81.9%,rgba(41,180,174,0.000) 91%),#0C1315;box-shadow:inset 0 0 0 1px rgba(160,227,216,.16),0 60px 120px -40px rgba(0,0,0,.8);animation:rise .8s var(--ease) both}
 .modal-close{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;cursor:pointer;color:var(--on-dark);background:rgba(217,210,206,.07);font-size:1.4rem;line-height:1}
 .modal-close:hover{background:rgba(217,210,206,.14)}
 .ok-mark{width:56px;height:56px;margin-bottom:26px}
@@ -1000,9 +999,9 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .intro.is-gone{display:none}
 /* медленный свет */
 .intro-light{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;will-change:transform;transition:opacity 1.2s var(--ease)}
-.intro-light.l1{width:60vmax;height:60vmax;left:-14vmax;top:-18vmax;background:radial-gradient(circle,rgba(15,92,99,.9),transparent 65%);animation:drift1 14s ease-in-out infinite alternate}
-.intro-light.l2{width:52vmax;height:52vmax;right:-16vmax;bottom:-20vmax;background:radial-gradient(circle,rgba(8,126,131,.7),transparent 65%);animation:drift2 17s ease-in-out infinite alternate}
-.intro-light.l3{width:30vmax;height:30vmax;left:50%;top:50%;margin:-15vmax 0 0 -15vmax;background:radial-gradient(circle,rgba(41,180,174,.35),transparent 65%);animation:drift3 11s ease-in-out infinite alternate}
+.intro-light.l1{width:60vmax;height:60vmax;left:-14vmax;top:-18vmax;background:radial-gradient(circle,rgba(15,92,99,0.900) 0%,rgba(15,92,99,0.856) 8.4%,rgba(15,92,99,0.736) 16.8%,rgba(15,92,99,0.569) 25.2%,rgba(15,92,99,0.393) 33.6%,rgba(15,92,99,0.239) 42.0%,rgba(15,92,99,0.125) 50.4%,rgba(15,92,99,0.054) 58.8%,rgba(15,92,99,0.017) 67.2%,rgba(15,92,99,0.003) 75.6%,rgba(15,92,99,0.000) 84%);animation:drift1 14s ease-in-out infinite alternate}
+.intro-light.l2{width:52vmax;height:52vmax;right:-16vmax;bottom:-20vmax;background:radial-gradient(circle,rgba(8,126,131,0.700) 0%,rgba(8,126,131,0.666) 8.4%,rgba(8,126,131,0.572) 16.8%,rgba(8,126,131,0.443) 25.2%,rgba(8,126,131,0.306) 33.6%,rgba(8,126,131,0.186) 42.0%,rgba(8,126,131,0.097) 50.4%,rgba(8,126,131,0.042) 58.8%,rgba(8,126,131,0.013) 67.2%,rgba(8,126,131,0.002) 75.6%,rgba(8,126,131,0.000) 84%);animation:drift2 17s ease-in-out infinite alternate}
+.intro-light.l3{width:30vmax;height:30vmax;left:50%;top:50%;margin:-15vmax 0 0 -15vmax;background:radial-gradient(circle,rgba(41,180,174,0.350) 0%,rgba(41,180,174,0.333) 8.4%,rgba(41,180,174,0.286) 16.8%,rgba(41,180,174,0.221) 25.2%,rgba(41,180,174,0.153) 33.6%,rgba(41,180,174,0.093) 42.0%,rgba(41,180,174,0.049) 50.4%,rgba(41,180,174,0.021) 58.8%,rgba(41,180,174,0.007) 67.2%,rgba(41,180,174,0.001) 75.6%,rgba(41,180,174,0.000) 84%);animation:drift3 11s ease-in-out infinite alternate}
 @keyframes drift1{to{transform:translate3d(9vmax,6vmax,0)}}
 @keyframes drift2{to{transform:translate3d(-8vmax,-7vmax,0)}}
 @keyframes drift3{to{transform:translate3d(3vmax,-2vmax,0) scale(1.08)}}
@@ -1010,7 +1009,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .intro.is-leaving .intro-veil{transition-duration:1.6s}
 /* едва заметная стеклянная форма и отражение */
 .intro-ring{position:absolute;left:50%;top:50%;width:min(78vmin,640px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
-  background:radial-gradient(circle at 32% 26%,rgba(234,247,244,.07),transparent 40%),radial-gradient(circle,transparent 58%,rgba(160,227,216,.05) 70%,transparent 72%);
+  background:radial-gradient(circle at 32% 26%,rgba(234,247,244,0.070) 0%,rgba(234,247,244,0.067) 5.2%,rgba(234,247,244,0.057) 10.4%,rgba(234,247,244,0.044) 15.6%,rgba(234,247,244,0.031) 20.8%,rgba(234,247,244,0.019) 26.0%,rgba(234,247,244,0.010) 31.2%,rgba(234,247,244,0.004) 36.4%,rgba(234,247,244,0.001) 41.6%,rgba(234,247,244,0.000) 46.8%,rgba(234,247,244,0.000) 52%),radial-gradient(circle,transparent 58%,rgba(160,227,216,.05) 70%,transparent 72%);
   box-shadow:inset 0 0 0 1px rgba(160,227,216,.08),inset 0 0 80px rgba(160,227,216,.04);animation:ringBreath 9s ease-in-out infinite alternate}
 @keyframes ringBreath{to{transform:translate(-50%,-50%) scale(1.04)}}
 .intro-sheen{position:absolute;inset:-20%;background:linear-gradient(115deg,transparent 42%,rgba(234,247,244,.045) 50%,transparent 58%);animation:sheen 9s ease-in-out infinite;pointer-events:none}
@@ -1117,6 +1116,54 @@ strong.hl{font-weight:500}
   .intro{transition:opacity .8s linear, visibility 0s linear .8s!important;animation:introFailsafe .01s linear 10s forwards!important}
   .ok-mark path{stroke-dashoffset:0}
 }
+
+/* ================= Студийный свет: единая система фонового освещения =================
+   Слой 1 — глубокая база (фон секции); слой 2 — большой бирюзовый софтбокс за кадром (.k);
+   слой 3 — сдержанный коралловый контровой (.r); слой 4 — атмосферное заполнение (.f);
+   слой 5 — почти невидимый синий шум (::after), который разбивает 8-битные ступени градиента.
+   Спад света — гауссов с нулевой производной на краю, поэтому у пятен нет кромки и «кругов». */
+:root{--dither:url(assets/dither.png)}
+.studio{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict}
+.studio i{position:absolute;display:block;will-change:transform;animation:13s ease-in-out infinite alternate both paused}
+.studio.run i{animation-play-state:running}
+.studio::after{content:"";position:absolute;inset:0;background:var(--dither) 0 0/64px 64px}
+@media (min-resolution:2dppx){.studio::after{background-size:32px 32px}}
+@media (min-resolution:3dppx){.studio::after{background-size:21.33px 21.33px}}
+.studio .k{background:radial-gradient(closest-side at 50% 50%,rgba(18,104,110,0.9500) 0%,rgba(18,104,110,0.9212) 8.0%,rgba(18,104,110,0.8395) 16.0%,rgba(18,104,110,0.7178) 24.0%,rgba(18,104,110,0.5740) 32.0%,rgba(18,104,110,0.4270) 40.0%,rgba(18,104,110,0.2933) 48.0%,rgba(18,104,110,0.1837) 56.0%,rgba(18,104,110,0.1027) 64.0%,rgba(18,104,110,0.0495) 72.0%,rgba(18,104,110,0.0190) 80.0%,rgba(18,104,110,0.0048) 88.0%,rgba(18,104,110,0.0000) 100%);animation-name:lkA;animation-duration:73s}
+.studio .r{background:radial-gradient(closest-side at 50% 50%,rgba(118,52,40,0.8500) 0%,rgba(118,52,40,0.8242) 8.0%,rgba(118,52,40,0.7512) 16.0%,rgba(118,52,40,0.6422) 24.0%,rgba(118,52,40,0.5135) 32.0%,rgba(118,52,40,0.3821) 40.0%,rgba(118,52,40,0.2624) 48.0%,rgba(118,52,40,0.1644) 56.0%,rgba(118,52,40,0.0919) 64.0%,rgba(118,52,40,0.0443) 72.0%,rgba(118,52,40,0.0170) 80.0%,rgba(118,52,40,0.0043) 88.0%,rgba(118,52,40,0.0000) 100%);animation-name:lkB;animation-duration:97s}
+.studio .f{background:radial-gradient(closest-side at 50% 50%,rgba(44,62,60,0.5000) 0%,rgba(44,62,60,0.4849) 8.0%,rgba(44,62,60,0.4419) 16.0%,rgba(44,62,60,0.3778) 24.0%,rgba(44,62,60,0.3021) 32.0%,rgba(44,62,60,0.2248) 40.0%,rgba(44,62,60,0.1544) 48.0%,rgba(44,62,60,0.0967) 56.0%,rgba(44,62,60,0.0541) 64.0%,rgba(44,62,60,0.0260) 72.0%,rgba(44,62,60,0.0100) 80.0%,rgba(44,62,60,0.0025) 88.0%,rgba(44,62,60,0.0000) 100%);animation-name:lkC;animation-duration:131s}
+/* траектории не кратны друг другу: сумма движений не повторяется заметно */
+@keyframes lkA{0%{transform:translate3d(0,0,0) scale(1)}30%{transform:translate3d(-3.5%,2.5%,0) scale(1.05)}65%{transform:translate3d(1.5%,5%,0) scale(.97)}100%{transform:translate3d(-2%,-1.5%,0) scale(1.07)}}
+@keyframes lkB{0%{transform:translate3d(0,0,0) scale(1);opacity:.92}40%{transform:translate3d(4%,-3%,0) scale(1.06);opacity:1}75%{transform:translate3d(1%,3.5%,0) scale(.96);opacity:.86}100%{transform:translate3d(3%,1%,0) scale(1.03);opacity:.95}}
+@keyframes lkC{0%{transform:translate3d(0,0,0);opacity:.8}50%{transform:translate3d(-4%,3%,0);opacity:1}100%{transform:translate3d(3%,-2%,0);opacity:.85}}
+/* настроение секций */
+.philosophy .studio .r{width:120vmax;height:100vmax;left:-70vmax;top:-20vmax}
+.philosophy .studio .k{width:120vmax;height:105vmax;right:-66vmax;top:2vmax}
+.philosophy .studio .f{width:90vmax;height:70vmax;left:calc(50% - 45vmax);top:-4vmax}
+.method .studio .k{width:120vmax;height:95vmax;left:-58vmax;top:-46vmax}
+.method .studio .r{width:95vmax;height:80vmax;right:-58vmax;bottom:-46vmax;opacity:.7}
+.method .studio .f{width:100vmax;height:70vmax;left:calc(50% - 50vmax);top:10%}
+.founder .studio .r{width:105vmax;height:95vmax;left:-62vmax;top:0}
+.founder .studio .k{width:110vmax;height:90vmax;left:calc(60% - 55vmax);top:-48vmax}
+.founder .studio .f{width:90vmax;height:70vmax;right:-30vmax;bottom:-20vmax}
+.final .studio .k{width:115vmax;height:95vmax;right:-62vmax;top:-40vmax}
+.final .studio .r{width:105vmax;height:90vmax;left:-62vmax;bottom:-46vmax}
+.final .studio .f{width:95vmax;height:75vmax;left:calc(50% - 47vmax);top:20%}
+/* на телефоне источники ближе к краю кадра и мягче, чтобы не читались как пятна */
+@media (max-width:860px){
+  .philosophy .studio .r{width:150vw;height:110vh;left:-92vw;top:-6vh}
+  .philosophy .studio .k{width:160vw;height:120vh;right:-96vw;top:24vh}
+  .philosophy .studio .f{width:150vw;height:80vh;left:-25vw;top:0}
+  .method .studio .k,.final .studio .k{width:170vw;height:110vh;top:-55vh}
+  .founder .studio .r,.final .studio .r{width:150vw;height:100vh;left:-105vw}
+}
+@media (prefers-reduced-motion:reduce){.studio i{animation:none}}
+/* глубокая база: тёмная сине-зелёная среда с переходом к графиту и шумом против полос */
+.philosophy,.method,.founder,.final{background:var(--dither) 0 0/64px 64px,linear-gradient(178deg,#0B1214 0%,#0A0E0F 55%,#0B1113 100%)}
+@media (min-resolution:2dppx){.philosophy,.method,.founder,.final{background-size:32px 32px,auto}}
+.method{background:var(--dither) 0 0/64px 64px,linear-gradient(180deg,#0B1F23 0%,#0A1416 40%,#0A0E0F 85%)}
+.intro::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:var(--dither) 0 0/64px 64px}
+@media (min-resolution:2dppx){.intro::after{background-size:32px 32px}}
 </style>
 
 </head>
@@ -1301,7 +1348,7 @@ strong.hl{font-weight:500}
 
   <!-- 3. ФИЛОСОФИЯ -->
   <section class="dark section philosophy" data-scroll id="approach" aria-labelledby="approach-title">
-    <div class="light-leak" aria-hidden="true"></div>
+    <div class="studio" aria-hidden="true"><i class="f"></i><i class="r"></i><i class="k"></i></div>
     <div class="wrap">
       <div class="manifest sq-block" data-sq="section">
         <p class="eyebrow sq" style="--i:0">Наш принцип</p>
@@ -1512,6 +1559,7 @@ strong.hl{font-weight:500}
 
   <!-- 5. МЕТОД -->
   <section class="dark section method guided" style="--sq-step:150ms" id="method" aria-labelledby="method-title">
+    <div class="studio" aria-hidden="true"><i class="f"></i><i class="r"></i><i class="k"></i></div>
     <div class="wrap">
       <div class="section-head sq-block" data-sq="section">
         <p class="eyebrow sq" style="--i:0">Как мы работаем</p>
@@ -1691,6 +1739,7 @@ strong.hl{font-weight:500}
 
   <!-- 7. ОСНОВАТЕЛЬ -->
   <section class="dark section founder guided" style="--sq-step:160ms" id="founder" aria-labelledby="founder-title">
+    <div class="studio" aria-hidden="true"><i class="f"></i><i class="r"></i><i class="k"></i></div>
     <div class="wrap founder-grid">
       <figure class="founder-photo sq-block" data-sq="section">
         <img class="sq" style="--i:0" src="assets/founder-1200.webp" width="1200" height="1800" alt="Алексей Коцуба, основатель студии AI OASIS" loading="lazy" decoding="async">
@@ -1762,6 +1811,7 @@ strong.hl{font-weight:500}
 
   <!-- 10. ФИНАЛ + ФОРМА -->
   <section class="dark section final guided" data-scroll style="--sq-step:150ms" id="contact" aria-labelledby="contact-title">
+    <div class="studio" aria-hidden="true"><i class="f"></i><i class="r"></i><i class="k"></i></div>
     <canvas class="silk" id="final-silk" aria-hidden="true"></canvas>
     <div class="wrap final-grid">
       <div class="sq-block" data-sq="section">
@@ -2200,6 +2250,14 @@ strong.hl{font-weight:500}
     addEventListener('scroll',req,{passive:true}); addEventListener('resize',req); addEventListener('orientationchange',req); req();
   })();
 
+  /* студийный свет: источники медленно движутся только пока секция на экране */
+  (function(){
+    var st=[].slice.call(document.querySelectorAll('.studio')); if(!st.length || reduce) return;
+    if(!('IntersectionObserver' in window)){ st.forEach(function(x){ x.classList.add('run'); }); return; }
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ e.target.classList.toggle('run',e.isIntersecting); }); },{rootMargin:'10% 0px'});
+    st.forEach(function(x){ io.observe(x); });
+  })();
+
   /* направления: отклик на касание на телефоне (на компьютере — наведение) */
   (function(){
     var dirs=[].slice.call(document.querySelectorAll('#directions .dir'));
@@ -2303,6 +2361,8 @@ if(renderer){
   const BG=`
     uniform float uTime; uniform float uAspect; uniform vec2 uFocus; uniform vec4 uRib;
     float gSoft=1.;
+    /* градиентный шум с чередованием (почти синий): ±1,5 единицы яркости против полос в тёмных переходах */
+    vec3 ign(vec2 p){ float n=fract(52.9829189*fract(dot(p,vec2(.06711056,.00583715)))); return vec3((n-.5)*3./255.); }
     const vec3 GR=vec3(.039,.055,.059), EM=vec3(.271,.118,.098), TG=vec3(.047,.271,.298),
                CO=vec3(.882,.643,.573), SI=vec3(.85,.82,.81), TW=vec3(.482,.749,.753), AI=vec3(.133,.718,.733);
     /* шёлковая лента: пучок тонких волн, как на логотипе и обложке */
@@ -2328,7 +2388,7 @@ if(renderer){
       float t=uTime; vec2 a=uAspect<1.? vec2(1.,1./uAspect) : vec2(uAspect,1.);
       vec3 col=GR;
       vec2 d1=(uv-vec2(.0,.5))*a; col=mix(col,EM,.9*exp(-2.6*dot(d1,d1)));
-      vec2 fo=uFocus+vec2(.03*sin(t*.11),.02*cos(t*.13));
+      vec2 fo=uFocus+vec2(.03*sin(t*.11)+.014*sin(t*.047+1.3),.02*cos(t*.13)+.011*sin(t*.061+.4)); /* медленный дрейф софтбокса, без заметного повтора */
       vec2 d2=(uv-fo)*a; col=mix(col,TG,.95*exp(-2.2*dot(d2,d2)));
       vec2 d3=(uv-fo-vec2(.05,.08))*a; col+=AI*.10*exp(-9.*dot(d3,d3));
       col+=silk(uv,t);
@@ -2340,7 +2400,7 @@ if(renderer){
   // полноэкранный фон
   const bgMat=new THREE.ShaderMaterial({uniforms:U,depthTest:false,depthWrite:false,
     vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}`,
-    fragmentShader:BG+`varying vec2 vUv;void main(){gl_FragColor=vec4(bg(vUv),1.);}`});
+    fragmentShader:BG+`varying vec2 vUv;void main(){gl_FragColor=vec4(bg(vUv)+ign(gl_FragCoord.xy),1.);}`});
   const bgMesh=new THREE.Mesh(new THREE.PlaneGeometry(2,2),bgMat); bgMesh.frustumCulled=false; bgMesh.renderOrder=-1;
 
   // стекло: преломление фона + дисперсия + френель + мягкие «студийные» блики
@@ -2373,7 +2433,7 @@ if(renderer){
         col+=vec3(.92,1.,.98)*(box*.38+side*.55)*(.35+fres)+vec3(1.)*spec*1.4;
         col+=mix(aqua,mint,.5)*fres*.55;
         col+=mint*pow(1.-ndv,7.)*.5;                                                          // светящийся контур
-        gl_FragColor=vec4(col,1.);
+        gl_FragColor=vec4(col+ign(gl_FragCoord.xy),1.);
       }`});
 
   const scene=new THREE.Scene();
