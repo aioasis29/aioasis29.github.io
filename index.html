@@ -1344,7 +1344,7 @@ strong.hl{font-weight:500}
 /* стыки тёмных секций: свет не обрезается краем, а мягко гаснет к границе и передаёт сцену следующей секции */
 .method .studio,.founder .studio,.final .studio{-webkit-mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.1) 6vh,rgba(0,0,0,.36) 16vh,rgba(0,0,0,.72) 30vh,#000 46vh,#000 calc(100% - 46vh),rgba(0,0,0,.72) calc(100% - 30vh),rgba(0,0,0,.36) calc(100% - 16vh),rgba(0,0,0,.1) calc(100% - 6vh),transparent 100%);mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.1) 6vh,rgba(0,0,0,.36) 16vh,rgba(0,0,0,.72) 30vh,#000 46vh,#000 calc(100% - 46vh),rgba(0,0,0,.72) calc(100% - 30vh),rgba(0,0,0,.36) calc(100% - 16vh),rgba(0,0,0,.1) calc(100% - 6vh),transparent 100%)}
 /* ---------- «Шесть шагов»: восходящая спираль развития ---------- */
-.sp{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);grid-template-areas:"list vis" "note note" "cost cost";gap:0 clamp(24px,4vw,56px);align-items:center}
+.sp{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:minmax(300px,3.4fr) minmax(0,8.6fr);grid-template-areas:"list vis" "note note" "cost cost";gap:0 clamp(24px,4vw,56px);align-items:center}
 .sp-list{grid-area:list}
 .sp-steps{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 .sp-phase{font:600 .66rem/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:rgba(160,227,216,.55);margin:16px 0 6px 10px}
@@ -1357,7 +1357,7 @@ strong.hl{font-weight:500}
 .sp-step.act{background:rgba(234,247,244,.05);box-shadow:inset 0 0 0 1px rgba(160,227,216,.18)}
 .sp-step.act .n{color:var(--coral)}
 .sp-step:focus-visible{box-shadow:inset 0 0 0 2px var(--ai-1)}
-.sp-vis{grid-area:vis;position:relative;aspect-ratio:1.2;min-height:440px}
+.sp-vis{grid-area:vis;position:relative;aspect-ratio:1.08;min-height:520px;margin-right:calc(-1 * clamp(0px,3vw,48px))}
 .sp-vis canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .sp-note{grid-area:note;margin:clamp(24px,3vw,40px) 0 0;display:flex;gap:16px;align-items:flex-start;max-width:52em;color:var(--on-dark-2)}
 .sp-note b{color:var(--on-dark);font-weight:500}
@@ -2274,11 +2274,11 @@ strong.hl{font-weight:500}
     var W=1,H=1,DPR=1, phi=0, phiT=0, camY=0, head=tLead, active=-1, shown=0, done=false, running=false, visible=false, last=0, idle=0;
     function size(){ var r=cv.getBoundingClientRect(); DPR=Math.min(2,devicePixelRatio||1); W=Math.max(1,r.width); H=Math.max(1,r.height); cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); }
     /* проекция: радиус растёт с каждым витком (больше опыта), подъём — вверх; камера смотрит сверху под ~35° */
-    function P(t){ var sc=Math.min(W/700,H/620), r=245*sc*(1+.13*(t-th0)/TURN), a=t+phi, x=r*Math.cos(a), z=r*Math.sin(a), y=-205*sc*(t-th0)/TURN;
+    function P(t){ var sc=Math.min(W/700,H/620), r=250*sc*(1+.12*(t-th0)/TURN), a=t+phi, x=r*Math.cos(a), z=r*Math.sin(a), y=-215*sc*(t-th0)/TURN;
       var tl=-.52, y2=y*Math.cos(tl)-z*Math.sin(tl), z2=y*Math.sin(tl)+z*Math.cos(tl), cam=1500*sc, s=cam/(cam-z2);
       return {x:W/2+x*s, y:H*.6+camY+y2*s, z:z, s:s, r:r}; }
     /* камера мягко следует за линией: активный виток держится в центре кадра */
-    function camTarget(){ var sc=Math.min(W/700,H/620), f=Math.max(th0+TURN*.5,Math.min(head,th0+TURN*1.45)); return 205*sc*.86*((f-th0)/TURN-.5); }
+    function camTarget(){ var sc=Math.min(W/700,H/620), f=Math.max(th0+TURN*.5,Math.min(head,th0+TURN*1.1)); return 215*sc*.86*((f-th0)/TURN-.5); }
     function warmAt(t){ var u=(t-th0)/TURN; return Math.max(0,Math.min(1,(u-.55)/.3))*Math.max(0,1-(u-1)/.28); }
     function draw(){
       ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
@@ -2326,8 +2326,10 @@ strong.hl{font-weight:500}
       /* следующий цикл */
       if(head>th0+TURN*1.35){ var nx=P(th0+TURN*1.55), al=Math.min(1,(head-(th0+TURN*1.35))/1.2);
         ctx.globalAlpha=al*.85; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
-        ctx.fillStyle='#A0E3D8'; ctx.font='600 '+Math.round(11.5*Math.max(.9,sc))+'px Manrope, sans-serif'; ctx.fillText('СЛЕДУЮЩИЙ ЦИКЛ',Math.min(nx.x+14,W-170*Math.max(.9,sc)),nx.y-8);
-        ctx.fillStyle='#A9CBC6'; ctx.font='400 '+Math.round(12.5*Math.max(.9,sc))+'px Manrope, sans-serif'; ctx.fillText('с учётом результатов и опыта',Math.min(nx.x+14,W-170*Math.max(.9,sc)),nx.y+10);
+        var f1='600 '+Math.round(11.5*Math.max(.9,sc))+'px Manrope, sans-serif', f2='400 '+Math.round(12.5*Math.max(.9,sc))+'px Manrope, sans-serif';
+        ctx.font=f2; var lw=Math.max(ctx.measureText('с учётом результатов и опыта').width,ctx.measureText('СЛЕДУЮЩИЙ ЦИКЛ').width+20), lx=Math.max(8,Math.min(nx.x+14,W-lw-12));
+        ctx.fillStyle='#A0E3D8'; ctx.font=f1; ctx.fillText('СЛЕДУЮЩИЙ ЦИКЛ',lx,nx.y-8);
+        ctx.fillStyle='#A9CBC6'; ctx.font=f2; ctx.fillText('с учётом результатов и опыта',lx,nx.y+10);
         ctx.globalAlpha=1; }
     }
     /* сценарий раскрытия */
@@ -2991,10 +2993,10 @@ if(renderer){
 
   /* управление знаком: курсор по горизонтали — поворот, по вертикали — наклон; касание на телефоне — поворот пальцем.
      Пружинная модель даёт естественную инерцию; без взаимодействия знак плавно возвращается в исходное положение. */
-  let tY=0,tP=0,yC=0,yV=0,pC=0,pV=0,lastMove=-1e9;
+  let tY=0,tP=0,yC=0,yV=0,pC=0,pV=0,lastMove=-1e9; const TAU2=Math.PI*2;
   let spin=0, spinV=0, lastSY=scrollY;
   addEventListener('scroll',()=>{ const d=scrollY-lastSY; lastSY=scrollY; if(!reduce) spinV=Math.max(-.045,Math.min(.045,spinV+d*.0003)); },{passive:true});
-  addEventListener('pointermove',e=>{ if(e.pointerType==='touch') return; tY=(e.clientX/innerWidth-.5)*1.1; tP=Math.max(-.22,Math.min(.22,(e.clientY/innerHeight-.5)*.5)); lastMove=performance.now(); },{passive:true}); /* наклон ограничен ±13° */
+  addEventListener('pointermove',e=>{ if(e.pointerType==='touch') return; tY=(e.clientX/innerWidth-.5)*.6; tP=Math.max(-.16,Math.min(.16,(e.clientY/innerHeight-.5)*.36)); lastMove=performance.now(); },{passive:true}); /* наклон ограничен ±13° */
   document.addEventListener('mouseleave',()=>{ tY=0; tP=0; });
   let tx0=0,ty0=0,tyaw0=0;
   hero.addEventListener('touchstart',e=>{ const t0=e.touches[0]; tx0=t0.clientX; ty0=t0.clientY; tyaw0=tY; },{passive:true});
@@ -3002,15 +3004,14 @@ if(renderer){
      после первого взаимодействия больше не показывается */
   const touchUI=matchMedia('(hover: none)').matches;
   const hint=document.createElement('p'); hint.className='emb-hint'; hint.setAttribute('aria-hidden','true');
-  hint.innerHTML='<svg viewBox="0 0 40 14"><path d="M3 5c8 6 26 6 34 0"/><path d="M32 2.5l5 2.5-3.6 4"/></svg><span>'+(touchUI?'Знак живой — проведите пальцем':'Знак живой — попробуйте повернуть')+'</span>';
+  hint.innerHTML='<svg viewBox="0 0 40 14"><path d="M3 5c8 6 26 6 34 0"/><path d="M32 2.5l5 2.5-3.6 4"/></svg><span>'+(touchUI?'Знак живой — проведите по нему пальцем':'Знак живой — потяните, чтобы повернуть')+'</span>';
   hero.appendChild(hint);
   let hintState=0; const _hv=new THREE.Vector3();
   function hintDone(){ if(hintState===2) return; if(hintState===1) hint.classList.remove('on'); hintState=2; }
   function emblemScreen(){ group.updateMatrixWorld(); _hv.set(0,0,0).applyMatrix4(group.matrixWorld).project(camera); const cx=(_hv.x*.5+.5)*w, cy=(-_hv.y*.5+.5)*h;
     _hv.set(1.25,0,0).applyMatrix4(group.matrixWorld).project(camera); return {cx,cy,r:Math.abs((_hv.x*.5+.5)*w-cx)}; }
   hero.addEventListener('pointermove',e=>{ if(hintState===2||e.pointerType==='touch') return; const r=hero.getBoundingClientRect(), m=emblemScreen();
-    if(Math.hypot(e.clientX-r.left-m.cx,e.clientY-r.top-m.cy)<m.r*1.3) hintDone(); },{passive:true});
-  hero.addEventListener('touchstart',hintDone,{passive:true});
+    void r; void m; },{passive:true});
   function showHint(){
     if(hintState!==0||reduce||scrollY>innerHeight*.3) return hintDone();
     const m=emblemScreen(); hint.style.left=m.cx.toFixed(0)+'px'; hint.style.top=Math.min(h-40,m.cy+m.r*1.02).toFixed(0)+'px';
@@ -3018,18 +3019,34 @@ if(renderer){
   }
   function armHint(){ setTimeout(showHint,8000); }
   if(window.__introDone) armHint(); else document.addEventListener('aioasis:intro-done',armHint,{once:true});
-  hero.addEventListener('touchmove',e=>{ const t0=e.touches[0], dx=t0.clientX-tx0, dy=t0.clientY-ty0; if(Math.abs(dx)>Math.abs(dy)*.8){ tY=Math.max(-1.3,Math.min(1.3,tyaw0+dx*.008)); tP=Math.max(-.4,Math.min(.4,dy*.003)); lastMove=performance.now(); } },{passive:true});
+  /* вращение знака: потянуть мышью или пальцем — знак поворачивается вокруг своей оси (полный оборот возможен), после отпускания
+     крутится по инерции и мягко возвращается лицом к зрителю; короткий щелчок по знаку — один плавный оборот */
+  let dRot=0, dVel=0, dragging=false, dragX=0, dragT=0, dragMoved=0;
+  function onEmblem(x,y){ const r=hero.getBoundingClientRect(), m=emblemScreen(); return Math.hypot(x-r.left-m.cx,y-r.top-m.cy)<m.r*1.15; }
+  hero.addEventListener('pointerdown',e=>{ if(reduce||!onEmblem(e.clientX,e.clientY)) return; dragging=true; dragX=e.clientX; dragT=performance.now(); dragMoved=0; dVel=0; hintDone();
+    if(e.pointerType!=='touch'){ e.preventDefault(); hero.style.cursor='grabbing'; } });
+  addEventListener('pointermove',e=>{
+    if(dragging){ const dx=e.clientX-dragX, now=performance.now(); dragX=e.clientX; dragMoved+=Math.abs(dx); const a=dx*.011; dRot+=a; dVel=a/Math.max(1,(now-dragT)/16.7); dragT=now; return; }
+    if(e.pointerType!=='touch') hero.style.cursor=onEmblem(e.clientX,e.clientY)&&!reduce?'grab':''; },{passive:true});
+  addEventListener('pointerup',()=>{ if(!dragging) return; dragging=false; hero.style.cursor='';
+    if(dragMoved<4) dVel=.16;                         /* щелчок: мягкий оборот */
+    dVel=Math.max(-.3,Math.min(.3,dVel)); });
+  addEventListener('pointercancel',()=>{ dragging=false; });
+  hero.addEventListener('touchmove',e=>{ const t0=e.touches[0], dx=t0.clientX-tx0, dy=t0.clientY-ty0; if(!dragging && Math.abs(dx)>Math.abs(dy)*.8){ tP=Math.max(-.4,Math.min(.4,dy*.003)); lastMove=performance.now(); } },{passive:true});
 
   function render(t){
     lastT=t; const s=t*.001; U.uTime.value=s;
     if(performance.now()-lastMove>2600){ tY*=.988; tP*=.988; } /* после паузы — плавное возвращение к собственному движению */
     yV+=(tY-yC)*.022; yV*=.88; yC+=yV;   /* пружина с вязкостью: без рывков и перерегулирования */
     pV+=(tP-pC)*.022; pV*=.88; pC+=pV;
-    window.__embState=[yC,pC];
+    window.__embState=[yC,pC,dRot];
     /* прокрутка: вниз лента поворачивается в одну сторону, вверх — в другую, затем успокаивается */
     spinV*=.95; spin+=spinV; spin*=.994;
     /* плавный поворот влево-вправо (≈ ±45°): при движении играют грани, раскрываются толщина стенок и полость, буква не теряется */
-    const yaw=Math.sin(s*.16)*.62+Math.sin(s*.061+1.1)*.16+spin+yC; /* период ≈ 40 с: архитектура раскрывается спокойно, буква не теряется */
+    if(!dragging){ dRot+=dVel; dVel*=.965;
+      /* когда вращение затухло — мягко довернуть к ближайшему положению «лицом к зрителю» */
+      if(Math.abs(dVel)<.004){ const tgt=Math.round(dRot/TAU2)*TAU2; dRot+=(tgt-dRot)*.025; } }
+    const yaw=Math.sin(s*.16)*.62+Math.sin(s*.061+1.1)*.16+spin+yC+dRot; /* период ≈ 40 с: архитектура раскрывается спокойно, буква не теряется */
     emblem.rotation.set(.06+Math.sin(s*.15)*.07+pC+spinV*1.6,yaw,Math.sin(s*.11+.6)*.035-spinV*1.2-yV*.4);
     if(window.__emblemPose){ const q=window.__emblemPose; emblem.rotation.set(q[1]||0,q[0]||0,0); } /* тестовая установка ракурса */
     emblem.position.y=Math.sin(s*.31)*.06;
