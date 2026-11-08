@@ -2469,7 +2469,7 @@ if(renderer){
       float k=smoothstep(0.,1.,uv.x);
       vec3 c=k<.5? mix(CO,SI,smoothstep(.0,.5,k)) : mix(SI,TW,smoothstep(.5,1.,k));
       float dim=mix(uRib.w,1.,smoothstep(.25,.7,uv.x));
-      return (c*acc*.46+mix(c,AI,.3)*glow*.03)*dim;
+      return (c*acc*.3+mix(c,AI,.3)*glow*.022)*dim; /* линии приглушены, чтобы символ оставался главным */
     }
     vec3 bg(vec2 uv){
       float t=uTime; vec2 a=uAspect<1.? vec2(1.,1./uAspect) : vec2(uAspect,1.);
@@ -2544,16 +2544,16 @@ if(renderer){
      постоянной ширины (без волн), полость внутри каждого потока — своя тонкая стенка. */
   const KB=(()=>{ const K=600,kr=new Float32Array(K),ks=new Float32Array(K); for(let i=0;i<K;i++){ ribCurve.getTangentAt((i/K+.988)%1,_t1); ribCurve.getTangentAt((i/K+.012)%1,_t2); kr[i]=_t1.distanceTo(_t2)/(.024*ribLen); }
     const KW=Math.round(K*.07); for(let i=0;i<K;i++){ let a=0,ws=0; for(let j=-KW;j<=KW;j++){ const wt=Math.exp(-(j*j)/(KW*KW*.5)); a+=kr[(i+j+K)%K]*wt; ws+=wt; } ks[i]=a/ws; } return t=>ks[Math.floor((t%1)*K)%K]; })();
-  function strandGeo(SEG,RAD,ph,inset,FLIP){
+  function strandGeo(SEG,RAD,ph,inset,FLIP,O){ O=O||{r:.15,w:.34,d:.22,tw:1};
     const pos=[],nor=[],uv=[],idx=[], Z=new THREE.Vector3(0,0,1), P=new THREE.Vector3(),T=new THREE.Vector3(),A=new THREE.Vector3(),B=new THREE.Vector3(),a2=new THREE.Vector3(),b2=new THREE.Vector3(),n=new THREE.Vector3(),C=new THREE.Vector3();
     const PW=.62;
     for(let i=0;i<=SEG;i++){
       const t=i/SEG; ribCurve.getPointAt(t%1,P); ribCurve.getTangentAt(t%1,T);
       A.crossVectors(T,Z).normalize(); B.crossVectors(A,T).normalize();
-      const a=ph+t*6.2832*2, rr=.15/(1+.15*KB(t)), cr=Math.cos(a*.5), sr=Math.sin(a*.5);
+      const a=ph+t*6.2832*2, rr=O.r/(1+.15*KB(t)), cr=Math.cos(a*.5*O.tw), sr=Math.sin(a*.5*O.tw);
       a2.copy(A).multiplyScalar(cr).addScaledVector(B,sr); b2.copy(B).multiplyScalar(cr).addScaledVector(A,-sr);
       C.copy(P).addScaledVector(A,Math.cos(a)*rr).addScaledVector(B,Math.sin(a)*rr*1.5);
-      const w=.34-2*inset, d=.22-2*inset;
+      const w=O.w-2*inset, d=O.d-2*inset;
       for(let j=0;j<=RAD;j++){
         const an=j/RAD*6.2832, ca=Math.cos(an), sa=Math.sin(an);
         const x=w*.5*Math.sign(ca)*Math.pow(Math.abs(ca),PW), y=d*.5*Math.sign(sa)*Math.pow(Math.abs(sa),PW);
@@ -2566,6 +2566,10 @@ if(renderer){
     const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3)); g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); g.setIndex(idx); return g;
   }
   const STR=[0,1,2].map(k=>({o:strandGeo(isMob?420:720,isMob?28:44,k*2.0944,0,false),i:strandGeo(isMob?420:720,isMob?28:44,k*2.0944,.028,true)}));
+  /* внутренняя ось: тонкий полый стеклянный стержень по средней линии A, вокруг которого закручены три потока —
+     виден в просветах переплетения и сквозь стекло, задаёт внутренней архитектуре порядок */
+  const SPINE={r:0,w:.16,d:.14,tw:0};
+  STR.push({o:strandGeo(isMob?300:520,isMob?20:32,0,0,false,SPINE),i:strandGeo(isMob?300:520,isMob?20:32,0,.018,true,SPINE)});
   const emVS=`varying vec3 vN;varying vec3 vP;varying vec2 vUv;void main(){vUv=uv;vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}`;
   /* общая часть оптики: окружение для отражений, рассветная палитра, каустики */
   const emCommon=`
@@ -2594,11 +2598,11 @@ if(renderer){
       float ndv=clamp(dot(N,V),0.,1.), fres=.04+.96*pow(1.-ndv,5.);
       float side=sideK(); vec3 tint=tintOf(side);
       vec3 R=reflect(-V,N);
-      vec3 col=studioEnv(R)*fres*.9*mix(vec3(1.),tint,.35);
-      col+=tint*pow(1.-ndv,2.6)*(uInner>.5?.55:.35);                 /* толщина стенки на скосах */
-      col+=vec3(1.,.82,.66)*pow(max(dot(R,uSun),0.),40.)*.6*uSunK;
+      vec3 col=studioEnv(R)*fres*.38*mix(vec3(1.),tint,.5); /* задние стенки отражают слабо — иначе слои складываются в «металл» */
+      col+=tint*pow(1.-ndv,2.6)*(uInner>.5?.72:.35);                 /* толщина стенки на скосах; стенки полостей — заметнее */
+      col+=vec3(1.,.82,.66)*pow(max(dot(R,uSun),0.),90.)*.45*uSunK;
       if(uInner>.5) col+=mix(tint,vec3(1.,.8,.64),side*.6)*pow(1.-ndv,1.6)*(.06+.1*side)*uSunK; /* ровное тёплое свечение внутри, без узора */
-      float a=clamp((uInner>.5?.07:.05)+fres*.35+pow(1.-ndv,2.6)*.16,0.,.6);
+      float a=clamp((uInner>.5?.1:.05)+fres*.38+pow(1.-ndv,2.6)*(uInner>.5?.24:.16),0.,.62);
       gl_FragColor=vec4(col,a);
     }`;
   /* передняя стенка: преломляет то, что за ней (полость, дальние стенки и среду), с дисперсией и поглощением в толще */
@@ -2607,26 +2611,26 @@ if(renderer){
     /* среда за стеклом: на первом экране — его световой фон, в финале — тёмный фон секции */
     vec3 behind(vec2 uv){ uv=clamp(uv,vec2(.001),vec2(.999)); vec4 b=texture2D(uBack,uv); vec3 e=uEnvDark>.5? vec3(.036,.05,.056)+vec3(.05,.2,.21)*.35*exp(-6.*dot(uv-.5,uv-.5)) : bg(uv); return b.rgb+e*(1.-b.a); }
     void main(){
-      gSoft=5.; /* тонкие нити ленты за стеклом видны мягким светом, а не полосами */
+      gSoft=1.25; /* световые линии за символом остаются чёткими и видимо преломляются в толще стекла */
       vec3 N=normalize(vN); vec3 V=normalize(-vP); if(dot(N,V)<0.) N=-N;
       float ndv=clamp(dot(N,V),0.,1.), fres=.04+.96*pow(1.-ndv,5.);
       vec2 suv=gl_FragCoord.xy/uRes;
       float side=sideK(); vec3 tint=tintOf(side);
       /* преломление: смещение растёт к краям, где путь в стекле длиннее; лёгкая хроматическая дисперсия */
       float L=1./max(ndv,.18);
-      vec3 rr=refract(-V,N,1./1.47); float k=.055*(.35+1.3*(1.-ndv));
+      vec3 rr=refract(-V,N,1./1.47); float k=.04*(.15+1.5*pow(1.-ndv,1.6));
       vec3 seen=vec3(behind(suv+rr.xy*k*1.06).r,behind(suv+rr.xy*k).g,behind(suv+rr.xy*k*.94).b);
       /* поглощение в толще: лёгкое, чтобы стекло оставалось прозрачным; тон — от бирюзы к рассветному */
       vec3 absorb=exp(-(vec3(1.)-mix(vec3(1.),tint,.55))*L*.28);
-      vec3 col=seen*absorb*1.08+tint*.035;
+      vec3 col=seen*absorb*1.12+tint*.025;
       vec3 R=reflect(-V,N);
-      col+=studioEnv(R)*fres*1.15;
+      col+=studioEnv(R)*fres*.55; /* отражение по Френелю — умеренное: у стекла основное — проходящий свет */
       /* рассвет: тёплый блик и мягкое свечение, прошедшее сквозь толщу */
       vec3 dawn=vec3(1.,.62,.42), gold=vec3(1.,.84,.62);
-      col+=gold*pow(max(dot(R,uSun),0.),70.)*1.5*uSunK+dawn*pow(max(dot(R,uSun),0.),5.)*.3*uSunK*(.35+.65*side);
+      col+=gold*pow(max(dot(R,uSun),0.),160.)*1.5*uSunK+dawn*pow(max(dot(R,uSun),0.),5.)*.12*uSunK*(.35+.65*side);
       /* рассветный свет, прошедший сквозь толщу: тёплое свечение на гранях, обращённых к солнцу */
       col+=mix(dawn,gold,.4)*smoothstep(-.1,.9,dot(N,uSun))*(.06+.16*side)*uSunK;
-      col+=film(ndv)*pow(1.-ndv,2.)*.18*mix(tint,dawn,.4);
+      col+=film(ndv)*pow(1.-ndv,2.)*.08*mix(tint,dawn,.4);
       col+=tint*pow(1.-ndv,3.)*.42;
       col+=vec3(.75,1.,1.)*pow(max(dot(R,normalize(vec3(-.8,.4,.45))),0.),36.)*.45;
       /* в финале холст прозрачный: сквозь центр стекла видна сама секция, плотность растёт к краям (Френель и толщина) */
