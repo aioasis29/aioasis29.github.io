@@ -2515,7 +2515,7 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let renderer=null;
 try{ renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'}); }catch(e){}
 if(renderer){
-  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  renderer.setPixelRatio(Math.min(devicePixelRatio,Math.min(screen.width,screen.height)<600?2:1.75));
   renderer.outputColorSpace=THREE.LinearSRGBColorSpace; // цвета задаём прямо в sRGB внутри шейдеров
 
   const U={uTime:{value:0},uRes:{value:new THREE.Vector2(1,1)},uAspect:{value:1},uFocus:{value:new THREE.Vector2(.76,.55)},uRib:{value:new THREE.Vector4(.36,.06,.4,.45)}};
@@ -2601,12 +2601,84 @@ if(renderer){
   const scene=new THREE.Scene();
   const camera=new THREE.PerspectiveCamera(32,1,.1,100); camera.position.set(0,0,9);
   scene.add(bgMesh);
-  const clear=glassMat(), soft=glassMat({rough:1,tint:new THREE.Vector3(.8,1.,.95),strength:.1});
+  /* ---------- фирменный знак: монограмма «AI» из оптического стекла ----------
+     Контуры сняты с оригинального логотипа (assets/source/01-logo-original.jpg): буква A с треугольным
+     просветом и I с засечками, пропорции исходные. Плоские контуры выдавливаются в толстое стекло
+     со скруглёнными фасками; нормали сглаживаются по углу излома, чтобы фаски были гладкими. */
+  const AI_A=[[-0.9502,1.1474],[-1.7404,-1.1483],[-1.1421,-1.1483],[-0.9925,-0.7065],[-0.1865,-0.7065],[-0.0422,-1.1483],[0.5719,-1.1483],[-0.2164,1.1474]];
+  const AI_H=[[-0.5798,0.6265],[-0.3185,-0.2701],[-0.8543,-0.2701]];
+  const AI_I=[[0.6125,1.1474],[0.6125,0.7083],[0.8975,0.7083],[0.8975,-0.7083],[0.6125,-0.7083],[0.6125,-1.1483],[1.7387,-1.1483],[1.7387,-0.7083],[1.4536,-0.7083],[1.4536,0.7083],[1.7387,0.7083],[1.7387,1.1474]];
+  function shapeOf(pts,holes){ const s=new THREE.Shape(pts.map(p=>new THREE.Vector2(p[0],p[1]))); (holes||[]).forEach(h=>s.holes.push(new THREE.Path(h.map(p=>new THREE.Vector2(p[0],p[1]))))); return s; }
+  function creased(g,angle){ /* сглаживание нормалей внутри фасок, резкий излом между гранью и фаской сохраняется */
+    const p=g.attributes.position.array, n=p.length/3, fn=new Float32Array(n*3), out=new Float32Array(n*3), map=new Map(), cos=Math.cos(angle);
+    const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),ab=new THREE.Vector3(),ac=new THREE.Vector3();
+    for(let i=0;i<n;i+=3){ a.fromArray(p,i*3); b.fromArray(p,i*3+3); c.fromArray(p,i*3+6); ab.subVectors(b,a); ac.subVectors(c,a); ab.cross(ac); const ar=ab.length(); ab.normalize();
+      for(let k=0;k<3;k++){ fn.set([ab.x*ar,ab.y*ar,ab.z*ar],(i+k)*3); const key=Math.round(p[(i+k)*3]*1e4)+','+Math.round(p[(i+k)*3+1]*1e4)+','+Math.round(p[(i+k)*3+2]*1e4); let l=map.get(key); if(!l) map.set(key,l=[]); l.push(i+k); } }
+    const v=new THREE.Vector3(), w=new THREE.Vector3();
+    map.forEach(l=>{ for(const i of l){ v.fromArray(fn,i*3).normalize(); const s=new THREE.Vector3(); for(const j of l){ w.fromArray(fn,j*3); if(v.dot(w.clone().normalize())>=cos) s.add(w); } s.normalize(); out.set([s.x,s.y,s.z],i*3); } });
+    g.setAttribute('normal',new THREE.BufferAttribute(out,3)); return g; }
+  const EX={depth:.5,bevelEnabled:true,bevelThickness:.12,bevelSize:.07,bevelSegments:12,curveSegments:1,steps:1};
+  const emGeo=creased(new THREE.ExtrudeGeometry([shapeOf(AI_A,[AI_H]),shapeOf(AI_I)],EX).toNonIndexed(),THREE.MathUtils.degToRad(38));
+  emGeo.translate(0,0,-EX.depth/2); emGeo.computeBoundingBox();
+  /* стекло знака: преломление среды с дисперсией, поглощение в толще (от светлой бирюзы слева к глубокой справа,
+     как в градиенте логотипа), внутреннее отражение и «рассвет» — тёплый низкий свет слева и холодный контровой справа */
+  const EU={...U,uSun:{value:new THREE.Vector3(-.7,-.05,.7).normalize()},uRim:{value:new THREE.Vector3(.85,.35,-.4).normalize()},uSunK:{value:1}};
+  const emVS=`varying vec3 vN;varying vec3 vP;varying vec3 vO;void main(){vO=position;vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}`;
+  const emFS=(back)=>BG+`
+    uniform vec2 uRes; uniform vec3 uSun; uniform vec3 uRim; uniform float uSunK;
+    varying vec3 vN; varying vec3 vP; varying vec3 vO;
+    vec3 studio(vec3 R){
+      float box=smoothstep(.55,.92,R.y)*smoothstep(-.25,.4,R.z)*(1.-smoothstep(.55,1.,abs(R.x)));
+      float strip=(1.-smoothstep(0.,.1,abs(R.x-.42)))*smoothstep(-.1,.5,R.y+.3)*smoothstep(-.2,.3,R.z);
+      float side=pow(max(dot(R,normalize(vec3(-.75,.35,.55))),0.),22.);
+      return vec3(.93,1.,.98)*(box*.5+strip*.7+side*.35);
+    }
+    void main(){
+      vec3 N=normalize(vN); vec3 V=normalize(-vP);
+      ${back?'N=-N;':''}
+      float ndv=clamp(abs(dot(N,V)),0.,1.), fres=.04+.96*pow(1.-ndv,5.);
+      vec2 suv=gl_FragCoord.xy/uRes;
+      float gx=clamp(vO.x/3.6+.5,0.,1.);
+      vec3 tint=mix(vec3(.80,1.,.98),vec3(.36,.86,.86),smoothstep(.1,.95,gx));
+      float k=${back?'.3':'.13'}*(.55+1.1*(1.-ndv));
+      vec3 rR=refract(-V,N,1./1.43), rG=refract(-V,N,1./1.46), rB=refract(-V,N,1./1.5);
+      vec3 col=vec3(bg(suv+rR.xy*k).r,bg(suv+rG.xy*k).g,bg(suv+rB.xy*k).b);
+      vec3 sunC=vec3(1.,.66,.5), sunG=vec3(1.,.82,.62), teal=vec3(.36,.92,.9);
+      float sd=dot(N,uSun), rd=dot(N,uRim);
+      ${back?`
+      /* внутренняя сторона: свет, пойманный в толще стекла */
+      col=col*tint*.85+tint*.05;
+      col+=sunC*pow(max(-sd,0.),2.)*.32*uSunK+teal*pow(max(-rd,0.),2.)*.22;
+      col+=mix(teal,sunC,smoothstep(.65,.15,gx))*pow(1.-ndv,2.)*.25;
+      gl_FragColor=vec4(col+ign(gl_FragCoord.xy),1.);`:`
+      /* толща бирюзового стекла: как сплошные буквы логотипа, но со светом внутри */
+      col=col*tint*.9+tint*vec3(.07,.2,.21)*(.75+.5*(1.-gx));
+      vec3 R=reflect(-V,N);
+      col+=studio(R)*(.18+fres*.9);
+      /* восход: тёплый свет скользит по граням, обращённым к солнцу; переход к бирюзе — по углу, без границы */
+      float sw=smoothstep(-.35,.9,sd);
+      col+=mix(teal*.04,sunC*.3,sw)*uSunK*(.45+.55*(1.-ndv))*(.55+.45*(1.-gx));
+      col+=sunG*pow(max(dot(R,uSun),0.),70.)*1.1*uSunK+sunC*pow(max(dot(R,uSun),0.),9.)*.22*uSunK;
+      col+=teal*pow(max(dot(R,uRim),0.),40.)*.8+teal*pow(1.-ndv,3.)*.45*(.55+.45*smoothstep(-.5,.8,rd));
+      col+=sunC*pow(1.-ndv,4.)*.35*smoothstep(.2,-.8,rd)*uSunK;
+      /* первые лучи: фаски, обращённые к низкому тёплому источнику, вспыхивают коралловым и золотистым */
+      float edge=pow(1.-ndv,2.2), face=smoothstep(.05,.85,sd);
+      /* тёплый рассветный отсвет: сдвигаем оттенок стекла к кораллу (а не просто добавляем свет),
+         сильнее снизу слева и на фасках к солнцу; к правой букве он растворяется в бирюзе */
+      float wm=clamp(smoothstep(.62,.0,gx)*smoothstep(.75,-1.2,vO.y)*.85+edge*face*.9,0.,1.)*uSunK;
+      col=mix(col,col*vec3(1.58,.8,.66)+sunC*.09,wm*.75);
+      col+=sunC*edge*face*.25*uSunK;
+      /* внутреннее отражение: окружение, отражённое изнутри задней грани */
+      col+=studio(reflect(R,-N))*tint*.12;
+      float a=mix(.84,.98,fres);
+      gl_FragColor=vec4(col+ign(gl_FragCoord.xy),clamp(a,0.,1.));`}
+    }`;
+  const emBack=new THREE.ShaderMaterial({uniforms:EU,vertexShader:emVS,fragmentShader:emFS(true),side:THREE.BackSide});
+  const emFront=new THREE.ShaderMaterial({uniforms:EU,vertexShader:emVS,fragmentShader:emFS(false),side:THREE.FrontSide,transparent:true,depthWrite:false});
   const group=new THREE.Group(); scene.add(group);
-  const ring=new THREE.Mesh(new THREE.TorusGeometry(1.32,.44,96,220),clear); ring.rotation.set(.55,-.5,.2); group.add(ring);
-  const drop=new THREE.Mesh(new THREE.SphereGeometry(.68,96,96),clear); drop.position.set(-.55,-.95,1.05); group.add(drop);
-  const pebble=new THREE.Mesh(new THREE.CapsuleGeometry(.22,.95,24,64),soft); pebble.position.set(1.45,1.25,-.6); pebble.rotation.set(.3,.2,-.9); group.add(pebble);
-  const bead=new THREE.Mesh(new THREE.SphereGeometry(.2,48,48),clear); bead.position.set(1.7,-1.25,.6); group.add(bead);
+  const emblem=new THREE.Group(); group.add(emblem);
+  const emB=new THREE.Mesh(emGeo,emBack); emB.renderOrder=1; emblem.add(emB);
+  const emF=new THREE.Mesh(emGeo,emFront); emF.renderOrder=2; emblem.add(emF);
 
   let w=0,h=0;
   function layout(){
@@ -2617,11 +2689,11 @@ if(renderer){
     const screenFrac=Math.min(innerHeight,h)/h; // доля hero, видимая на первом экране
     if(w<860){
       const y=visH*.5-screenFrac*visH*.24;
-      group.position.set(visW*.12,y,0); group.scale.setScalar(Math.min(.62,visW/5.6));
+      group.position.set(0,y-visH*.025,0); group.scale.setScalar(Math.min(.62,visW/5.1));
       U.uFocus.value.set(.62,1.-screenFrac*.24);
       U.uRib.value.set(1.-screenFrac*.36,.03,.1,1.);
     }else{
-      group.position.set(visW*.27,visH*.04,0); group.scale.setScalar(Math.min(.95,visH/6.2));
+      group.position.set(visW*.255,visH*.04,0); group.scale.setScalar(Math.min(.74,visH/7.2,visW/12.5));
       U.uFocus.value.set(.77,.54);
       U.uRib.value.set(.22,.05,.4,.55);
     }
@@ -2636,11 +2708,15 @@ if(renderer){
   function render(t){
     lastT=t; const s=t*.001; U.uTime.value=s;
     mx+=(tx-mx)*.04; my+=(ty-my)*.04;
-    ring.rotation.x=.55+Math.sin(s*.21)*.18+my*.25;
-    ring.rotation.y=-.5+s*.07+mx*.35;
-    drop.position.y=-.95+Math.sin(s*.45)*.08;
-    pebble.rotation.z=-.9+Math.sin(s*.3)*.12;
-    bead.position.y=-1.25+Math.cos(s*.5)*.1;
+    /* знак медленно парит и поворачивается вокруг вертикальной оси: несколько несоизмеримых синусоид
+       дают плавное движение без заметного повтора; прокрутка первого экрана чуть доворачивает его */
+    const ex=Math.min(1,scrollY/Math.max(1,innerHeight));
+    const yaw=Math.sin(s*.19)*.48+Math.sin(s*.071+1.1)*.17+ex*.45;
+    emblem.rotation.set(.04+Math.sin(s*.15)*.07+my*.12-ex*.1, yaw+mx*.3, Math.sin(s*.11+.6)*.03);
+    emblem.position.y=Math.sin(s*.31)*.05;
+    /* «рассвет»: тёплый источник поднимается и медленно смещается, отражения скользят по граням */
+    EU.uSun.value.set(-.7+Math.sin(s*.043)*.12,-.12+Math.sin(s*.057+.8)*.16+ex*.25,.7).normalize();
+    EU.uSunK.value=.85+.15*Math.sin(s*.09);
     group.rotation.y=mx*.12; group.rotation.x=my*.08;
     renderer.render(scene,camera);
   }
