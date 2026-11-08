@@ -1373,6 +1373,24 @@ strong.hl{font-weight:500}
   .sp-vis{min-height:0;aspect-ratio:1.05;margin:0 -10px 8px}
 }
 @media (prefers-reduced-motion:reduce){.sp-step,.sp-note,.sp .method-cost{transition:none!important}}
+/* бесшовные переходы между светлыми и тёмными секциями: один длинный градиент в OKLab, половина — внизу предыдущей секции, половина — вверху следующей; края растворяются по альфе */
+.seam{position:absolute;left:0;right:0;height:var(--sh);z-index:-1;pointer-events:none}
+:root{--sh:clamp(96px,10vw,150px)}
+.seam-out{bottom:0}.seam-in{top:0}
+#hero>.seam-out{z-index:0}
+.recognize::before{z-index:-1} /* декоративный свет под швом, а не поверх него */ /* поверх затемнения низа первого экрана, под текстом */
+#recognize,#care,#projects{isolation:isolate;position:relative}
+#hero>.seam-out{background:linear-gradient(180deg,rgba(10,14,15,0.000) 0.0%,rgba(10,14,15,0.189) 12.5%,rgba(12,17,18,0.583) 25.0%,rgba(16,23,24,0.926) 37.5%,rgba(24,34,35,1.000) 50.0%,rgba(35,50,52,1.000) 62.5%,rgba(51,71,73,1.000) 75.0%,rgba(72,96,98,1.000) 87.5%,rgba(97,124,125,1.000) 100.0%)}
+#recognize>.seam-in{background:linear-gradient(180deg,rgba(97,124,125,1.000) 0.0%,rgba(126,151,152,1.000) 12.5%,rgba(156,178,178,1.000) 25.0%,rgba(184,201,201,1.000) 37.5%,rgba(208,220,219,1.000) 50.0%,rgba(225,234,232,0.989) 62.5%,rgba(236,242,240,0.684) 75.0%,rgba(240,245,243,0.232) 87.5%,rgba(241,246,244,0.000) 100.0%)}
+#recognize>.seam-out{background:linear-gradient(180deg,rgba(241,246,244,0.000) 0.0%,rgba(240,245,243,0.189) 12.5%,rgba(236,242,240,0.583) 25.0%,rgba(225,234,233,0.926) 37.5%,rgba(208,221,220,1.000) 50.0%,rgba(184,203,202,1.000) 62.5%,rgba(156,180,180,1.000) 75.0%,rgba(127,154,155,1.000) 87.5%,rgba(98,127,129,1.000) 100.0%)}
+#approach>.seam-in{background:linear-gradient(180deg,rgba(98,127,129,1.000) 0.0%,rgba(73,100,102,1.000) 12.5%,rgba(53,76,78,1.000) 25.0%,rgba(37,55,57,1.000) 37.5%,rgba(26,39,41,1.000) 50.0%,rgba(18,28,30,0.989) 62.5%,rgba(14,22,24,0.684) 75.0%,rgba(12,19,21,0.232) 87.5%,rgba(12,19,21,0.000) 100.0%)}
+#approach>.seam-out{background:linear-gradient(180deg,rgba(11,17,19,0.000) 0.0%,rgba(11,17,19,0.189) 12.5%,rgba(13,20,22,0.583) 25.0%,rgba(17,26,28,0.926) 37.5%,rgba(25,37,39,1.000) 50.0%,rgba(36,53,55,1.000) 62.5%,rgba(51,74,76,1.000) 75.0%,rgba(71,98,101,1.000) 87.5%,rgba(96,125,127,1.000) 100.0%)}
+#care>.seam-in{background:linear-gradient(180deg,rgba(96,125,127,1.000) 0.0%,rgba(124,152,154,1.000) 12.5%,rgba(154,178,179,1.000) 25.0%,rgba(182,201,201,1.000) 37.5%,rgba(205,220,219,1.000) 50.0%,rgba(222,233,232,0.989) 62.5%,rgba(233,241,239,0.684) 75.0%,rgba(237,244,242,0.232) 87.5%,rgba(238,245,243,0.000) 100.0%)}
+#method>.seam-out{background:linear-gradient(180deg,rgba(10,14,15,0.000) 0.0%,rgba(10,14,15,0.189) 12.5%,rgba(12,17,18,0.583) 25.0%,rgba(17,23,25,0.926) 37.5%,rgba(25,35,36,1.000) 50.0%,rgba(37,51,53,1.000) 62.5%,rgba(53,73,74,1.000) 75.0%,rgba(75,98,100,1.000) 87.5%,rgba(101,126,128,1.000) 100.0%)}
+#projects>.seam-in{background:linear-gradient(180deg,rgba(101,126,128,1.000) 0.0%,rgba(131,155,156,1.000) 12.5%,rgba(162,182,183,1.000) 25.0%,rgba(191,206,206,1.000) 37.5%,rgba(216,225,225,1.000) 50.0%,rgba(234,239,239,0.989) 62.5%,rgba(245,248,247,0.684) 75.0%,rgba(249,251,250,0.232) 87.5%,rgba(250,252,251,0.000) 100.0%)}
+#projects>.seam-out{background:linear-gradient(180deg,rgba(250,252,251,0.000) 0.0%,rgba(249,251,250,0.189) 12.5%,rgba(245,248,247,0.583) 25.0%,rgba(234,240,239,0.926) 37.5%,rgba(216,226,226,1.000) 50.0%,rgba(191,208,208,1.000) 62.5%,rgba(162,184,186,1.000) 75.0%,rgba(131,158,160,1.000) 87.5%,rgba(102,130,133,1.000) 100.0%)}
+#founder>.seam-in{background:linear-gradient(180deg,rgba(102,130,133,1.000) 0.0%,rgba(75,103,106,1.000) 12.5%,rgba(54,78,81,1.000) 25.0%,rgba(37,57,59,1.000) 37.5%,rgba(26,41,43,1.000) 50.0%,rgba(18,29,32,0.989) 62.5%,rgba(13,23,25,0.684) 75.0%,rgba(11,20,22,0.232) 87.5%,rgba(11,20,22,0.000) 100.0%)}
+@media (max-width:860px){:root{--sh:88px}}
 </style>
 
 </head>
@@ -1566,10 +1584,12 @@ strong.hl{font-weight:500}
         <div class="hs" style="--d:4800ms"><b>Личное участие.</b><span>Над задачей работает основатель студии, профильных специалистов подключаем по необходимости.</span></div>
       </div>
     </div>
+    <div class="seam seam-out" aria-hidden="true"></div>
   </section>
 
   <!-- 2. УЗНАВАНИЕ -->
   <section class="light section recognize" data-scroll id="recognize" aria-labelledby="recognize-title">
+    <div class="seam seam-in" aria-hidden="true"></div>
     <div class="wrap">
       <div class="section-head sq-block">
         <p class="eyebrow sq" style="--i:0">Знакомые ситуации</p>
@@ -1602,11 +1622,13 @@ strong.hl{font-weight:500}
         <a class="btn btn-dark sq sb-glow" style="--i:4;--p:2;--gd:2.7s" href="#contact">Рассказать о своей ситуации</a>
       </div>
     </div>
+    <div class="seam seam-out" aria-hidden="true"></div>
   </section>
 
   <!-- 3. ФИЛОСОФИЯ -->
   <section class="dark section philosophy" data-scroll id="approach" aria-labelledby="approach-title">
     <div class="studio" aria-hidden="true"><i class="f"></i><i class="r"></i><i class="k"></i></div>
+    <div class="seam seam-in" aria-hidden="true"></div>
     <div class="wrap">
       <div class="manifest sq-block" data-sq="section">
         <p class="eyebrow sq" style="--i:0">Наш принцип</p>
@@ -1640,10 +1662,12 @@ strong.hl{font-weight:500}
         </div>
       </div>
     </div>
+    <div class="seam seam-out" aria-hidden="true"></div>
   </section>
 
   <!-- 3a. ГЛАВНОЕ ОБЕЩАНИЕ: мы берём на себя сложность решения -->
   <section class="light section guided care" id="care" aria-labelledby="care-title">
+    <div class="seam seam-in" aria-hidden="true"></div>
     <div class="wrap">
       <div class="care-statement sq-block" data-sq="section">
         <p class="eyebrow sq" style="--i:0">Что это значит для вас</p>
@@ -1819,10 +1843,12 @@ strong.hl{font-weight:500}
         <p class="method-cost">Стоимость работы складывается из этих этапов: постановки задачи, проектирования, реализации, проверки и передачи результата. <a href="#pricing">Форматы и стоимость</a></p>
       </div>
     </div>
+    <div class="seam seam-out" aria-hidden="true"></div>
   </section>
 
   <!-- 6. ПРОЕКТЫ -->
   <section class="section cases guided" id="projects" aria-labelledby="projects-title">
+    <div class="seam seam-in" aria-hidden="true"></div>
     <div class="wrap">
       <div class="section-head sq-block" data-sq="section">
         <p class="eyebrow sq" style="--i:0">Проекты и практика</p>
@@ -1963,11 +1989,13 @@ strong.hl{font-weight:500}
         </div>
       </div>
     </div>
+    <div class="seam seam-out" aria-hidden="true"></div>
   </section>
 
   <!-- 7. ОСНОВАТЕЛЬ -->
   <section class="dark section founder guided" style="--sq-step:160ms" id="founder" aria-labelledby="founder-title">
     <div class="studio" aria-hidden="true"><i class="f"></i><i class="r"></i><i class="k"></i></div>
+    <div class="seam seam-in" aria-hidden="true"></div>
     <div class="wrap founder-grid">
       <figure class="founder-photo sq-block" data-sq="section">
         <img class="sq" style="--i:0" src="assets/founder-1200.webp" width="1200" height="1800" alt="Алексей Коцуба, основатель студии AI OASIS" loading="lazy" decoding="async">
