@@ -2538,35 +2538,34 @@ if(renderer){
      и треугольным просветом). Сечение — толстая «подушка» со скруглёнными гранями (глубина ≈ 0,6 ширины),
      без перекрута; ширина и глубина плавно меняются по контуру. Внутри — полость: вторая оболочка,
      отступающая на толщину стеклянной стенки. Так у формы есть внешняя и внутренняя поверхности и пространство внутри. */
-  function shellGeo(SEG,RAD,W,DEPTH,PW,inset,FLIP){
-    const pos=[],nor=[],uv=[],idx=[], Z=new THREE.Vector3(0,0,1);
-    const P=new THREE.Vector3(),T=new THREE.Vector3(),A=new THREE.Vector3(),B=new THREE.Vector3(),n=new THREE.Vector3();
-    const KN=SEG, kr=new Float32Array(KN), ks=new Float32Array(KN);
-    for(let i=0;i<KN;i++){ const t=i/KN; ribCurve.getTangentAt((t+.988)%1,_t1); ribCurve.getTangentAt((t+.012)%1,_t2); kr[i]=_t1.distanceTo(_t2)/(.024*ribLen); }
-    const KW=Math.round(KN*.07);
-    for(let i=0;i<KN;i++){ let a=0,ws=0; for(let j=-KW;j<=KW;j++){ const wt=Math.exp(-(j*j)/(KW*KW*.5)); a+=kr[(i+j+KN)%KN]*wt; ws+=wt; } ks[i]=a/ws; }
+  const isMob=Math.min(screen.width,screen.height)<600;
+  /* вариант «Три переплетённых потока» (утверждён): три полых стеклянных потока огибают друг друга вдоль контура A,
+     совершая два оборота вокруг его средней линии; вместе они образуют силуэт знака. Сечение — гладкая «линза»
+     постоянной ширины (без волн), полость внутри каждого потока — своя тонкая стенка. */
+  const KB=(()=>{ const K=600,kr=new Float32Array(K),ks=new Float32Array(K); for(let i=0;i<K;i++){ ribCurve.getTangentAt((i/K+.988)%1,_t1); ribCurve.getTangentAt((i/K+.012)%1,_t2); kr[i]=_t1.distanceTo(_t2)/(.024*ribLen); }
+    const KW=Math.round(K*.07); for(let i=0;i<K;i++){ let a=0,ws=0; for(let j=-KW;j<=KW;j++){ const wt=Math.exp(-(j*j)/(KW*KW*.5)); a+=kr[(i+j+K)%K]*wt; ws+=wt; } ks[i]=a/ws; } return t=>ks[Math.floor((t%1)*K)%K]; })();
+  function strandGeo(SEG,RAD,ph,inset,FLIP){
+    const pos=[],nor=[],uv=[],idx=[], Z=new THREE.Vector3(0,0,1), P=new THREE.Vector3(),T=new THREE.Vector3(),A=new THREE.Vector3(),B=new THREE.Vector3(),a2=new THREE.Vector3(),b2=new THREE.Vector3(),n=new THREE.Vector3(),C=new THREE.Vector3();
+    const PW=.62;
     for(let i=0;i<=SEG;i++){
       const t=i/SEG; ribCurve.getPointAt(t%1,P); ribCurve.getTangentAt(t%1,T);
       A.crossVectors(T,Z).normalize(); B.crossVectors(A,T).normalize();
-      /* идеально гладкая форма: сечение постоянное, лишь мягко собирается на поворотах (кривизна сильно сглажена) */
-      const w=Math.max(.05,W/(1+.32*ks[i%KN]*W)-2*inset), d=Math.max(.04,DEPTH/(1+.18*ks[i%KN]*W)-2*inset);
+      const a=ph+t*6.2832*2, rr=.15/(1+.15*KB(t)), cr=Math.cos(a*.5), sr=Math.sin(a*.5);
+      a2.copy(A).multiplyScalar(cr).addScaledVector(B,sr); b2.copy(B).multiplyScalar(cr).addScaledVector(A,-sr);
+      C.copy(P).addScaledVector(A,Math.cos(a)*rr).addScaledVector(B,Math.sin(a)*rr*1.5);
+      const w=.34-2*inset, d=.22-2*inset;
       for(let j=0;j<=RAD;j++){
-        const a=j/RAD*6.2832, ca=Math.cos(a), sa=Math.sin(a);
+        const an=j/RAD*6.2832, ca=Math.cos(an), sa=Math.sin(an);
         const x=w*.5*Math.sign(ca)*Math.pow(Math.abs(ca),PW), y=d*.5*Math.sign(sa)*Math.pow(Math.abs(sa),PW);
-        pos.push(P.x+A.x*x+B.x*y,P.y+A.y*x+B.y*y,P.z+A.z*x+B.z*y);
-        /* нормаль суперэллипса */
-        const nx=Math.sign(ca)*Math.pow(Math.abs(ca),2-PW)/Math.max(w,1e-4), ny=Math.sign(sa)*Math.pow(Math.abs(sa),2-PW)/Math.max(d,1e-4);
-        n.copy(A).multiplyScalar(nx).addScaledVector(B,ny).normalize(); if(FLIP) n.negate(); nor.push(n.x,n.y,n.z);
-        uv.push(a/6.2832,t);
+        pos.push(C.x+a2.x*x+b2.x*y,C.y+a2.y*x+b2.y*y,C.z+a2.z*x+b2.z*y);
+        const nx=Math.sign(ca)*Math.pow(Math.abs(ca),2-PW)/w, ny=Math.sign(sa)*Math.pow(Math.abs(sa),2-PW)/d;
+        n.copy(a2).multiplyScalar(nx).addScaledVector(b2,ny).normalize(); if(FLIP) n.negate(); nor.push(n.x,n.y,n.z); uv.push(j/RAD,t);
       }
     }
     for(let i=0;i<SEG;i++) for(let j=0;j<RAD;j++){ const a=i*(RAD+1)+j,b=a+RAD+1; idx.push(a,b,a+1,b,b+1,a+1); }
     const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3)); g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); g.setIndex(idx); return g;
   }
-  const isMob=Math.min(screen.width,screen.height)<600;
-  const SW=.64, SD=.5, SH=.045, SPW=.62;
-  const emGeoO=shellGeo(isMob?360:620,isMob?40:64,SW,SD,SPW,0,false);
-  const emGeoI=shellGeo(isMob?360:620,isMob?40:64,SW,SD,SPW,SH,true);
+  const STR=[0,1,2].map(k=>({o:strandGeo(isMob?420:720,isMob?28:44,k*2.0944,0,false),i:strandGeo(isMob?420:720,isMob?28:44,k*2.0944,.028,true)}));
   const emVS=`varying vec3 vN;varying vec3 vP;varying vec2 vUv;void main(){vUv=uv;vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}`;
   /* общая часть оптики: окружение для отражений, рассветная палитра, каустики */
   const emCommon=`
@@ -2579,7 +2578,9 @@ if(renderer){
       float floorB=smoothstep(-.2,-.7,R.y)*.12;
       return vec3(.93,1.,.99)*(box*.6+strip*.75+strip2*.5)+vec3(.35,.8,.82)*floorB;
     }
-    float sideK(){ return smoothstep(.4,.82,clamp((vP.x-uCx)/uSz*.5+.5,0.,1.)); }
+    float sideK(){ return smoothstep(.3,.78,clamp((vP.x-uCx)/uSz*.5+.5,0.,1.)); }
+    /* перелив тонкой плёнки: рассветные персиковые и розовые оттенки на скосах */
+    vec3 film(float ndv){ vec3 f=.5+.5*cos(6.2832*(vec3(0.,.33,.67)+(1.-ndv)*1.2+.08)); return mix(vec3(1.),mix(f,vec3(1.,.74,.62),.35),.5); }
     vec3 tintOf(float side){ vec3 teal=vec3(.22,.86,.95), coral=vec3(1.,.44,.32), lav=vec3(.8,.58,.92);
       vec3 b=mix(teal,coral,side); return mix(b,lav,.26*smoothstep(0.,.5,side*(1.-side)*4.)); }
     /* каустики: солнечный свет, сфокусированный стеклом, бежит по стенкам полости */
@@ -2621,7 +2622,11 @@ if(renderer){
       vec3 R=reflect(-V,N);
       col+=studioEnv(R)*fres*1.15;
       /* рассвет: тёплый блик и мягкое свечение, прошедшее сквозь толщу */
-      col+=vec3(1.,.82,.66)*pow(max(dot(R,uSun),0.),70.)*1.15*uSunK+tint*pow(max(dot(R,uSun),0.),6.)*.12*uSunK*side;
+      vec3 dawn=vec3(1.,.62,.42), gold=vec3(1.,.84,.62);
+      col+=gold*pow(max(dot(R,uSun),0.),70.)*1.5*uSunK+dawn*pow(max(dot(R,uSun),0.),5.)*.3*uSunK*(.35+.65*side);
+      /* рассветный свет, прошедший сквозь толщу: тёплое свечение на гранях, обращённых к солнцу */
+      col+=mix(dawn,gold,.4)*smoothstep(-.1,.9,dot(N,uSun))*(.06+.16*side)*uSunK;
+      col+=film(ndv)*pow(1.-ndv,2.)*.18*mix(tint,dawn,.4);
       col+=tint*pow(1.-ndv,3.)*.42;
       col+=vec3(.75,1.,1.)*pow(max(dot(R,normalize(vec3(-.8,.4,.45))),0.),36.)*.45;
       /* в финале холст прозрачный: сквозь центр стекла видна сама секция, плотность растёт к краям (Френель и толщина) */
@@ -2633,8 +2638,8 @@ if(renderer){
     const EU={...UB,uSun:{value:new THREE.Vector3(.75,.25,.6).normalize()},uSunK:{value:1},uCx:{value:0},uSz:{value:1},uBack:{value:null},uEnvDark:{value:0}};
     const mkB=(geo,inner,side,ro)=>{ const m=new THREE.ShaderMaterial({uniforms:{...EU,uInner:{value:inner}},vertexShader:emVS,fragmentShader:emBackFS,side,transparent:true,depthWrite:false,
       blending:THREE.CustomBlending,blendSrc:THREE.OneFactor,blendDst:THREE.OneMinusSrcAlphaFactor}); const me=new THREE.Mesh(geo,m); me.renderOrder=ro; me.layers.set(1); return me; };
-    const front=new THREE.Mesh(emGeoO,new THREE.ShaderMaterial({uniforms:EU,vertexShader:emVS,fragmentShader:emFrontFS,side:THREE.FrontSide,
-      blending:THREE.CustomBlending,blendSrc:THREE.OneFactor,blendDst:THREE.OneMinusSrcAlphaFactor}));
+    const frontMat=new THREE.ShaderMaterial({uniforms:EU,vertexShader:emVS,fragmentShader:emFrontFS,side:THREE.FrontSide,
+      blending:THREE.CustomBlending,blendSrc:THREE.OneFactor,blendDst:THREE.OneMinusSrcAlphaFactor});
     const haloMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uK:{value:1}},
       vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
       fragmentShader:`uniform float uK;varying vec2 vUv;void main(){vec2 p=(vUv-.5)*2.;float r2=dot(p*vec2(1.,1.15),p*vec2(1.,1.15));
@@ -2642,8 +2647,7 @@ if(renderer){
     const group=new THREE.Group(), emblem=new THREE.Group();
     const halo=new THREE.Mesh(new THREE.PlaneGeometry(4.6,4.2),haloMat); halo.position.z=-.9; halo.renderOrder=-1; group.add(halo); group.add(emblem);
     /* задние слои, от дальнего к ближнему: внешняя дальняя стенка → дальняя стенка полости → ближняя стенка полости */
-    emblem.add(mkB(emGeoO,0,THREE.BackSide,1)); emblem.add(mkB(emGeoI,1,THREE.BackSide,2)); emblem.add(mkB(emGeoI,1,THREE.FrontSide,3));
-    emblem.add(front);
+    STR.forEach(g=>{ emblem.add(mkB(g.o,0,THREE.BackSide,1)); emblem.add(mkB(g.i,1,THREE.BackSide,2)); emblem.add(mkB(g.i,1,THREE.FrontSide,3)); emblem.add(new THREE.Mesh(g.o,frontMat)); });
     const _v=new THREE.Vector3(); let rt=null;
     return {group,emblem,halo,EU,
       light(s){ EU.uSun.value.set(.72+Math.sin(s*.043)*.1,.18+Math.sin(s*.057+.8)*.15,.62).normalize(); EU.uSunK.value=.85+.15*Math.sin(s*.09); halo.material.uniforms.uK.value=.85+.15*Math.sin(s*.23); },
@@ -2659,7 +2663,7 @@ if(renderer){
         r.setRenderTarget(null); r.setClearColor(_cc,cc); cam.layers.set(0);
         EU.uBack.value=rt.texture; r.render(sc,cam);
       },
-      dispose(){ [emGeoO,emGeoI].forEach(g=>g.dispose()); if(rt) rt.dispose(); }};
+      dispose(){ STR.forEach(g=>{ g.o.dispose(); g.i.dispose(); }); if(rt) rt.dispose(); }};
   }
   const _db=new THREE.Vector2(), _cc=new THREE.Color();
   const HE=makeEmblem(U); scene.add(HE.group);
