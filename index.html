@@ -841,6 +841,77 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
   .pr-sub li{flex-direction:column;gap:2px}
 }
 
+
+/* ================= Cinematic scroll: общая система ================= */
+/* --p: прогресс секции в кадре (0 — только вошла снизу, 1 — ушла вверх); --exit: уход первого экрана */
+/* первый экран: плавно уступает место следующей сцене */
+.hero .hero-inner{transform:translate3d(0,calc(var(--exit,0) * -70px),0);opacity:calc(1 - var(--exit,0) * .85);will-change:transform,opacity}
+.hero canvas,.hero .fire-wave{transform:scale(calc(1 + var(--exit,0) * .06)) translate3d(0,calc(var(--exit,0) * 40px),0)}
+/* подсказка «Листайте»: всегда в пределах первого экрана, у правого края, не перекрывает текст */
+.scroll-cue{position:absolute;right:clamp(4px,2.2vw,44px);top:calc(min(100svh,980px) - clamp(190px,24vh,240px));z-index:2;padding:8px 6px;text-decoration:none;color:var(--on-dark-2);font:600 .62rem/1 var(--f-body);letter-spacing:.3em;text-transform:uppercase;opacity:calc(1 - var(--exit,0) * 6);transition:color .3s}
+.scroll-cue .cue-in{display:grid;justify-items:center;gap:10px}
+.scroll-cue .cue-in>span{writing-mode:vertical-rl}
+.scroll-cue i{position:relative;display:block;width:1px;height:42px;background:rgba(160,227,216,.16);overflow:hidden}
+.scroll-cue i::after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:linear-gradient(transparent,var(--coral),var(--ai-1));animation:cueDrop 2.2s cubic-bezier(.6,0,.3,1) infinite}
+@keyframes cueDrop{to{top:110%}}
+.scroll-cue:hover{color:var(--on-dark)}
+.hero .principles{margin-bottom:34px}
+/* «Знакомые ситуации»: фон наполняется шумом по мере узнавания и успокаивается в финале */
+.recognize::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:calc(var(--load,0) * .9);transition:opacity 1.4s var(--ease);
+  background:repeating-linear-gradient(115deg,transparent 0 46px,rgba(8,126,131,.05) 46px 47px,transparent 47px 93px),repeating-linear-gradient(28deg,transparent 0 61px,rgba(168,78,57,.045) 61px 62px,transparent 62px 120px),repeating-linear-gradient(162deg,transparent 0 37px,rgba(10,42,49,.035) 37px 38px,transparent 38px 77px);
+  -webkit-mask-image:radial-gradient(80% 70% at 70% 45%,#000,transparent 85%);mask-image:radial-gradient(80% 70% at 70% 45%,#000,transparent 85%);animation:noiseDrift 22s linear infinite}
+@keyframes noiseDrift{to{background-position:240px 120px,-180px 90px,120px -160px}}
+.recognize > .wrap{position:relative;z-index:1}
+.recognize::before{transform:translate3d(0,calc((var(--p,.5) - .5) * -160px),0) scale(calc(1 + var(--calm,0) * .25));transition:scale 1.6s var(--ease)}
+/* направления: глубина и отклик на наведение и касание */
+.dir{position:relative;transition:background .45s var(--ease),box-shadow .45s var(--ease)}
+.dir::before{content:"";position:absolute;left:-18px;top:38px;width:8px;height:8px;border-radius:50%;background:var(--coral);opacity:0;transform:scale(.4);transition:opacity .4s,transform .4s var(--ease)}
+.dir h3{transition:transform .45s var(--ease),color .45s}
+.dir:hover,.dir:focus-within,.dir.touch{background:linear-gradient(90deg,rgba(160,227,216,.22),transparent 80%)}
+.dir:hover::before,.dir:focus-within::before,.dir.touch::before{opacity:1;transform:none}
+.dir:hover h3,.dir.touch h3{transform:translateX(6px);color:var(--deep)}
+#directions .section-head{transform:translate3d(0,calc((var(--p,.5) - .3) * -40px),0)}
+/* «От хаоса к решению»: при приближении сцены пространство вокруг погружается во тьму */
+.cx-scene{box-shadow:inset 0 0 0 1px rgba(160,227,216,.1),0 60px 120px -60px rgba(0,0,0,.7),0 0 0 100vmax rgba(2,8,10,calc(var(--imm,0) * .5));transition:box-shadow .2s linear}
+.philosophy .light-leak{opacity:calc(1 - var(--imm,0) * .8)}
+.cx-controls,.cx-desc,.cx-final{position:relative}
+/* стоимость и прочие декоративные слои: лёгкий параллакс */
+.pricing::before{transform:translate3d(0,calc((var(--p,.5) - .5) * -140px),0)}
+.final .silk{transform:translate3d(0,calc((var(--p,.5) - .6) * 60px),0)}
+/* метод: светящаяся линия хода по шагам */
+.track-fill{position:absolute;left:0;top:50%;height:2px;margin-top:-1px;width:0;background:linear-gradient(90deg,var(--coral),var(--mint));box-shadow:0 0 10px rgba(160,227,216,.6);transition:width .35s cubic-bezier(.22,.7,.2,1)}
+@media (max-width:860px){
+  #steps{position:relative}
+  #steps::after{content:"";position:absolute;left:-1px;top:0;width:2px;height:calc(var(--mp,0) * 100%);background:linear-gradient(var(--coral),var(--mint));box-shadow:0 0 10px rgba(160,227,216,.6);transition:height .3s linear}
+  .step.lit::before{background:var(--mint);box-shadow:0 0 0 4px rgba(160,227,216,.15),0 0 14px rgba(160,227,216,.8)}
+  .step::before{transition:background .4s,box-shadow .4s}
+}
+/* кейсы: у каждого своё раскрытие визуала */
+.guided.seq-ready .case-visual.sq{transition:opacity .9s var(--ease),transform 1s var(--ease),clip-path 1.3s cubic-bezier(.65,0,.25,1)}
+.guided.seq-ready .case-visual.sq[data-fx="wipe"]{clip-path:inset(0 100% 0 0 round 32px)}
+.guided.seq-ready .case-visual.sq[data-fx="iris"]{clip-path:circle(0% at 50% 45%)}
+.guided.seq-ready .case-visual.sq[data-fx="rise"]{clip-path:inset(100% 0 0 0 round 32px)}
+.guided.seq-ready .case-visual.sq[data-fx="aperture"]{clip-path:inset(48% 0 48% 0 round 32px)}
+.guided.seq-ready .sq-in .case-visual.sq[data-fx="wipe"],.guided.seq-ready .sq-in .case-visual.sq[data-fx="rise"],.guided.seq-ready .sq-in .case-visual.sq[data-fx="aperture"]{clip-path:inset(0 0 0 0 round 32px)}
+.guided.seq-ready .sq-in .case-visual.sq[data-fx="iris"]{clip-path:circle(80% at 50% 45%)}
+.pull{position:relative;overflow:hidden}
+.pull::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--coral),var(--ai-2));transition:width 1.4s var(--ease) .9s}
+.sq-in .pull::after,.pull.lit::after{width:100%}
+/* истории проектов и отзывы: спокойное последовательное появление */
+.story.is-open .st-block{animation:rise .7s var(--ease) both;animation-delay:calc(var(--n,0) * 70ms + 150ms)}
+.story.is-open .review-quotes blockquote{animation:rise .8s var(--ease) both;animation-delay:calc(var(--n,0) * 70ms + var(--q,0) * 140ms + 300ms)}
+/* финальный фирменный акцент */
+.final-brand{display:grid;justify-items:center;gap:14px;text-align:center;margin-top:clamp(56px,7vw,96px);padding-top:clamp(36px,5vw,56px);border-top:1px solid var(--line-dark)}
+.final-brand img{height:68px;width:auto}
+.final-brand p{font:500 clamp(1.3rem,1rem + 1vw,1.9rem)/1.2 var(--f-display);letter-spacing:-.025em;color:var(--on-dark)}
+.final-brand p span{color:var(--coral)}
+@media (prefers-reduced-motion:reduce){
+  .hero .hero-inner{transform:none;opacity:1}.hero canvas,.hero .fire-wave{transform:none}
+  .recognize::after{display:none}.recognize::before,.pricing::before,.final .silk,#directions .section-head{transform:none}
+  .cx-scene{box-shadow:inset 0 0 0 1px rgba(160,227,216,.1),0 60px 120px -60px rgba(0,0,0,.7)}
+  .scroll-cue i::after{display:none}
+}
+
 /* ---------- прямые контакты ---------- */
 .direct{margin-top:36px;display:grid;gap:14px}
 .direct p{font-size:.92rem;color:var(--on-dark-2)}
@@ -1164,10 +1235,11 @@ strong.hl{font-weight:500}
 
 <main id="top">
   <!-- 1. HERO -->
-  <section class="hero" id="hero" aria-labelledby="hero-title">
+  <section class="hero" data-scroll id="hero" aria-labelledby="hero-title">
     <canvas id="hero-gl" aria-hidden="true"></canvas>
     <canvas class="fire-wave" id="fire-wave" aria-hidden="true"></canvas>
     <div class="hero-fallback orb" aria-hidden="true"></div>
+    <a class="scroll-cue" href="#recognize" aria-label="Листайте, чтобы узнать больше"><span class="cue-in hs" style="--d:3400ms"><span>Листайте</span><i aria-hidden="true"></i></span></a>
     <div class="wrap hero-inner">
       <div class="hero-copy">
         <p class="eyebrow hs" style="--d:0ms">Проектируем решения для реальных задач</p>
@@ -1187,7 +1259,7 @@ strong.hl{font-weight:500}
   </section>
 
   <!-- 2. УЗНАВАНИЕ -->
-  <section class="light section recognize" id="recognize" aria-labelledby="recognize-title">
+  <section class="light section recognize" data-scroll id="recognize" aria-labelledby="recognize-title">
     <div class="wrap">
       <div class="section-head sq-block">
         <p class="eyebrow sq" style="--i:0">Знакомые ситуации</p>
@@ -1223,7 +1295,7 @@ strong.hl{font-weight:500}
   </section>
 
   <!-- 3. ФИЛОСОФИЯ -->
-  <section class="dark section philosophy" id="approach" aria-labelledby="approach-title">
+  <section class="dark section philosophy" data-scroll id="approach" aria-labelledby="approach-title">
     <div class="light-leak" aria-hidden="true"></div>
     <div class="wrap">
       <div class="manifest sq-block" data-sq="section">
@@ -1261,7 +1333,7 @@ strong.hl{font-weight:500}
   </section>
 
   <!-- 4. НАПРАВЛЕНИЯ -->
-  <section class="light section guided" id="directions" aria-labelledby="directions-title">
+  <section class="light section guided" data-scroll id="directions" aria-labelledby="directions-title">
     <div class="wrap">
       <div class="section-head sq-block">
         <p class="eyebrow sq" style="--i:0">Что мы можем сделать</p>
@@ -1333,7 +1405,7 @@ strong.hl{font-weight:500}
   </section>
 
   <!-- 4a. ФОРМАТЫ И СТОИМОСТЬ -->
-  <section class="section pricing guided" id="pricing" aria-labelledby="pricing-title">
+  <section class="section pricing guided" data-scroll id="pricing" aria-labelledby="pricing-title">
     <div class="wrap pricing-grid">
       <div class="pricing-aside">
         <div class="section-head sq-block" data-sq="section">
@@ -1452,7 +1524,7 @@ strong.hl{font-weight:500}
           <span class="node" style="left:50%"></span><span class="node" style="left:66.66%"></span><span class="node" style="left:83.33%"></span>
           <span class="bead" id="bead"></span>
         </div>
-        <ol class="steps">
+        <ol class="steps" id="steps">
           <li class="step sq sq-l" style="--i:2"><span class="num">01</span><h3>Диагностика</h3><p>Разбираемся, что происходит сейчас, в чём проблема и почему привычный способ работы не даёт нужного результата.</p></li>
           <li class="step sq sq-l" style="--i:3"><span class="num">02</span><h3>Постановка задачи</h3><p>Формулируем конкретную цель и определяем, что должно измениться.</p></li>
           <li class="step sq sq-l" style="--i:4"><span class="num">03</span><h3>Проектирование решения</h3><p>Разрабатываем сценарий действий: ресурсы, инструменты, этапы.</p></li>
@@ -1483,7 +1555,7 @@ strong.hl{font-weight:500}
       </div>
       <div class="case-list">
       <article class="case-story sq-block" id="case-production">
-        <div class="case-visual sq" style="--i:0">
+        <div class="case-visual sq" data-fx="wipe" style="--i:0">
           <div class="scene case-scene" id="case-scene" role="group" aria-label="Схема хода проекта: от рабочей задачи к понятному решению">
           <canvas aria-hidden="true"></canvas>
           <div class="cs-labels" aria-hidden="true"></div>
@@ -1517,7 +1589,7 @@ strong.hl{font-weight:500}
         </div>
       </article>
       <article class="case-story sq-block flip" id="case-pharma">
-        <div class="case-visual sq" style="--i:8">
+        <div class="case-visual sq" data-fx="iris" style="--i:8">
           <div class="scene" id="scene-pharma" role="group" aria-label="Живая архитектура образовательного продукта">
             <canvas aria-hidden="true"></canvas>
             <div class="cs-labels" aria-hidden="true"></div>
@@ -1542,7 +1614,7 @@ strong.hl{font-weight:500}
         </div>
       </article>
       <article class="case-story sq-block" id="case-games">
-        <div class="case-visual sq" style="--i:0">
+        <div class="case-visual sq" data-fx="rise" style="--i:0">
           <div class="scene" id="scene-games" role="group" aria-label="От учебной задачи к интерактивному игровому миру">
             <canvas aria-hidden="true"></canvas>
             <div class="cs-labels" aria-hidden="true"></div>
@@ -1567,7 +1639,7 @@ strong.hl{font-weight:500}
         </div>
       </article>
       <article class="case-story sq-block flip" id="case-motion">
-        <div class="case-visual sq" style="--i:7">
+        <div class="case-visual sq" data-fx="aperture" style="--i:7">
           <div class="scene" id="scene-motion" role="group" aria-label="Как рождается мультфильм в технике stop-motion">
             <canvas aria-hidden="true"></canvas>
             <div class="cs-labels" aria-hidden="true"></div>
@@ -1684,7 +1756,7 @@ strong.hl{font-weight:500}
   </section>
 
   <!-- 10. ФИНАЛ + ФОРМА -->
-  <section class="dark section final guided" style="--sq-step:150ms" id="contact" aria-labelledby="contact-title">
+  <section class="dark section final guided" data-scroll style="--sq-step:150ms" id="contact" aria-labelledby="contact-title">
     <canvas class="silk" id="final-silk" aria-hidden="true"></canvas>
     <div class="wrap final-grid">
       <div class="sq-block" data-sq="section">
@@ -1725,6 +1797,10 @@ strong.hl{font-weight:500}
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         <p class="sq form-legal" style="--i:7">Отправляя форму, вы подтверждаете, что ознакомились с <a href="privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a>. Без отметки согласия форма не отправляется.</p>
       </form>
+    </div>
+    <div class="wrap final-brand sq-block">
+      <img src="assets/logo-wordmark-112.png" width="84" height="76" alt="AI OASIS" class="sq" style="--i:0">
+      <p class="sq" style="--i:2">Сначала задача. <span>Потом технология.</span></p>
     </div>
   </section>
 </main>
@@ -1864,6 +1940,8 @@ strong.hl{font-weight:500}
 
   /* стеклянная бусина метода движется по шагам вместе с прокруткой */
   var cycle=document.getElementById('cycle'), bead=document.getElementById('bead'), nodes=cycle.querySelectorAll('.node'), steps=cycle.querySelectorAll('.step');
+  var fill=document.createElement('span'); fill.className='track-fill'; var trk=cycle.querySelector('.track'); if(trk) trk.insertBefore(fill,trk.firstChild); else fill=null;
+  var stepsEl=document.getElementById('steps'), stepItems=stepsEl?[].slice.call(stepsEl.querySelectorAll('.step')):[];
   function updateBead(){
     var r=cycle.getBoundingClientRect(), vh=innerHeight;
     /* старт — в момент появления блока с шагами (верх блока на середине экрана, как у управляемого чтения);
@@ -1873,7 +1951,13 @@ strong.hl{font-weight:500}
     if(cycle.closest('.seq-ready') && !cycle.classList.contains('sq-in')) p=0;
     if(reduce)p=1;
     var idx=Math.min(5,Math.floor(p*6));
-    bead.style.left=(p*83.33)+'%';
+    bead.style.left=(p*83.33)+'%'; if(fill) fill.style.width=(p*83.33)+'%';
+    if(innerWidth<=860 && stepsEl){
+      var sr=stepsEl.getBoundingClientRect(), mp=reduce?1:Math.min(1,Math.max(0,(vh*0.62-sr.top)/sr.height));
+      if(cycle.closest('.seq-ready') && !cycle.classList.contains('sq-in')) mp=0;
+      stepsEl.style.setProperty('--mp',mp.toFixed(4));
+      stepItems.forEach(function(li){ li.classList.toggle('lit', li.getBoundingClientRect().top < vh*0.62 || reduce); });
+    }
     nodes.forEach(function(n,i){n.classList.toggle('on',i<=idx)});
   }
   addEventListener('scroll',updateBead,{passive:true});addEventListener('resize',updateBead);updateBead();
@@ -1968,6 +2052,18 @@ strong.hl{font-weight:500}
     setTimeout(begin,11000); /* если заставки нет или она не сообщила о завершении */
   })();
 
+  /* Быстрая прокрутка и переходы по ссылкам: IntersectionObserver не сообщает о блоках, которые
+     «перепрыгнули» экран целиком. Каждый поэтапный раздел регистрирует проверку, и один rAF-проход
+     после прокрутки сразу показывает в конечном состоянии всё, что уже оказалось выше экрана. */
+  var SQ_SWEEP=[];
+  function sqInstant(b){ b.style.transition='none'; [].forEach.call(b.querySelectorAll('.sq,.sq-t,.sq-l'),function(x){ x.style.transition='none'; }); }
+  function sqAbove(b){ return b.getBoundingClientRect().bottom<0; }
+  (function(){
+    var t=false; function run(){ t=false; SQ_SWEEP.forEach(function(f){ f(); }); }
+    addEventListener('scroll',function(){ if(!t){ t=true; requestAnimationFrame(run); } },{passive:true});
+    addEventListener('load',function(){ setTimeout(run,50); });
+  })();
+
   /* «Знакомые ситуации»: каждый смысловой блок проявляется, когда доходит примерно до середины экрана.
      Показанное не скрывается при обратной прокрутке. При prefers-reduced-motion всё видно сразу. */
   (function(){
@@ -1975,6 +2071,8 @@ strong.hl{font-weight:500}
     var blocks=[].slice.call(sec.querySelectorAll('.sq-block'));
     sec.classList.add('seq-ready');
     function show(b){ b.classList.add('sq-in'); io.unobserve(b);
+      var nT=sec.querySelectorAll('.thought.sq-in').length, rel=sec.querySelector('.relief.sq-in');
+      sec.style.setProperty('--load', rel ? 0 : (nT/5).toFixed(2)); sec.style.setProperty('--calm', rel ? 1 : 0);
       /* коралловые акценты внутри блока загораются после того, как текст проявился */
       [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1100); }); }
     var io=new IntersectionObserver(function(es){
@@ -1984,6 +2082,7 @@ strong.hl{font-weight:500}
       });
     },{rootMargin:'0px 0px -50% 0px', threshold:0});
     blocks.forEach(function(b){ io.observe(b); });
+    SQ_SWEEP.push(function(){ blocks.forEach(function(b){ if(!b.classList.contains('sq-in') && sqAbove(b)){ sqInstant(b); show(b); } }); });
   })();
 
   /* первый экран: через 2 секунды после заставки текст проявляется по очереди */
@@ -2014,11 +2113,13 @@ strong.hl{font-weight:500}
     ioS.observe(sec);
     var rest=[].slice.call(sec.querySelectorAll('.sq-block:not([data-sq="section"])'));
     var tail=sec.querySelector('.cx-desc');
+    var tailDone=false;
+    function handle(b){ io.unobserve(b);
+      if(b===tail){ if(tailDone) return; tailDone=true; sec.classList.add('tail-in'); lightHl(sec.querySelector('.cx-final')); setTimeout(function(){ [].forEach.call(sec.querySelectorAll('.sq-tail'),function(x){x.classList.remove('sq','sq-tail')}); },3200); }
+      else show(b); }
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){
       if(!(e.isIntersecting||e.boundingClientRect.bottom<0)) return;
-      var b=e.target; io.unobserve(b);
-      if(b===tail){ sec.classList.add('tail-in'); lightHl(sec.querySelector('.cx-final')); setTimeout(function(){ [].forEach.call(sec.querySelectorAll('.sq-tail'),function(x){x.classList.remove('sq','sq-tail')}); },3200); }
-      else show(b);
+      handle(e.target);
     }); },{rootMargin:'0px 0px -50% 0px'});
     /* сцена и кнопки подходов — одно целое: появляются одновременно, как только сцена выходит на экран */
     var scn=sec.querySelector('.cx-scene'), ctl=sec.querySelector('.cx-controls');
@@ -2028,6 +2129,11 @@ strong.hl{font-weight:500}
     }); },{rootMargin:'0px 0px -22% 0px'});
     if(scn) ioScene.observe(scn);
     rest.forEach(function(b){ if(b!==scn && b!==ctl) io.observe(b); }); if(tail) io.observe(tail);
+    SQ_SWEEP.push(function(){
+      if(sec.getBoundingClientRect().top<0) head.forEach(function(b){ if(!b.classList.contains('sq-in')){ sqInstant(b); show(b); } });
+      rest.forEach(function(b){ if(!b.classList.contains('sq-in') && sqAbove(b)){ sqInstant(b); if(b===scn||b===ctl){ ioScene.disconnect(); show(scn); if(ctl) show(ctl); } else handle(b); } });
+      if(tail && !tailDone && sqAbove(tail)){ [].forEach.call(sec.querySelectorAll('.sq-tail'),function(x){ x.style.transition='none'; }); handle(tail); }
+    });
   })();
 
   /* разделы .guided: каждый блок проявляется у середины экрана, внутри — по очереди слева направо.
@@ -2057,8 +2163,42 @@ strong.hl{font-weight:500}
           headShown=true; queue.forEach(reveal); queue=[]; } }); },{rootMargin:'0px 0px -70% 0px'});
         ioS.observe(sec);
       }
+      var all=[].slice.call(sec.querySelectorAll('.sq-block'));
       [].forEach.call(sec.querySelectorAll('.sq-block:not([data-sq="section"])'),function(b){ io.observe(b); });
+      SQ_SWEEP.push(function(){
+        if(!all.some(function(b){ return !b.classList.contains('sq-in'); })) return;
+        var any=false;
+        all.forEach(function(b){ if(!b.classList.contains('sq-in') && sqAbove(b)){ any=true; io.unobserve(b); sqInstant(b); reveal(b); } });
+        /* если раздел уже прокручен, «первый кадр» больше не ждём */
+        if(any && !headShown){ headShown=true; if(typeof ioS!=='undefined' && ioS) ioS.disconnect(); queue.forEach(reveal); queue=[]; }
+      });
     });
+  })();
+
+  /* ================= Cinematic scroll: один пассивный обработчик прокрутки + rAF =================
+     Обновляет только секции в кадре (их отслеживает IntersectionObserver). Никакого перехвата прокрутки:
+     все значения — функции положения страницы, поэтому при быстрой прокрутке элементы сразу в конечном состоянии. */
+  (function(){
+    if(reduce || !('IntersectionObserver' in window)) return;
+    var els=[].slice.call(document.querySelectorAll('[data-scroll]'));
+    var hero=document.getElementById('hero'), phil=document.getElementById('approach'), scene=document.querySelector('#chaos .cx-scene');
+    var vis=new Set(els), ticking=false;
+    function req(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) vis.add(e.target); else vis.delete(e.target); }); req(); },{rootMargin:'25% 0px 25% 0px'});
+    els.forEach(function(e){ io.observe(e); });
+    function update(){
+      ticking=false; var vh=innerHeight;
+      vis.forEach(function(el){ var r=el.getBoundingClientRect(); var p=(vh-r.top)/(vh+r.height); el.style.setProperty('--p',Math.max(0,Math.min(1,p)).toFixed(4)); });
+      if(hero && vis.has(hero)){ hero.style.setProperty('--exit',Math.max(0,Math.min(1,scrollY/(hero.offsetHeight*0.9))).toFixed(4)); }
+      if(scene && phil && vis.has(phil)){ var r=scene.getBoundingClientRect(); var c=(r.top+r.height/2)/vh; var x=Math.max(0,1-Math.abs(c-0.5)/0.48); phil.style.setProperty('--imm',(x*x*(3-2*x)).toFixed(3)); }
+    }
+    addEventListener('scroll',req,{passive:true}); addEventListener('resize',req); addEventListener('orientationchange',req); req();
+  })();
+
+  /* направления: отклик на касание на телефоне (на компьютере — наведение) */
+  (function(){
+    var dirs=[].slice.call(document.querySelectorAll('#directions .dir'));
+    dirs.forEach(function(d){ d.addEventListener('touchstart',function(){ dirs.forEach(function(x){ x.classList.toggle('touch',x===d); }); },{passive:true}); });
   })();
 
   /* ---------- коралловые акценты: проявляются при прокрутке и остаются ---------- */
@@ -2069,7 +2209,9 @@ strong.hl{font-weight:500}
       var shown=0;
       es.forEach(function(e){ if(e.isIntersecting){ var el=e.target; setTimeout(function(){ el.classList.add('on'); }, 250+shown++*180); io.unobserve(el); } });
     },{threshold:.9, rootMargin:'0px 0px -12% 0px'});
-    hs.forEach(function(h){ if(!h.closest('.seq-ready') && !(h.closest('.hero') && document.documentElement.classList.contains('hero-seq'))) io.observe(h); });
+    var free=hs.filter(function(h){ return !h.closest('.seq-ready') && !(h.closest('.hero') && document.documentElement.classList.contains('hero-seq')); });
+    free.forEach(function(h){ io.observe(h); });
+    SQ_SWEEP.push(function(){ free.forEach(function(h){ if(!h.classList.contains('on') && sqAbove(h)){ io.unobserve(h); h.classList.add('on'); } }); });
   })();
 
   /* ---------- форма обратной связи ----------
@@ -2091,7 +2233,7 @@ strong.hl{font-weight:500}
     st.addEventListener('click',function(e){if(e.target===st||e.target.closest('[data-close]'))closeModal(st)});
   });
   document.querySelectorAll('.story-open').forEach(function(b){
-    b.addEventListener('click',function(){var st=document.getElementById(b.dataset.story); if(!st) return; openModal(st); st.scrollTop=0;});
+    b.addEventListener('click',function(){var st=document.getElementById(b.dataset.story); if(!st) return; [].forEach.call(st.querySelectorAll('.st-block'),function(x,i){x.style.setProperty('--n',i);}); [].forEach.call(st.querySelectorAll('.review-quotes blockquote'),function(x,i){x.style.setProperty('--q',i);}); openModal(st); st.scrollTop=0;});
   });
   /* полный текст отзыва */
   document.querySelectorAll('.review-toggle').forEach(function(b){
@@ -3823,9 +3965,12 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   /* ---------- кадр ---------- */
   const m4 = new THREE.Matrix4(), col = new THREE.Color(), proj = new V();
   const ease = x => (x <= 0 ? 0 : x >= 1 ? 1 : x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-  let clock = 0;
+  let clock = 0, firstSeen = -1; const apS = new V();
   function frame(dt) {
-    clock += dt; const t = clock; U.uTime.value = t;
+    clock += dt;
+    /* постепенное появление хаоса: с момента, когда сцена вышла на экран */
+    if (firstSeen < 0 && (sceneEl.classList.contains('sq-in') || !sceneEl.closest('.seq-ready') || reduce)) firstSeen = clock;
+    const appearT = firstSeen < 0 ? -1 : (reduce ? 99 : clock - firstSeen); const t = clock; U.uTime.value = t;
     const k = selected.size;
     order += ((k ? Math.min(1, 0.4 + k * 0.12) : 0) - order) * Math.min(1, dt * 1.5); U.uOrder.value = order;
     if (!drag.on) { drag.vel *= 0.94; drag.rot += drag.vel; }
@@ -3842,7 +3987,9 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       if (kk >= 1) { e.fP.copy(e.P); e.fS.copy(e.S); e.fQ.copy(e.Qt); e.fC.copy(e.C); e.fG = e.G; } /* дальше следуем за движущейся целью */
       if (e.dir && !reduce) e.P.y += Math.sin(t * 1.2 + i) * 0.006;
       e.L1 = tmpO.link; e.L2 = tmpO.link2; e.organised = kk > 0.6 && !!e.dir;
-      m4.compose(e.P, e.Qt, e.S); mesh.setMatrixAt(i, m4); mesh.setColorAt(i, col.setRGB(e.C.x, e.C.y, e.C.z));
+      const ap = appearT < 0 ? 0 : Math.min(1, Math.max(0, (appearT - 0.35 - e.rank * 1.8) / 0.9)); const ape = ap * ap * (3 - 2 * ap);
+      apS.copy(e.S).multiplyScalar(Math.max(0.001, ape));
+      m4.compose(e.P, e.Qt, apS); mesh.setMatrixAt(i, m4); mesh.setColorAt(i, col.setRGB(e.C.x, e.C.y, e.C.z));
       aFace.array[i] = e.dir ? tmpO.face : e.cface; aGlow.array[i] = e.G * (0.75 + 0.25 * Math.sin(t * 2 + i));
     }
     mesh.instanceMatrix.needsUpdate = true; mesh.instanceColor.needsUpdate = true; aFace.needsUpdate = true; aGlow.needsUpdate = true;
@@ -3896,7 +4043,8 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       const s = STREAMS[d.s](d.u);
       const spreadK = 1 + calm * 0.6;
       pp[i * 3] = s[0] * spreadK + d.r; pp[i * 3 + 1] = s[1] * spreadK + d.r * 0.6; pp[i * 3 + 2] = s[2] + d.z - calm * 0.8;
-      const a = (0.55 - calm * 0.35) * (0.6 + 0.4 * Math.sin(t * 1.5 + i));
+      const gAp = appearT < 0 ? 0 : Math.min(1, appearT / 2.4);
+      const a = gAp * (0.55 - calm * 0.35) * (0.6 + 0.4 * Math.sin(t * 1.5 + i));
       const warmP = i % 9 === 0; pc.set(warmP ? [0.95 * a, 0.62 * a, 0.5 * a] : [0.45 * a, 0.9 * a, 0.85 * a], i * 3); ps[i] = d.sz * (0.85 + 0.25 * Math.sin(t * 2.3 + i * 1.7));
     }
     for (let i = 0; i < PUL; i++) {
