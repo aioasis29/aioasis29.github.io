@@ -1391,6 +1391,11 @@ strong.hl{font-weight:500}
 #projects>.seam-out{background:linear-gradient(180deg,rgba(250,252,251,0.000) 0.0%,rgba(249,251,250,0.189) 12.5%,rgba(245,248,247,0.583) 25.0%,rgba(234,240,239,0.926) 37.5%,rgba(216,226,226,1.000) 50.0%,rgba(191,208,208,1.000) 62.5%,rgba(162,184,186,1.000) 75.0%,rgba(131,158,160,1.000) 87.5%,rgba(102,130,133,1.000) 100.0%)}
 #founder>.seam-in{background:linear-gradient(180deg,rgba(102,130,133,1.000) 0.0%,rgba(75,103,106,1.000) 12.5%,rgba(54,78,81,1.000) 25.0%,rgba(37,57,59,1.000) 37.5%,rgba(26,41,43,1.000) 50.0%,rgba(18,29,32,0.989) 62.5%,rgba(13,23,25,0.684) 75.0%,rgba(11,20,22,0.232) 87.5%,rgba(11,20,22,0.000) 100.0%)}
 @media (max-width:860px){:root{--sh:88px}}
+.emb-hint{position:absolute;z-index:2;margin:0;display:flex;align-items:center;gap:9px;white-space:nowrap;pointer-events:none;
+  font:500 .8rem/1 var(--f-body);letter-spacing:.03em;color:rgba(160,227,216,.9);text-shadow:0 1px 10px rgba(6,14,16,.9);
+  opacity:0;transform:translate(-50%,6px);transition:opacity 1.4s var(--ease),transform 1.4s var(--ease)}
+.emb-hint.on{opacity:1;transform:translate(-50%,0)}
+.emb-hint svg{flex:none;width:34px;height:12px;fill:none;stroke:var(--coral);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
 </style>
 
 </head>
@@ -2993,6 +2998,26 @@ if(renderer){
   document.addEventListener('mouseleave',()=>{ tY=0; tP=0; });
   let tx0=0,ty0=0,tyaw0=0;
   hero.addEventListener('touchstart',e=>{ const t0=e.touches[0]; tx0=t0.clientX; ty0=t0.clientY; tyaw0=tY; },{passive:true});
+  /* подсказка-пасхалка: знак можно вращать. Появляется один раз, только если посетитель сам не провёл курсором рядом со знаком;
+     после первого взаимодействия больше не показывается */
+  const touchUI=matchMedia('(hover: none)').matches;
+  const hint=document.createElement('p'); hint.className='emb-hint'; hint.setAttribute('aria-hidden','true');
+  hint.innerHTML='<svg viewBox="0 0 40 14"><path d="M3 5c8 6 26 6 34 0"/><path d="M32 2.5l5 2.5-3.6 4"/></svg><span>'+(touchUI?'Знак живой — проведите пальцем':'Знак живой — попробуйте повернуть')+'</span>';
+  hero.appendChild(hint);
+  let hintState=0; const _hv=new THREE.Vector3();
+  function hintDone(){ if(hintState===2) return; if(hintState===1) hint.classList.remove('on'); hintState=2; }
+  function emblemScreen(){ group.updateMatrixWorld(); _hv.set(0,0,0).applyMatrix4(group.matrixWorld).project(camera); const cx=(_hv.x*.5+.5)*w, cy=(-_hv.y*.5+.5)*h;
+    _hv.set(1.25,0,0).applyMatrix4(group.matrixWorld).project(camera); return {cx,cy,r:Math.abs((_hv.x*.5+.5)*w-cx)}; }
+  hero.addEventListener('pointermove',e=>{ if(hintState===2||e.pointerType==='touch') return; const r=hero.getBoundingClientRect(), m=emblemScreen();
+    if(Math.hypot(e.clientX-r.left-m.cx,e.clientY-r.top-m.cy)<m.r*1.3) hintDone(); },{passive:true});
+  hero.addEventListener('touchstart',hintDone,{passive:true});
+  function showHint(){
+    if(hintState!==0||reduce||scrollY>innerHeight*.3) return hintDone();
+    const m=emblemScreen(); hint.style.left=m.cx.toFixed(0)+'px'; hint.style.top=Math.min(h-40,m.cy+m.r*1.02).toFixed(0)+'px';
+    hintState=1; hint.classList.add('on'); setTimeout(hintDone,6000);
+  }
+  function armHint(){ setTimeout(showHint,8000); }
+  if(window.__introDone) armHint(); else document.addEventListener('aioasis:intro-done',armHint,{once:true});
   hero.addEventListener('touchmove',e=>{ const t0=e.touches[0], dx=t0.clientX-tx0, dy=t0.clientY-ty0; if(Math.abs(dx)>Math.abs(dy)*.8){ tY=Math.max(-1.3,Math.min(1.3,tyaw0+dx*.008)); tP=Math.max(-.4,Math.min(.4,dy*.003)); lastMove=performance.now(); } },{passive:true});
 
   function render(t){
