@@ -15,6 +15,8 @@
     ym(114126002, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
 </script>
 <!-- /Yandex.Metrika counter -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <title>AI OASIS — сложное становится простым</title>
 <meta name="description" content="Помогаем решать реальные задачи с помощью искусственного интеллекта, цифровых технологий и продуманного проектирования решений.">
 <meta name="theme-color" content="#0A0E0F">
@@ -2098,8 +2100,8 @@ strong.hl{font-weight:500}
       </div>
       <form class="form sq-block cx-card" id="lead-form" novalidate>
         <h3 class="sq" style="--i:0">Расскажите о задаче</h3>
-        <div class="sq field" style="--i:1"><label for="f-name">Как к вам обращаться</label><input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Имя"></div>
-        <div class="sq field" style="--i:2"><label for="f-contact">Как с вами связаться</label><input type="text" id="f-contact" name="contact" required placeholder="Телефон, почта или ник в мессенджере"></div>
+        <div class="sq field" style="--i:1"><label for="f-name">Как к вам обращаться</label><input type="text" id="f-name" name="name" autocomplete="name" maxlength="120" class="ym-disable-keys" required placeholder="Имя"></div>
+        <div class="sq field" style="--i:2"><label for="f-contact">Как с вами связаться</label><input type="text" id="f-contact" name="contact" maxlength="200" class="ym-disable-keys" required placeholder="Телефон, почта или ник в мессенджере"></div>
         <fieldset class="sq field" style="--i:3">
           <legend>Удобный способ связи</legend>
           <div class="pills">
@@ -2109,7 +2111,7 @@ strong.hl{font-weight:500}
             <input type="radio" name="channel" id="ch-phone" value="phone"><label for="ch-phone">Звонок</label>
           </div>
         </fieldset>
-        <div class="sq field" style="--i:4"><label for="f-task">Что происходит и что хотелось бы изменить</label><textarea id="f-task" name="task" required placeholder="Можно коротко и своими словами"></textarea></div>
+        <div class="sq field" style="--i:4"><label for="f-task">Что происходит и что хотелось бы изменить</label><textarea id="f-task" name="task" maxlength="4000" class="ym-disable-keys" required placeholder="Можно коротко и своими словами"></textarea></div>
         <div class="hp" aria-hidden="true"><label for="f-website">Сайт</label><input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
         <label class="sq consent" style="--i:5"><input type="checkbox" id="f-consent" name="consent" required><span>Я даю согласие на обработку моих персональных данных (имя, способ связи, описание задачи) для ответа на это обращение. <a href="privacy.html#consent" target="_blank" rel="noopener">Текст согласия</a></span></label>
         <button class="sq btn btn-primary" type="submit" style="--i:6">Отправить <span class="arr" aria-hidden="true">→</span></button>
@@ -2669,7 +2671,8 @@ strong.hl{font-weight:500}
   var form=document.getElementById('lead-form'), status=document.getElementById('form-status'), sendBtn=form.querySelector('button[type=submit]');
   var FALLBACK='Напишите напрямую: <a href="https://t.me/Alexey_Kotsuba" target="_blank" rel="noopener">Telegram @Alexey_Kotsuba</a> или <a href="mailto:studio@kocuba-aa.ru">studio@kocuba-aa.ru</a>.';
   function setStatus(html,err){status.innerHTML=html;status.classList.toggle('err',!!err)}
-  var lastFocus=null;
+  var lastFocus=null, formSeen=0; /* время заполнения: человек тратит секунды, робот отправляет форму мгновенно */
+  form.addEventListener('focusin',function f(){ formSeen=performance.now(); form.removeEventListener('focusin',f); });
   function openModal(m){lastFocus=document.activeElement;m.hidden=false;m.classList.add('is-open');document.body.style.overflow='hidden';var b=m.querySelector('[data-close]');b&&b.focus()}
   function closeModal(m){m.hidden=true;m.classList.remove('is-open');document.body.style.overflow='';lastFocus&&lastFocus.focus&&lastFocus.focus()}
   document.querySelectorAll('.modal').forEach(function(m){
@@ -2692,7 +2695,7 @@ strong.hl{font-weight:500}
     var missing=[].filter.call(form.querySelectorAll('[required]'),function(el){return el.type==='checkbox'?!el.checked:!el.value.trim()});
     if(missing.length){setStatus(missing[0].id==='f-consent'?'Чтобы отправить сообщение, отметьте согласие на обработку данных.':'Заполните, пожалуйста, имя, способ связи и пару слов о задаче.',true);missing[0].focus();return}
     if(!FORM_ENDPOINT){setStatus('Отправка через форму пока не подключена. '+FALLBACK,true);return}
-    var data={name:form.name.value.trim(),contact:form.contact.value.trim(),channel:(form.querySelector('input[name=channel]:checked')||{}).value||'',task:form.task.value.trim(),consent:true,website:form.website.value,page:location.href};
+    var data={t:formSeen?Math.round(performance.now()-formSeen):0,name:form.name.value.trim().slice(0,120),contact:form.contact.value.trim().slice(0,200),channel:(form.querySelector('input[name=channel]:checked')||{}).value||'',task:form.task.value.trim().slice(0,4000),consent:true,website:form.website.value,page:location.href};
     sendBtn.disabled=true;var label=sendBtn.innerHTML;sendBtn.textContent='Отправляем…';setStatus('',false);
     var ctrl=('AbortController' in window)?new AbortController():null; var timer=setTimeout(function(){ctrl&&ctrl.abort()},20000);
     fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data),signal:ctrl?ctrl.signal:undefined})
