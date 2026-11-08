@@ -2601,99 +2601,104 @@ if(renderer){
   const scene=new THREE.Scene();
   const camera=new THREE.PerspectiveCamera(32,1,.1,100); camera.position.set(0,0,9);
   scene.add(bgMesh);
-  /* ---------- фирменный знак: монограмма «AI» из оптического стекла ----------
-     Контуры сняты с оригинального логотипа (assets/source/01-logo-original.jpg): буква A с треугольным
-     просветом и I с засечками, пропорции исходные. Плоские контуры выдавливаются в толстое стекло
-     со скруглёнными фасками; нормали сглаживаются по углу излома, чтобы фаски были гладкими. */
-  const AI_A=[[-0.9502,1.1474],[-1.7404,-1.1483],[-1.1421,-1.1483],[-0.9925,-0.7065],[-0.1865,-0.7065],[-0.0422,-1.1483],[0.5719,-1.1483],[-0.2164,1.1474]];
-  const AI_H=[[-0.5798,0.6265],[-0.3185,-0.2701],[-0.8543,-0.2701]];
-  const AI_I=[[0.6125,1.1474],[0.6125,0.7083],[0.8975,0.7083],[0.8975,-0.7083],[0.6125,-0.7083],[0.6125,-1.1483],[1.7387,-1.1483],[1.7387,-0.7083],[1.4536,-0.7083],[1.4536,0.7083],[1.7387,0.7083],[1.7387,1.1474]];
-  function shapeOf(pts,holes){ const s=new THREE.Shape(pts.map(p=>new THREE.Vector2(p[0],p[1]))); (holes||[]).forEach(h=>s.holes.push(new THREE.Path(h.map(p=>new THREE.Vector2(p[0],p[1]))))); return s; }
-  function creased(g,angle){ /* сглаживание нормалей внутри фасок, резкий излом между гранью и фаской сохраняется */
-    const p=g.attributes.position.array, n=p.length/3, fn=new Float32Array(n*3), out=new Float32Array(n*3), map=new Map(), cos=Math.cos(angle);
-    const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),ab=new THREE.Vector3(),ac=new THREE.Vector3();
-    for(let i=0;i<n;i+=3){ a.fromArray(p,i*3); b.fromArray(p,i*3+3); c.fromArray(p,i*3+6); ab.subVectors(b,a); ac.subVectors(c,a); ab.cross(ac); const ar=ab.length(); ab.normalize();
-      for(let k=0;k<3;k++){ fn.set([ab.x*ar,ab.y*ar,ab.z*ar],(i+k)*3); const key=Math.round(p[(i+k)*3]*1e4)+','+Math.round(p[(i+k)*3+1]*1e4)+','+Math.round(p[(i+k)*3+2]*1e4); let l=map.get(key); if(!l) map.set(key,l=[]); l.push(i+k); } }
-    const v=new THREE.Vector3(), w=new THREE.Vector3();
-    map.forEach(l=>{ for(const i of l){ v.fromArray(fn,i*3).normalize(); const s=new THREE.Vector3(); for(const j of l){ w.fromArray(fn,j*3); if(v.dot(w.clone().normalize())>=cos) s.add(w); } s.normalize(); out.set([s.x,s.y,s.z],i*3); } });
-    g.setAttribute('normal',new THREE.BufferAttribute(out,3)); return g; }
-  const EX={depth:.5,bevelEnabled:true,bevelThickness:.12,bevelSize:.07,bevelSegments:12,curveSegments:1,steps:1};
-  const emGeo=creased(new THREE.ExtrudeGeometry([shapeOf(AI_A,[AI_H]),shapeOf(AI_I)],EX).toNonIndexed(),THREE.MathUtils.degToRad(38));
-  emGeo.translate(0,0,-EX.depth/2); emGeo.computeBoundingBox();
-  /* стекло знака: преломление среды с дисперсией, поглощение в толще (от светлой бирюзы слева к глубокой справа,
-     как в градиенте логотипа), внутреннее отражение и «рассвет» — тёплый низкий свет слева и холодный контровой справа */
-  const EU={...U,uSun:{value:new THREE.Vector3(-.7,-.05,.7).normalize()},uRim:{value:new THREE.Vector3(.85,.35,-.4).normalize()},uSunK:{value:1}};
-  const emVS=`varying vec3 vN;varying vec3 vP;varying vec3 vO;void main(){vO=position;vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}`;
-  const emFS=(back)=>BG+`
-    uniform vec2 uRes; uniform vec3 uSun; uniform vec3 uRim; uniform float uSunK;
-    varying vec3 vN; varying vec3 vP; varying vec3 vO;
-    vec3 studio(vec3 R){
-      float box=smoothstep(.55,.92,R.y)*smoothstep(-.25,.4,R.z)*(1.-smoothstep(.55,1.,abs(R.x)));
-      float strip=(1.-smoothstep(0.,.1,abs(R.x-.42)))*smoothstep(-.1,.5,R.y+.3)*smoothstep(-.2,.3,R.z);
-      float side=pow(max(dot(R,normalize(vec3(-.75,.35,.55))),0.),22.);
-      return vec3(.93,1.,.98)*(box*.5+strip*.7+side*.35);
+  /* ---------- фирменный знак AI OASIS: стеклянная лента, свёрнутая в мягкую «A» ----------
+     Форма — по фирменному знаку (референс клуба): замкнутая лента-петля в виде скруглённого треугольника
+     с вогнутым основанием и треугольным просветом. Лента плоская, с полуоборотом (как лента Мёбиуса):
+     на одной стороне видна широкая грань, на другой — ребро. Цвет — от бирюзы к рассветному кораллу. */
+  const RIB_PTS=[[0,1.0,0],[.27,.92,.06],[.56,.5,.1],[.92,-.12,.05],[1.18,-.6,-.03],[1.08,-.84,-.08],[.76,-.8,-.02],[.38,-.56,.06],[0,-.4,.12],[-.38,-.56,.06],[-.76,-.8,-.02],[-1.08,-.84,-.08],[-1.18,-.6,-.03],[-.92,-.12,.05],[-.56,.5,.1],[-.27,.92,.06]];
+  const ribCurve=new THREE.CatmullRomCurve3(RIB_PTS.map(p=>new THREE.Vector3(p[0],p[1],p[2])),true,'centripetal');
+  const ribLen=ribCurve.getLength(), _t1=new THREE.Vector3(), _t2=new THREE.Vector3();
+  function ribbonGeo(SEG,RAD,W,TH){
+    const pos=[],nor=[],uv=[],idx=[], Z=new THREE.Vector3(0,0,1);
+    const P=new THREE.Vector3(),T=new THREE.Vector3(),A=new THREE.Vector3(),B=new THREE.Vector3(),wd=new THREE.Vector3(),nd=new THREE.Vector3(),n=new THREE.Vector3();
+    /* кривизна по длине, сглаженная: на крутых поворотах лента сужается и не складывается внутрь */
+    const KN=SEG, kr=new Float32Array(KN), ks=new Float32Array(KN);
+    for(let i=0;i<KN;i++){ const t=i/KN; ribCurve.getTangentAt((t+.988)%1,_t1); ribCurve.getTangentAt((t+.012)%1,_t2); kr[i]=_t1.distanceTo(_t2)/(.024*ribLen); }
+    const KW=Math.round(KN*.025);
+    for(let i=0;i<KN;i++){ let a=0,wsum=0; for(let j=-KW;j<=KW;j++){ const wt=Math.exp(-(j*j)/(KW*KW*.5)); a+=kr[(i+j+KN)%KN]*wt; wsum+=wt; } ks[i]=a/wsum; }
+    for(let i=0;i<=SEG;i++){
+      const t=i/SEG; ribCurve.getPointAt(t%1,P); ribCurve.getTangentAt(t%1,T);
+      A.crossVectors(T,Z).normalize(); B.crossVectors(A,T).normalize();
+      /* полуоборот по длине: широкая грань к зрителю на левой стороне, ребро — справа внизу */
+      const th=.57+Math.PI*t, c=Math.cos(th), s=Math.sin(th);
+      wd.copy(A).multiplyScalar(c).addScaledVector(B,s); nd.copy(B).multiplyScalar(c).addScaledVector(A,-s);
+      /* ширина ленты дышит: шире на сторонах, уже на вершине и в основании */
+      const w=W/(1+.6*ks[i%KN]*W);
+      for(let j=0;j<=RAD;j++){
+        const a=j/RAD*6.2832, ca=Math.cos(a), sa=Math.sin(a);
+        const x=w*.5*Math.sign(ca)*Math.pow(Math.abs(ca),.55), y=TH*.5*Math.sign(sa)*Math.pow(Math.abs(sa),.55);
+        pos.push(P.x+wd.x*x+nd.x*y,P.y+wd.y*x+nd.y*y,P.z+wd.z*x+nd.z*y);
+        n.copy(wd).multiplyScalar(TH*ca).addScaledVector(nd,w*sa).normalize(); nor.push(n.x,n.y,n.z);
+        uv.push(ca,t);
+      }
     }
+    for(let i=0;i<SEG;i++) for(let j=0;j<RAD;j++){ const a=i*(RAD+1)+j,b=a+RAD+1; idx.push(a,b,a+1,b,b+1,a+1); }
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3)); g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); g.setIndex(idx); return g;
+  }
+  const isMob=Math.min(screen.width,screen.height)<600;
+  const emGeo=ribbonGeo(isMob?480:840,isMob?24:36,.62,.06);
+  const EU={...U,uSun:{value:new THREE.Vector3(.75,.25,.6).normalize()},uSunK:{value:1},uCx:{value:0},uSz:{value:1}};
+  const emVS=`varying vec3 vN;varying vec3 vP;varying vec2 vUv;void main(){vUv=uv;vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}`;
+  const emFS=BG+`
+    uniform vec2 uRes; uniform vec3 uSun; uniform float uSunK; uniform float uCx; uniform float uSz;
+    varying vec3 vN; varying vec3 vP; varying vec2 vUv;
     void main(){
-      vec3 N=normalize(vN); vec3 V=normalize(-vP);
-      ${back?'N=-N;':''}
-      float ndv=clamp(abs(dot(N,V)),0.,1.), fres=.04+.96*pow(1.-ndv,5.);
+      vec3 N=normalize(vN); vec3 V=normalize(-vP); if(dot(N,V)<0.) N=-N;
+      float ndv=clamp(dot(N,V),0.,1.), fres=.04+.96*pow(1.-ndv,5.);
       vec2 suv=gl_FragCoord.xy/uRes;
-      float gx=clamp(vO.x/3.6+.5,0.,1.);
-      vec3 tint=mix(vec3(.80,1.,.98),vec3(.36,.86,.86),smoothstep(.1,.95,gx));
-      float k=${back?'.3':'.13'}*(.55+1.1*(1.-ndv));
-      vec3 rR=refract(-V,N,1./1.43), rG=refract(-V,N,1./1.46), rB=refract(-V,N,1./1.5);
-      vec3 col=vec3(bg(suv+rR.xy*k).r,bg(suv+rG.xy*k).g,bg(suv+rB.xy*k).b);
-      vec3 sunC=vec3(1.,.66,.5), sunG=vec3(1.,.82,.62), teal=vec3(.36,.92,.9);
-      float sd=dot(N,uSun), rd=dot(N,uRim);
-      ${back?`
-      /* внутренняя сторона: свет, пойманный в толще стекла */
-      col=col*tint*.85+tint*.05;
-      col+=sunC*pow(max(-sd,0.),2.)*.32*uSunK+teal*pow(max(-rd,0.),2.)*.22;
-      col+=mix(teal,sunC,smoothstep(.65,.15,gx))*pow(1.-ndv,2.)*.25;
-      gl_FragColor=vec4(col+ign(gl_FragCoord.xy),1.);`:`
-      /* толща бирюзового стекла: как сплошные буквы логотипа, но со светом внутри */
-      col=col*tint*.9+tint*vec3(.07,.2,.21)*(.75+.5*(1.-gx));
+      /* рассвет справа: бирюза слева переходит через лавандовый перелив в тёплый коралл */
+      float sd=clamp((vP.x-uCx)/uSz*.5+.5,0.,1.);
+      float side=smoothstep(.4,.8,sd);
+      vec3 teal=vec3(.2,.86,.96), coral=vec3(1.,.36,.24), lav=vec3(.82,.52,.9);
+      vec3 base=mix(teal,coral,side); base=mix(base,lav,.28*smoothstep(.0,.5,side*(1.-side)*4.));
+      /* преломлённая среда внутри стекла */
+      vec3 r=refract(-V,N,1./1.45); float k=.07*(.5+(1.-ndv));
+      vec3 trans=vec3(bg(suv+r.xy*k*1.04).r,bg(suv+r.xy*k).g,bg(suv+r.xy*k*.96).b);
+      vec3 col=trans*mix(vec3(1.),base,.6)*.5+base*(.05+.14*side);
+      /* тонкие шёлковые прожилки вдоль ленты */
+      float u=vUv.x, st=0.;
+      st+=exp(-pow((u-.86)/.025,2.))+exp(-pow((u+.82)/.03,2.))*.8+exp(-pow((u-.38)/.02,2.))*.55+exp(-pow((u+.3)/.022,2.))*.45+exp(-pow(u/.016,2.))*.3;
+      col+=mix(base,vec3(1.),.3)*st*.42*(.45+.55*fres);
+      /* кромки ленты светятся: свет идёт по толщине стекла и выходит на ребре */
+      float e=smoothstep(.72,1.,abs(u));
+      col+=mix(base,vec3(1.),.1)*e*.95;
+      col+=base*pow(1.-ndv,2.2)*(1.05+.5*side);
+      /* студийные блики и тёплое солнце */
       vec3 R=reflect(-V,N);
-      col+=studio(R)*(.18+fres*.9);
-      /* восход: тёплый свет скользит по граням, обращённым к солнцу; переход к бирюзе — по углу, без границы */
-      float sw=smoothstep(-.35,.9,sd);
-      col+=mix(teal*.04,sunC*.3,sw)*uSunK*(.45+.55*(1.-ndv))*(.55+.45*(1.-gx));
-      col+=sunG*pow(max(dot(R,uSun),0.),70.)*1.1*uSunK+sunC*pow(max(dot(R,uSun),0.),9.)*.22*uSunK;
-      col+=teal*pow(max(dot(R,uRim),0.),40.)*.8+teal*pow(1.-ndv,3.)*.45*(.55+.45*smoothstep(-.5,.8,rd));
-      col+=sunC*pow(1.-ndv,4.)*.35*smoothstep(.2,-.8,rd)*uSunK;
-      /* первые лучи: фаски, обращённые к низкому тёплому источнику, вспыхивают коралловым и золотистым */
-      float edge=pow(1.-ndv,2.2), face=smoothstep(.05,.85,sd);
-      /* тёплый рассветный отсвет: сдвигаем оттенок стекла к кораллу (а не просто добавляем свет),
-         сильнее снизу слева и на фасках к солнцу; к правой букве он растворяется в бирюзе */
-      float wm=clamp(smoothstep(.62,.0,gx)*smoothstep(.75,-1.2,vO.y)*.85+edge*face*.9,0.,1.)*uSunK;
-      col=mix(col,col*vec3(1.58,.8,.66)+sunC*.09,wm*.75);
-      col+=sunC*edge*face*.25*uSunK;
-      /* внутреннее отражение: окружение, отражённое изнутри задней грани */
-      col+=studio(reflect(R,-N))*tint*.12;
-      float a=mix(.84,.98,fres);
-      gl_FragColor=vec4(col+ign(gl_FragCoord.xy),clamp(a,0.,1.));`}
+      float box=smoothstep(.55,.92,R.y)*smoothstep(-.25,.4,R.z)*(1.-smoothstep(.5,1.,abs(R.x)));
+      col+=vec3(.95,1.,1.)*box*.35*(.3+fres);
+      col+=vec3(1.,.82,.66)*pow(max(dot(R,uSun),0.),48.)*1.1*uSunK+coral*pow(max(dot(R,uSun),0.),6.)*.16*uSunK*side;
+      col+=vec3(.7,1.,1.)*pow(max(dot(R,normalize(vec3(-.8,.4,.45))),0.),40.)*.6;
+      float a=clamp(.18+fres*.55+e*.55+st*.18+.12*side,0.,.96);
+      gl_FragColor=vec4(col+ign(gl_FragCoord.xy),a);
     }`;
-  const emBack=new THREE.ShaderMaterial({uniforms:EU,vertexShader:emVS,fragmentShader:emFS(true),side:THREE.BackSide});
-  const emFront=new THREE.ShaderMaterial({uniforms:EU,vertexShader:emVS,fragmentShader:emFS(false),side:THREE.FrontSide,transparent:true,depthWrite:false});
+  /* прозрачная лента: сначала дальние стенки, затем ближние; цвет уже включает пропущенный свет (премультипликация) */
+  const mkRib=(side,ro)=>{ const m=new THREE.ShaderMaterial({uniforms:EU,vertexShader:emVS,fragmentShader:emFS,side,transparent:true,depthWrite:false,
+    blending:THREE.CustomBlending,blendSrc:THREE.OneFactor,blendDst:THREE.OneMinusSrcAlphaFactor}); const me=new THREE.Mesh(emGeo,m); me.renderOrder=ro; return me; };
+  /* мягкое свечение вокруг знака: гауссов спад без кромки, бирюза слева — коралл справа */
+  const haloMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uK:{value:1}},
+    vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+    fragmentShader:`uniform float uK;varying vec2 vUv;void main(){vec2 p=(vUv-.5)*2.;float r2=dot(p*vec2(1.,1.15),p*vec2(1.,1.15));
+      float g=exp(-r2*3.2)*(1.-smoothstep(.75,1.,sqrt(r2)));vec3 c=mix(vec3(.12,.55,.6),vec3(.7,.3,.22),smoothstep(-.3,.7,p.x));gl_FragColor=vec4(c*g*.22*uK,1.);}`});
   const group=new THREE.Group(); scene.add(group);
+  const halo=new THREE.Mesh(new THREE.PlaneGeometry(4.6,4.2),haloMat); halo.position.z=-.9; halo.renderOrder=0; group.add(halo);
   const emblem=new THREE.Group(); group.add(emblem);
-  const emB=new THREE.Mesh(emGeo,emBack); emB.renderOrder=1; emblem.add(emB);
-  const emF=new THREE.Mesh(emGeo,emFront); emF.renderOrder=2; emblem.add(emF);
+  emblem.add(mkRib(THREE.BackSide,1)); emblem.add(mkRib(THREE.FrontSide,2));
 
   let w=0,h=0;
   function layout(){
     w=hero.clientWidth; h=hero.clientHeight;
-    renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+    renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); camera.updateMatrixWorld();
     const db=new THREE.Vector2(); renderer.getDrawingBufferSize(db); U.uRes.value.copy(db); U.uAspect.value=w/h;
     const visH=2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.position.z, visW=visH*camera.aspect;
     const screenFrac=Math.min(innerHeight,h)/h; // доля hero, видимая на первом экране
     if(w<860){
       const y=visH*.5-screenFrac*visH*.24;
-      group.position.set(0,y-visH*.025,0); group.scale.setScalar(Math.min(.62,visW/5.1));
+      group.position.set(0,y-visH*.02,0); group.scale.setScalar(Math.min(.8,visW/3.9));
       U.uFocus.value.set(.62,1.-screenFrac*.24);
       U.uRib.value.set(1.-screenFrac*.36,.03,.1,1.);
     }else{
-      group.position.set(visW*.255,visH*.04,0); group.scale.setScalar(Math.min(.74,visH/7.2,visW/12.5));
+      group.position.set(visW*.26,visH*.05,0); group.scale.setScalar(Math.min(1,visH/5.2,visW/8.6));
       U.uFocus.value.set(.77,.54);
       U.uRib.value.set(.22,.05,.4,.55);
     }
@@ -2703,21 +2708,25 @@ if(renderer){
   layout();
 
   let mx=0,my=0,tx=0,ty=0;
+  let spin=0, spinV=0, lastSY=scrollY; const _c=new THREE.Vector3();
+  addEventListener('scroll',()=>{ const d=scrollY-lastSY; lastSY=scrollY; if(!reduce) spinV=Math.max(-.06,Math.min(.06,spinV+d*.00045)); if(!running) render(lastT); },{passive:true});
   addEventListener('pointermove',e=>{tx=e.clientX/innerWidth-.5; ty=e.clientY/innerHeight-.5;},{passive:true});
 
   function render(t){
     lastT=t; const s=t*.001; U.uTime.value=s;
     mx+=(tx-mx)*.04; my+=(ty-my)*.04;
-    /* знак медленно парит и поворачивается вокруг вертикальной оси: несколько несоизмеримых синусоид
-       дают плавное движение без заметного повтора; прокрутка первого экрана чуть доворачивает его */
-    const ex=Math.min(1,scrollY/Math.max(1,innerHeight));
-    const yaw=Math.sin(s*.19)*.48+Math.sin(s*.071+1.1)*.17+ex*.45;
-    emblem.rotation.set(.04+Math.sin(s*.15)*.07+my*.12-ex*.1, yaw+mx*.3, Math.sin(s*.11+.6)*.03);
-    emblem.position.y=Math.sin(s*.31)*.05;
-    /* «рассвет»: тёплый источник поднимается и медленно смещается, отражения скользят по граням */
-    EU.uSun.value.set(-.7+Math.sin(s*.043)*.12,-.12+Math.sin(s*.057+.8)*.16+ex*.25,.7).normalize();
+    /* знак парит: мягкое покачивание, отклик на курсор и на прокрутку —
+       вниз лента поворачивается в одну сторону, вверх — в другую, затем плавно успокаивается */
+    spinV*=.955; spin+=spinV; spin*=.996;
+    const yaw=Math.sin(s*.19)*.32+Math.sin(s*.071+1.1)*.12+spin+mx*.75;
+    emblem.rotation.set(.05+Math.sin(s*.15)*.08+my*.45+spinV*2.,yaw,Math.sin(s*.11+.6)*.04-spinV*1.5);
+    emblem.position.y=Math.sin(s*.31)*.06;
+    halo.material.uniforms.uK.value=.85+.15*Math.sin(s*.23);
+    /* рассвет: тёплый источник справа медленно поднимается, блики скользят по ленте */
+    EU.uSun.value.set(.72+Math.sin(s*.043)*.1,.18+Math.sin(s*.057+.8)*.15,.62).normalize();
     EU.uSunK.value=.85+.15*Math.sin(s*.09);
-    group.rotation.y=mx*.12; group.rotation.x=my*.08;
+    group.updateMatrixWorld(); _c.setFromMatrixPosition(group.matrixWorld).applyMatrix4(camera.matrixWorldInverse);
+    EU.uCx.value=_c.x; EU.uSz.value=group.scale.x*1.35;
     renderer.render(scene,camera);
   }
   function loop(t){ render(t); raf=requestAnimationFrame(loop); }
