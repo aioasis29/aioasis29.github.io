@@ -2257,6 +2257,43 @@ strong.hl{font-weight:500}
   mnav.addEventListener('click',function(e){if(e.target.closest('a'))setMenu(false)});
   addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)});
 
+  /* переходы по ссылкам внутри страницы: плавная прокрутка браузера (она идёт отдельно от основного потока и не
+     дёргается, пока работают 3D-сцены) плюс контроль прибытия. Встроенную прокрутку обрывают остаточные инерционные
+     события колеса или тачпада после быстрого пролистывания, а раскрытие блоков по пути может сдвинуть цель —
+     тогда кажется, что ссылка «не сработала». Когда прокрутка остановилась не у цели, она продолжается к пересчитанной цели. */
+  (function(){
+    var reduceM=matchMedia('(prefers-reduced-motion: reduce)').matches, watch=0, el=null, tries=0, lastY=0, still=0, t0=0, tF=0;
+    function targetY(){ return el ? Math.max(0, Math.min(Math.round(el.getBoundingClientRect().top+scrollY), document.documentElement.scrollHeight-innerHeight)) : 0; }
+    function fire(){ tF=performance.now(); scrollTo({top:targetY(),behavior:reduceM?'instant':'smooth'}); }
+    function stop(){ clearInterval(watch); watch=0; }
+    function check(){
+      var y=scrollY, el_=performance.now()-t0; still=Math.abs(y-lastY)<1?still+1:0; lastY=y;
+      if(el_>8000){ stop(); return; }
+      if(still<3) return;                                   /* ещё едет (или только что остановилась) */
+      if(Math.abs(targetY()-y)<=3){ if(el_>1200) stop(); return; }   /* у цели; чуть ждём поздней инерции */
+      if(tries>=6){ stop(); return; }
+      if(performance.now()-tF<900) return;                  /* не перезапускаем чаще раза в 0,9 с */
+      tries++; still=0; fire();                             /* остановилась не у цели — продолжаем к пересчитанной цели */
+    }
+    function go(target){ stop(); el=target; tries=0; still=0; lastY=scrollY; t0=performance.now(); fire(); watch=setInterval(check,150); }
+    /* пользователь сам взялся за прокрутку — не мешаем. Инерция прошлого жеста — это непрерывный поток событий колеса
+       с затухающей силой; новый жест начинается после паузы или резко сильнее предыдущего события. */
+    ['pointerdown','touchstart','keydown'].forEach(function(ev){ addEventListener(ev,function(){ if(watch) stop(); },{passive:true}); });
+    var wT=0, wD=0;
+    addEventListener('wheel',function(e){ var now=performance.now(), d=Math.abs(e.deltaY)+Math.abs(e.deltaX);
+      if(watch && now-t0>150 && (now-wT>400 || d>wD*1.5+2)) stop();
+      wT=now; wD=d; },{passive:true});
+    document.addEventListener('click',function(e){
+      if(e.defaultPrevented || e.button!==0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a=e.target.closest && e.target.closest('a[href^="#"]'); if(!a || a.target || a.closest('[role=dialog]')) return;
+      var id=decodeURIComponent(a.getAttribute('href').slice(1)), t=id?document.getElementById(id):null;
+      if(!t) return;
+      e.preventDefault();
+      try{ history.pushState(null,'','#'+id); }catch(_){}
+      go(t);
+    });
+  })();
+
   /* появление секций: элементы видимы в покое, анимация играет только для тех, что въезжают снизу */
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!reduce && 'IntersectionObserver' in window){
@@ -2369,7 +2406,7 @@ strong.hl{font-weight:500}
       }
     }
     function loop(now){
-      var dt=Math.min(.05,(now-last)/1000||.016); last=now;
+      var dt=Math.min(.12,(now-last)/1000||.016); last=now;
       if(!done) step(dt); else { idle+=dt; phiT+=dt*.04; }  /* после раскрытия — очень медленное вращение */
       phi+=(phiT-phi)*Math.min(1,dt*2.2); var ft=fitTarget(phiT), fk=Math.min(1,dt*2.2); fitS+=(ft.s-fitS)*fk; fitX+=(ft.x-fitX)*fk; fitY+=(ft.y-fitY)*fk;
       draw();
@@ -2434,10 +2471,13 @@ strong.hl{font-weight:500}
     var reveal=0, revealStart=0, raf=0, onScreen=true, began=false;
     function size(){
       var dpr=Math.min(window.devicePixelRatio||1,2); W=hero.clientWidth; H=hero.clientHeight; mob=W<860;
-      c.width=Math.round(W*dpr); c.height=Math.round(H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
       var hr=hero.getBoundingClientRect();
       if(mob){ var cp=hero.querySelector('.hero-copy').getBoundingClientRect(); y0=cp.top-hr.top-34; y1=y0-36; }
       else { var pr=hero.querySelector('.principles').getBoundingClientRect(); y0=pr.top-hr.top-24; y1=pr.top-hr.top-92; }
+      /* холст — только полоса волны (с запасом на амплитуду и свечение), а не весь первый экран: в 5–8 раз меньше пикселей на кадр */
+      var bt=Math.max(0,Math.floor(Math.min(y0,y1)-110)), bh=Math.max(1,Math.min(H,Math.ceil(Math.max(y0,y1)+110))-bt);
+      c.style.top=bt+'px'; c.style.bottom='auto'; c.style.height=bh+'px'; c.style.transformOrigin='50% '+(H/2-bt)+'px';
+      c.width=Math.round(W*dpr); c.height=Math.round(bh*dpr); ctx.setTransform(dpr,0,0,dpr,0,-bt*dpr);
     }
     function yAt(u,t,f){
       var base=y0+(y1-y0)*u, amp=(mob?10:9)+(mob?14:20)*u;
@@ -3070,12 +3110,13 @@ if(renderer){
   /* адаптивная плотность пикселей: если кадры стабильно дольше ~22 мс, снижаем шаг за шагом (не ниже 1) */
   let fAcc=0,fCnt=0,fPrev=0,dprNow=renderer.getPixelRatio();
   function adaptHero(t){ if(fPrev){ fAcc+=t-fPrev; fCnt++; } fPrev=t;
-    if(fCnt>=90){ const avg=fAcc/fCnt; fAcc=0; fCnt=0; if(avg>22 && dprNow>1){ dprNow=Math.max(1,dprNow-.25); renderer.setPixelRatio(dprNow); layout(); } } }
+    if(fCnt>=90){ const avg=fAcc/fCnt; fAcc=0; fCnt=0; if(avg>20 && dprNow>1){ dprNow=Math.max(1,dprNow-.25); renderer.setPixelRatio(dprNow); layout(); } } }
   function loop(t){ render(t); adaptHero(t); raf=requestAnimationFrame(loop); }
   function start(){ if(running||reduce) return; running=true; raf=requestAnimationFrame(loop); }
   function stop(){ running=false; cancelAnimationFrame(raf); fPrev=0; }
-  new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?start():stop())).observe(hero);
-  document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
+  let heroOn=false;
+  new IntersectionObserver(es=>es.forEach(e=>{ heroOn=e.isIntersecting; heroOn&&!document.hidden?start():stop(); })).observe(hero);
+  document.addEventListener('visibilitychange',()=>document.hidden||!heroOn?stop():start());
 
   /* ---------- финальная сцена: тот же фирменный знак, свой маленький холст, работает только на экране ---------- */
   (function(){
@@ -3234,8 +3275,10 @@ window.AIO_SCENE = function (host, opt) {
   if (reduce) still();
   else {
     frame(0.016);
-    new IntersectionObserver(es => es.forEach(e => (e.isIntersecting ? start() : stop())), { rootMargin: '80px' }).observe(host);
-    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    /* сцена работает, только пока она на экране и вкладка открыта */
+    let onScreen = false;
+    new IntersectionObserver(es => es.forEach(e => { onScreen = e.isIntersecting; onScreen && !document.hidden ? start() : stop(); }), { rootMargin: '80px' }).observe(host);
+    document.addEventListener('visibilitychange', () => (document.hidden || !onScreen ? stop() : start()));
   }
   requestAnimationFrame(() => host.classList.add('gl-ready'));
   return api;
@@ -3344,11 +3387,11 @@ window.AIO_POST = function (renderer, opts) {
       }
       quad.material = comp; renderer.setRenderTarget(null); renderer.render(post, cam);
     },
-    /* автоподстройка: если кадры стабильно дольше ~25 мс, снижаем внутреннее разрешение */
+    /* автоподстройка: если кадры стабильно дольше ~21 мс (ниже ~48 к/с), снижаем внутреннее разрешение — плавность важнее */
     adapt(dt, onChange) {
       acc += dt; cnt++; if (cnt < 90) return;
       const avg = acc / cnt; acc = 0; cnt = 0;
-      if (avg > 0.025 && quality < 3) { quality++; if (quality > 1) renderer.setPixelRatio(Math.max(1.25, renderer.getPixelRatio() - 0.5)); onChange && onChange(); }
+      if (avg > 0.021 && quality < 3) { quality++; if (quality > 1) renderer.setPixelRatio(Math.max(1, renderer.getPixelRatio() - 0.5)); onChange && onChange(); }
     },
     dispose() { [rtMain, rtA, rtB].forEach(r => r.dispose()); [bright, blur, comp].forEach(m => m.dispose()); quad.geometry.dispose(); }
   };
@@ -4999,16 +5042,16 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
 
   /* ---------- цикл: только когда блок на экране ---------- */
   let raf = 0, running = false, last = 0, visible = false;
-  /* автоподстройка: если кадры стабильно дольше ~25 мс, снижаем внутреннее разрешение (сначала суперсэмплинг, затем плотность) */
+  /* автоподстройка: если кадры стабильно дольше ~21 мс, снижаем внутреннее разрешение (сначала суперсэмплинг, затем плотность) */
   let acc = 0, cnt = 0;
   function adapt(dt) {
     acc += dt; cnt++;
     if (cnt < 90) return;
     const avg = acc / cnt; acc = 0; cnt = 0;
-    if (avg > 0.025 && quality < 3) {
+    if (avg > 0.021 && quality < 3) {
       quality++;
       mirG.visible = false; /* первым отключается отражение в полу: заметно легче, композиция сохраняется */
-      if (quality > 1) renderer.setPixelRatio(Math.max(1.25, renderer.getPixelRatio() - 0.5));
+      if (quality > 1) renderer.setPixelRatio(Math.max(1, renderer.getPixelRatio() - 0.5));
       resize();
     }
   }
@@ -5587,8 +5630,9 @@ import * as THREE from 'three';
     still();
   } else {
     frame(0.016);
-    new IntersectionObserver(es => es.forEach(e => (e.isIntersecting ? start() : stop())), { rootMargin: '100px' }).observe(host);
-    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    let onScreen = false;
+    new IntersectionObserver(es => es.forEach(e => { onScreen = e.isIntersecting; onScreen && !document.hidden ? start() : stop(); }), { rootMargin: '100px' }).observe(host);
+    document.addEventListener('visibilitychange', () => (document.hidden || !onScreen ? stop() : start()));
   }
   requestAnimationFrame(() => host.classList.add('gl-ready'));
 })();
