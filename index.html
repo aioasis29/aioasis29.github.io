@@ -1124,7 +1124,7 @@ strong.hl{font-weight:500}
 /* глубокая база: тёмная сине-зелёная среда с переходом к графиту и шумом против полос */
 .philosophy,.method,.founder,.final{background:var(--dither) 0 0/64px 64px,linear-gradient(178deg,#0B1214 0%,#0A0E0F 55%,#0B1113 100%)}
 @media (min-resolution:2dppx){.philosophy,.method,.founder,.final{background-size:32px 32px,auto}}
-.method{background:var(--dither) 0 0/64px 64px,linear-gradient(180deg,#0B1F23 0%,#0A1416 40%,#0A0E0F 85%)}
+.method{background:var(--dither) 0 0/64px 64px,linear-gradient(180deg,#0B1214 0%,#0B1719 12%,#0B1A1D 24%,#0A1416 48%,#0A0E0F 88%)}
 .intro::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:var(--dither) 0 0/64px 64px}
 @media (min-resolution:2dppx){.intro::after{background-size:32px 32px}}
 /* ================= Витрина решений (секция «Форматы работы и стоимость») =================
@@ -1136,8 +1136,8 @@ strong.hl{font-weight:500}
   background:var(--dither) 0 0/64px 64px,linear-gradient(180deg,rgb(241,246,244) 0.0%,rgb(240,245,243) 6.25%,rgb(236,242,240) 12.5%,rgb(225,234,233) 18.75%,rgb(207,221,220) 25.0%,rgb(183,203,203) 31.25%,rgb(155,181,181) 37.5%,rgb(125,155,156) 43.75%,rgb(96,128,130) 50.0%,rgb(71,101,104) 56.25%,rgb(51,77,79) 62.5%,rgb(35,56,59) 68.75%,rgb(24,40,42) 75.0%,rgb(17,29,31) 81.25%,rgb(13,23,25) 87.5%,rgb(11,20,22) 93.75%,rgb(11,20,22) 100.0%) 0 0/100% var(--fade) no-repeat,linear-gradient(180deg,#0B1416 0%,#0A0F10 60%,#0B1214 100%)}
 @media (min-resolution:2dppx){.pricing{background-size:32px 32px,100% var(--fade),auto}}
 /* студийный свет витрины начинается ниже перехода и проявляется плавно — без среза по краю секции */
-.pricing .studio{-webkit-mask-image:linear-gradient(180deg,transparent 0,transparent calc(var(--fade) * .45),rgba(0,0,0,.12) calc(var(--fade) * .7),rgba(0,0,0,.45) calc(var(--fade) * .95),rgba(0,0,0,.82) calc(var(--fade) * 1.25),#000 calc(var(--fade) * 1.6));
-  mask-image:linear-gradient(180deg,transparent 0,transparent calc(var(--fade) * .45),rgba(0,0,0,.12) calc(var(--fade) * .7),rgba(0,0,0,.45) calc(var(--fade) * .95),rgba(0,0,0,.82) calc(var(--fade) * 1.25),#000 calc(var(--fade) * 1.6))}
+.pricing .studio{-webkit-mask-image:linear-gradient(180deg,transparent 0,transparent calc(var(--fade) * .45),rgba(0,0,0,.12) calc(var(--fade) * .7),rgba(0,0,0,.45) calc(var(--fade) * .95),rgba(0,0,0,.82) calc(var(--fade) * 1.25),#000 calc(var(--fade) * 1.6),#000 calc(100% - 46vh),rgba(0,0,0,.72) calc(100% - 30vh),rgba(0,0,0,.36) calc(100% - 16vh),rgba(0,0,0,.1) calc(100% - 6vh),transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,transparent calc(var(--fade) * .45),rgba(0,0,0,.12) calc(var(--fade) * .7),rgba(0,0,0,.45) calc(var(--fade) * .95),rgba(0,0,0,.82) calc(var(--fade) * 1.25),#000 calc(var(--fade) * 1.6),#000 calc(100% - 46vh),rgba(0,0,0,.72) calc(100% - 30vh),rgba(0,0,0,.36) calc(100% - 16vh),rgba(0,0,0,.1) calc(100% - 6vh),transparent 100%)}
 .pricing .studio .k{width:110vmax;height:90vmax;right:-60vmax;top:-12vmax}
 .pricing .studio .r{width:95vmax;height:85vmax;left:-60vmax;bottom:-40vmax;opacity:.8}
 .pricing .studio .f{width:100vmax;height:70vmax;left:calc(50% - 50vmax);top:25%}
@@ -1341,6 +1341,8 @@ strong.hl{font-weight:500}
 .guided.seq-ready .sb-final{opacity:0;transform:translate3d(0,24px,0) scale(.985);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
 .guided.seq-ready .sb-final.sq-in{opacity:1;transform:none}
 .guided.seq-ready .sb-final .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + var(--p,0) * var(--sq-pause,650ms) + 750ms)} /* текст — после того, как проявилась подложка */
+/* стыки тёмных секций: свет не обрезается краем, а мягко гаснет к границе и передаёт сцену следующей секции */
+.method .studio,.founder .studio,.final .studio{-webkit-mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.1) 6vh,rgba(0,0,0,.36) 16vh,rgba(0,0,0,.72) 30vh,#000 46vh,#000 calc(100% - 46vh),rgba(0,0,0,.72) calc(100% - 30vh),rgba(0,0,0,.36) calc(100% - 16vh),rgba(0,0,0,.1) calc(100% - 6vh),transparent 100%);mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.1) 6vh,rgba(0,0,0,.36) 16vh,rgba(0,0,0,.72) 30vh,#000 46vh,#000 calc(100% - 46vh),rgba(0,0,0,.72) calc(100% - 30vh),rgba(0,0,0,.36) calc(100% - 16vh),rgba(0,0,0,.1) calc(100% - 6vh),transparent 100%)}
 </style>
 
 </head>
