@@ -779,6 +779,9 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .guided.seq-ready .digital{opacity:0;transform:translate3d(0,24px,0) scale(.985);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
 .guided.seq-ready .digital.sq-in{opacity:1;transform:none}
 .guided.seq-ready .digital .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + 750ms)} /* текст — после того, как проявилась тёмная карточка */
+.guided.seq-ready .cx-card{opacity:0;transform:translate3d(0,24px,0) scale(.985);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
+.guided.seq-ready .cx-card.sq-in{opacity:1;transform:none}
+.guided.seq-ready .cx-card .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + 650ms)}
 @media (max-width:860px){.guided.seq-ready{--sq-step:100ms}.guided.seq-ready .sq{--sq-y:16px}.guided.seq-ready .sq-l{--sq-x:0}}
 
 /* ---------- прямые контакты ---------- */
@@ -1437,7 +1440,7 @@ strong.hl{font-weight:500}
           <article class="project sq-block"><h4 class="sq sq-l" style="--i:0">«НЕшкола программирования микроконтроллеров»</h4><span class="tag t-done sq" style="--i:1">Грантовый проект</span><p class="sq" style="--i:2">Изучение программирования на реальных микроконтроллерах. Грант 70 000 ₽, общий бюджет проекта 842 729 ₽.</p></article>
           <article class="project sq-block"><h4 class="sq sq-l" style="--i:0"><a class="proj-link" href="https://vk.ru/wall-225212579_575" target="_blank" rel="noopener noreferrer">Семинар для НКО: AI и грантовые заявки</a></h4><span class="tag t-demo sq" style="--i:1">Семинар</span><p class="sq" style="--i:2">Проверка формальных требований, логики проекта, бюджета и оценка зрелости заявки.</p>
             <div class="proof sq" style="--i:3"><a href="https://vk.ru/wall-225212579_575" target="_blank" rel="noopener noreferrer"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.8 17.5c-5.6 0-8.8-3.8-8.9-10.2h2.8c.1 4.7 2.1 6.6 3.7 7V7.3h2.6v4c1.6-.2 3.3-2 3.8-4h2.6c-.4 2.5-2.2 4.3-3.5 5 1.3.6 3.4 2.2 4.2 5.2h-2.9c-.6-1.9-2.2-3.4-4.2-3.6v3.6h-.2Z"/></svg></i><span>Публикация о семинаре во ВКонтакте</span></a>
-              <a href="https://vk.ru/wall-225212579_575" target="_blank" rel="noopener noreferrer"><i><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4.5 20l1-3.9A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11h6M9 14h4"/></svg></i><span>Ссылка на отзывы о семинаре</span></a>
+              <a href="https://vk.ru/wall-235562729_56" target="_blank" rel="noopener noreferrer"><i><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4.5 20l1-3.9A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11h6M9 14h4"/></svg></i><span>Ссылка на отзывы о семинаре</span></a>
             </div></article>
           <article class="project sq-block"><h4 class="sq sq-l" style="--i:0">«Неделя Профтеха Поморья — 2026»</h4><span class="tag t-demo sq" style="--i:1">Демонстрация</span><p class="sq" style="--i:2">Практическая демонстрация AI для преподавателей профессионального образования: адаптация материалов, задания, Excel, интерактивные игры.</p>
             <div class="proof sq" style="--i:3">
@@ -1450,36 +1453,36 @@ strong.hl{font-weight:500}
   </section>
 
   <!-- 7. ОСНОВАТЕЛЬ -->
-  <section class="dark section founder" id="founder" aria-labelledby="founder-title">
+  <section class="dark section founder guided" style="--sq-step:160ms" id="founder" aria-labelledby="founder-title">
     <div class="wrap founder-grid">
-      <figure class="founder-photo reveal">
-        <img src="assets/founder-1200.webp" width="1200" height="1800" alt="Алексей Коцуба, основатель студии AI OASIS" loading="lazy" decoding="async">
-        <figcaption><span class="name">Алексей Коцуба</span><span>Основатель AI OASIS. Педагог-методист · Проектирование и развитие проектов · Образовательные и технологические решения</span><span class="brand-line" aria-hidden="true"></span></figcaption>
+      <figure class="founder-photo sq-block" data-sq="section">
+        <img class="sq" style="--i:0" src="assets/founder-1200.webp" width="1200" height="1800" alt="Алексей Коцуба, основатель студии AI OASIS" loading="lazy" decoding="async">
+        <figcaption><span class="name sq" style="--i:2">Алексей Коцуба</span><span class="sq" style="--i:3">Основатель AI OASIS. Педагог-методист · Проектирование и развитие проектов · Образовательные и технологические решения</span><span class="brand-line sq sq-l" style="--i:4" aria-hidden="true"></span></figcaption>
       </figure>
-      <div class="founder-text reveal d1">
-        <p class="eyebrow">Основатель</p>
-        <blockquote id="founder-title">За технологиями всегда стоит человек. <span>И именно человек понимает, какую задачу необходимо решить.</span></blockquote>
-        <p>Студия работает на <span class="hl">личном профессиональном участии</span> основателя. В работе соединяются методология, образовательная практика, технологии и проектное управление. Когда задаче нужна другая экспертиза, подключаются профильные специалисты и партнёры.</p>
-        <div class="profile">
-          <div class="pf" id="pf-dirs">
+      <div class="founder-text sq-block">
+        <p class="eyebrow sq" style="--i:3">Основатель</p>
+        <blockquote id="founder-title" class="sq" style="--i:4">За технологиями всегда стоит человек. <span>И именно человек понимает, какую задачу необходимо решить.</span></blockquote>
+        <p class="sq" style="--i:6">Студия работает на <span class="hl">личном профессиональном участии</span> основателя. В работе соединяются методология, образовательная практика, технологии и проектное управление. Когда задаче нужна другая экспертиза, подключаются профильные специалисты и партнёры.</p>
+        <div class="profile sq-block">
+          <div class="pf sq" style="--i:0" id="pf-dirs">
             <button type="button" class="pf-head" aria-expanded="false" aria-controls="pf-dirs-body">
               <span class="pf-title">Профессиональные направления</span><span class="pf-teaser">7 направлений и примеры подтверждённой практики</span><span class="pf-icon" aria-hidden="true"></span>
             </button>
             <div class="pf-body" id="pf-dirs-body" inert><div class="pf-inner"><ul class="pf-dirs"><li><b>Искусственный интеллект и цифровые технологии</b><span>Практическое применение AI в работе специалистов, команд и образовательных организаций.</span><small><span class="pf-k">Практика</span> Корпоративное обучение на производственном предприятии; семинар для НКО по грантовым заявкам; демонстрация на мероприятии «Неделя Профтеха Поморья — 2026».</small></li><li><b>Образовательная методология и педагогический дизайн</b><span>Логика обучения, структура программ, учебные траектории.</span><small><span class="pf-k">Практика</span> Методологическое консультирование аптечной сети; методическая работа с педагогами.</small></li><li><b>Разработка образовательных продуктов</b><span>Программы, курсы и учебно-методические комплексы под конкретную аудиторию.</span><small><span class="pf-k">Практика</span> Методический комплекс «Синергия»: 20 академических часов, принят сетью и допущен к тиражированию.</small></li><li><b>Проектирование цифровых решений</b><span>Цифровые инструменты, которые решают конкретную задачу.</span><small><span class="pf-k">Практика</span> Инструмент для построения промптов; сопровождение логопеда в создании цифровых игр; этот сайт.</small></li><li><b>Проектное управление</b><span>Цели и показатели, этапы, команда, контроль результатов.</span><small><span class="pf-k">Практика</span> «МедиаЛаб: Профессия в кадре» — бюджет исполнен полностью; «НЕшкола программирования микроконтроллеров» — проект с грантовой поддержкой.</small></li><li><b>Корпоративное обучение и развитие компетенций</b><span>Обучение сотрудников работе с AI на их собственных рабочих задачах.</span><small><span class="pf-k">Практика</span> Обучение 17 сотрудников производственного предприятия в разных форматах.</small></li><li><b>Экспертная и методическая деятельность</b><span>Экспертиза в профессиональном образовании и методическая поддержка педагогов.</span><small><span class="pf-k">Практика</span> Экспертная работа в профессиональном образовании; методическая работа с педагогами.</small></li></ul></div></div>
           </div>
-          <div class="pf" id="pf-exp">
+          <div class="pf sq" style="--i:1" id="pf-exp">
             <button type="button" class="pf-head" aria-expanded="false" aria-controls="pf-exp-body">
               <span class="pf-title">Опыт</span><span class="pf-teaser">Преподавание, методическая работа, экспертиза, управление проектами</span><span class="pf-icon" aria-hidden="true"></span>
             </button>
             <div class="pf-body" id="pf-exp-body" inert><div class="pf-inner"><ul class="pf-exp"><li><b>Преподавание искусственного интеллекта</b><span>Обучение работе с AI специалистов, педагогов и команд.</span></li><li><b>Преподавание цифровой педагогики и онлайн-обучения</b><span>Цифровые инструменты и форматы в образовательной практике.</span></li><li><b>Методическая работа с педагогами</b><span>Сопровождение педагогов, методические материалы и практики.</span></li><li><b>Профессиональное образование</b><span>Экспертная работа и работа с преподавателями профессионального образования.</span></li><li><b>Разработка образовательных программ</b><span>От программы до сценариев занятий и материалов учащихся.</span></li><li><b>Робототехника и программирование</b><span>ITLab29: робототехника, программирование, Arduino, беспилотные авиационные системы, STEM-проектирование.</span></li><li><b>Управление образовательными и цифровыми проектами</b><span>ITLab29 — 166 учащихся и 32 цифровых продукта; «МедиаЛаб» — 30 участников, 7 роликов, 14 интервью.</span></li></ul></div></div>
           </div>
-          <div class="pf" id="pf-edu">
+          <div class="pf sq" style="--i:2" id="pf-edu">
             <button type="button" class="pf-head" aria-expanded="false" aria-controls="pf-edu-body">
               <span class="pf-title">Профессиональное развитие</span><span class="pf-teaser">С 2021 года: переподготовка, повышение квалификации, курсы</span><span class="pf-icon" aria-hidden="true"></span>
             </button>
             <div class="pf-body" id="pf-edu-body" inert><div class="pf-inner"><ul class="edu"><li data-doc=""><span class="org">Университет искусственного интеллекта · Переподготовка</span><span class="prog">Профессиональная переподготовка / обучение в области искусственного интеллекта</span><span class="meta"><span class="chip ">2021</span></span></li><li data-doc=""><span class="org">Московский физико-технический институт (МФТИ) · Повышение квалификации · удостоверение</span><span class="prog">«Быстрый старт в искусственный интеллект»</span><span class="meta"><span class="chip ">72 часа</span><span class="chip ">2022</span></span></li><li data-doc=""><span class="org">Московский городской педагогический университет · Повышение квалификации · удостоверение</span><span class="prog">«Искусственный интеллект: теория и методика обучения в основной и старшей школе»</span><span class="meta"><span class="chip ">72 часа</span><span class="chip ">2022–2023</span></span></li><li data-doc=""><span class="org">Всероссийский форум «Педагоги России» · Диплом участника курса</span><span class="prog">«Нейросети и искусственный интеллект в образовательной практике: повышение эффективности и персонализация обучения»</span><span class="meta"><span class="chip ">36 часов</span><span class="chip ">2024</span></span></li><li><span class="org">Курс завершён · Документ об окончании ещё не получен</span><span class="prog">«ИИ для педагогов»</span><span class="meta"><span class="chip warm">удостоверение ожидается</span></span></li><li><span class="org">Академия Edison · Обучение продолжается</span><span class="prog">«Продюсер онлайн-курсов»</span><span class="meta"><span class="chip warm">обучение в процессе</span></span></li></ul><p class="pf-note">Сканы документов можно будет открыть в увеличенном виде, как только они будут добавлены.</p></div></div>
           </div>
-          <div class="pf" id="pf-pubs">
+          <div class="pf sq" style="--i:3" id="pf-pubs">
             <button type="button" class="pf-head" aria-expanded="false" aria-controls="pf-pubs-body">
               <span class="pf-title">Публикации</span><span class="pf-teaser">Научно-методические статьи и авторская колонка</span><span class="pf-icon" aria-hidden="true"></span>
             </button>
@@ -1521,19 +1524,19 @@ strong.hl{font-weight:500}
   </section>
 
   <!-- 10. ФИНАЛ + ФОРМА -->
-  <section class="dark section final" id="contact" aria-labelledby="contact-title">
+  <section class="dark section final guided" style="--sq-step:150ms" id="contact" aria-labelledby="contact-title">
     <canvas class="silk" id="final-silk" aria-hidden="true"></canvas>
     <div class="wrap final-grid">
-      <div class="reveal">
-        <p class="eyebrow" style="color:var(--coral)">Как начать</p>
-        <h2 id="contact-title" style="margin-top:20px">Необязательно заранее знать, как решить задачу. <span>Достаточно начать с разговора.</span></h2>
+      <div class="sq-block" data-sq="section">
+        <p class="eyebrow sq" style="color:var(--coral);--i:0">Как начать</p>
+        <h2 id="contact-title" class="sq" style="margin-top:20px;--i:1">Необязательно заранее знать, как решить задачу. <span>Достаточно начать с разговора.</span></h2>
         <ol class="start-steps">
-          <li><span><b>Вы описываете задачу</b> своими словами. <span class="hl">Техническое задание не нужно.</span></span></li>
-          <li><span><b>Мы знакомимся с ситуацией</b> и задаём уточняющие вопросы.</span></li>
-          <li><span><b>Определяем, какая помощь действительно нужна</b>, <span class="hl">и нужна ли она вообще</span>.</span></li>
-          <li><span><b>Обсуждаем формат</b> и следующие шаги.</span></li>
+          <li class="sq sq-l" style="--i:4"><span><b>Вы описываете задачу</b> своими словами. <span class="hl">Техническое задание не нужно.</span></span></li>
+          <li class="sq sq-l" style="--i:5"><span><b>Мы знакомимся с ситуацией</b> и задаём уточняющие вопросы.</span></li>
+          <li class="sq sq-l" style="--i:6"><span><b>Определяем, какая помощь действительно нужна</b>, <span class="hl">и нужна ли она вообще</span>.</span></li>
+          <li class="sq sq-l" style="--i:7"><span><b>Обсуждаем формат</b> и следующие шаги.</span></li>
         </ol>
-        <div class="direct">
+        <div class="direct sq" style="--i:9">
           <p>Если удобнее написать напрямую:</p>
           <div class="direct-links">
             <a class="clink" href="https://t.me/Alexey_Kotsuba" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#5FDFDE" d="M21.4 4.3 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.5-1.5Zm-4 3.6-8.6 7.8-.3 3.6-1.6-5 9.9-6.2c.5-.3.9-.1.6-.2Z"/></svg><span>Основатель в Telegram <small>@Alexey_Kotsuba</small></span></a>
@@ -1542,11 +1545,11 @@ strong.hl{font-weight:500}
           </div>
         </div>
       </div>
-      <form class="form reveal d1" id="lead-form" novalidate>
-        <h3>Расскажите о задаче</h3>
-        <div class="field"><label for="f-name">Как к вам обращаться</label><input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Имя"></div>
-        <div class="field"><label for="f-contact">Как с вами связаться</label><input type="text" id="f-contact" name="contact" required placeholder="Телефон, почта или ник в мессенджере"></div>
-        <fieldset class="field">
+      <form class="form sq-block cx-card" id="lead-form" novalidate>
+        <h3 class="sq" style="--i:0">Расскажите о задаче</h3>
+        <div class="sq field" style="--i:1"><label for="f-name">Как к вам обращаться</label><input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Имя"></div>
+        <div class="sq field" style="--i:2"><label for="f-contact">Как с вами связаться</label><input type="text" id="f-contact" name="contact" required placeholder="Телефон, почта или ник в мессенджере"></div>
+        <fieldset class="sq field" style="--i:3">
           <legend>Удобный способ связи</legend>
           <div class="pills">
             <input type="radio" name="channel" id="ch-tg" value="telegram" checked><label for="ch-tg">Telegram</label>
@@ -1555,12 +1558,12 @@ strong.hl{font-weight:500}
             <input type="radio" name="channel" id="ch-phone" value="phone"><label for="ch-phone">Звонок</label>
           </div>
         </fieldset>
-        <div class="field"><label for="f-task">Что происходит и что хотелось бы изменить</label><textarea id="f-task" name="task" required placeholder="Можно коротко и своими словами"></textarea></div>
+        <div class="sq field" style="--i:4"><label for="f-task">Что происходит и что хотелось бы изменить</label><textarea id="f-task" name="task" required placeholder="Можно коротко и своими словами"></textarea></div>
         <div class="hp" aria-hidden="true"><label for="f-website">Сайт</label><input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
-        <label class="consent"><input type="checkbox" id="f-consent" name="consent" required><span>Я даю согласие на обработку моих персональных данных (имя, способ связи, описание задачи) для ответа на это обращение. <a href="privacy.html#consent" target="_blank" rel="noopener">Текст согласия</a></span></label>
-        <button class="btn btn-primary" type="submit">Отправить <span class="arr" aria-hidden="true">→</span></button>
+        <label class="sq consent" style="--i:5"><input type="checkbox" id="f-consent" name="consent" required><span>Я даю согласие на обработку моих персональных данных (имя, способ связи, описание задачи) для ответа на это обращение. <a href="privacy.html#consent" target="_blank" rel="noopener">Текст согласия</a></span></label>
+        <button class="sq btn btn-primary" type="submit" style="--i:6">Отправить <span class="arr" aria-hidden="true">→</span></button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        <p class="form-legal">Отправляя форму, вы подтверждаете, что ознакомились с <a href="privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a>. Без отметки согласия форма не отправляется.</p>
+        <p class="sq form-legal" style="--i:7">Отправляя форму, вы подтверждаете, что ознакомились с <a href="privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a>. Без отметки согласия форма не отправляется.</p>
       </form>
     </div>
   </section>
@@ -1873,9 +1876,16 @@ strong.hl{font-weight:500}
     if(reduce || !('IntersectionObserver' in window)) return;
     [].forEach.call(document.querySelectorAll('.guided'),function(sec){
       sec.classList.add('seq-ready');
+      var headShown=false, queue=[];
+      function reveal(b){ b.classList.add('sq-in');
+        [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1300); });
+        setTimeout(function(){ [].forEach.call(b.querySelectorAll('.sq'),function(x){ x.classList.remove('sq','sq-l'); }); }, 3500); }
       var io=new IntersectionObserver(function(es){ es.forEach(function(e){
         if(!(e.isIntersecting||e.boundingClientRect.bottom<0)) return;
-        var b=e.target; io.unobserve(b); b.classList.add('sq-in');
+        var b=e.target; io.unobserve(b);
+        /* блоки раздела не обгоняют его «первый кадр» (data-sq="section") */
+        if(sec.querySelector('.sq-block[data-sq="section"]') && !headShown){ queue.push(b); return; }
+        b.classList.add('sq-in');
         [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1300); });
         setTimeout(function(){ [].forEach.call(b.querySelectorAll('.sq'),function(x){ x.classList.remove('sq','sq-l'); }); }, 3500);
       }); },{rootMargin:'0px 0px -50% 0px'});
@@ -1883,7 +1893,8 @@ strong.hl{font-weight:500}
       if(head.length){
         var ioS=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting||e.boundingClientRect.top<0){ ioS.disconnect(); head.forEach(function(b){ io.unobserve(b); b.classList.add('sq-in');
           [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1600); });
-          setTimeout(function(){ [].forEach.call(b.querySelectorAll('.sq'),function(x){ x.classList.remove('sq','sq-l'); }); }, 3500); }); } }); },{rootMargin:'0px 0px -70% 0px'});
+          setTimeout(function(){ [].forEach.call(b.querySelectorAll('.sq'),function(x){ x.classList.remove('sq','sq-l'); }); }, 3500); });
+          headShown=true; queue.forEach(reveal); queue=[]; } }); },{rootMargin:'0px 0px -70% 0px'});
         ioS.observe(sec);
       }
       [].forEach.call(sec.querySelectorAll('.sq-block:not([data-sq="section"])'),function(b){ io.observe(b); });
@@ -2154,7 +2165,9 @@ window.AIO_SCENE = function (host, opt) {
   try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: !!opt.alpha, powerPreference: 'high-performance' }); } catch (e) {}
   if (!renderer) { host.classList.add('no-gl'); return api; }
   const mobile = Math.min(screen.width, screen.height) < 600;
-  renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.25 : 1.5));
+  /* opt.hq: высококачественный конвейер вывода (только для сцен на собственных шейдерах) */
+  renderer.setPixelRatio(Math.min(devicePixelRatio, opt.hq ? (mobile ? 2.5 : 2) : (mobile ? 1.25 : 1.5)));
+  const post = opt.hq && window.AIO_POST ? window.AIO_POST(renderer, { mobile }) : null;
   if (opt.linear !== false) renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
   if (opt.alpha) renderer.setClearColor(0x000000, 0);
 
@@ -2197,6 +2210,7 @@ window.AIO_SCENE = function (host, opt) {
     camera.lookAt(0, opt.lookY || 0, 0);
     camera.updateProjectionMatrix();
     labels.forEach(L => { L.el.innerHTML = k.narrow && L.short ? L.short : L.full; L.w = 0; });
+    if (post) { const db = new THREE.Vector2(); renderer.getDrawingBufferSize(db); k.res = post.resize(db); }
     scene.resize && scene.resize(W, H);
   }
 
@@ -2209,7 +2223,7 @@ window.AIO_SCENE = function (host, opt) {
     if (!drag.active) { drag.vel *= 0.94; drag.rot += drag.vel; }
     const k2 = Math.max(0, Math.min(1, stageT / TRANS));
     scene.frame(dt, t, stage, stageT, k2);
-    renderer.render(scene3, camera);
+    if (post) post.render(scene3, camera); else renderer.render(scene3, camera);
     root.updateMatrixWorld();
     for (const L of labels) {
       const on = L.on && (typeof L.stages === 'function' ? L.stages(stage, stageT) : L.stages.includes(stage) && stageT > 0.8);
@@ -2225,7 +2239,7 @@ window.AIO_SCENE = function (host, opt) {
   function still() { stageT = 99; for (let i = 0; i < 5; i++) frame(0.4); }
 
   let raf = 0, running = false, last = 0;
-  function loop(now) { const dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now; frame(dt); raf = requestAnimationFrame(loop); }
+  function loop(now) { const dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now; frame(dt); if (post) post.adapt(dt, resize); raf = requestAnimationFrame(loop); }
   function start() { if (running || reduce) return; running = true; last = performance.now(); raf = requestAnimationFrame(loop); }
   function stop() { running = false; cancelAnimationFrame(raf); }
   api.kick = () => { if (reduce) requestAnimationFrame(still); };
@@ -2263,26 +2277,31 @@ window.AIO_ROUNDED_BOX = function (w, h, d, r, seg) {
 window.AIO_GLASS = function (BG, U, tint, opts) {
   opts = opts || {};
   return new THREE.ShaderMaterial({
-    uniforms: { ...U, uTint: { value: new THREE.Vector3(...tint) }, uFlat: { value: opts.flat ? 1 : 0 }, uOp: { value: opts.opacity ?? 1 }, uGlow: { value: 0 } },
+    uniforms: { ...U, uFog: U.uFog || { value: new THREE.Vector2(100, 200) }, uTint: { value: new THREE.Vector3(...tint) }, uFlat: { value: opts.flat ? 1 : 0 }, uOp: { value: opts.opacity ?? 1 }, uGlow: { value: 0 } },
     transparent: true, depthWrite: opts.depthWrite ?? true,
     vertexShader: 'varying vec3 vN;varying vec3 vP;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}',
     fragmentShader: BG + `
-      uniform vec2 uRes; uniform vec3 uTint; uniform float uFlat; uniform float uOp; uniform float uGlow;
+      uniform vec2 uRes; uniform vec3 uTint; uniform float uFlat; uniform float uOp; uniform float uGlow; uniform vec2 uFog;
       varying vec3 vN; varying vec3 vP;
       void main(){
         vec3 N = uFlat>.5 ? normalize(cross(dFdx(vP),dFdy(vP))) : normalize(vN);
         vec3 V = normalize(-vP); if(dot(N,V)<0.) N=-N;
-        float ndv=clamp(dot(N,V),0.,1.), fres=pow(1.-ndv,3.);
-        vec2 suv=gl_FragCoord.xy/uRes; float k=.18*(.55+1.1*(1.-ndv));
-        vec3 col=vec3(bg(suv+refract(-V,N,1./1.40).xy*k).r, bg(suv+refract(-V,N,1./1.46).xy*k).g, bg(suv+refract(-V,N,1./1.53).xy*k).b);
-        col=col*uTint*1.35+.035;
+        float ndv=clamp(dot(N,V),0.,1.), fres=.04+.96*pow(1.-ndv,5.);
+        vec2 suv=gl_FragCoord.xy/uRes; float k=.18*(.5+1.25*(1.-ndv));
+        vec3 col=vec3(bg(suv+refract(-V,N,1./1.38).xy*k).r, bg(suv+refract(-V,N,1./1.45).xy*k).g, bg(suv+refract(-V,N,1./1.55).xy*k).b);
+        vec3 absorb=mix(vec3(1.),uTint*vec3(.75,1.,.97),.5+.4*(1.-ndv));
+        col=col*absorb*1.55+uTint*.03;
         vec3 R=reflect(-V,N);
-        float box=smoothstep(.6,.9,R.y)*smoothstep(-.2,.4,R.z);
-        float side=pow(max(dot(R,normalize(vec3(-.75,.35,.55))),0.),20.);
-        float spec=pow(max(dot(R,normalize(vec3(.5,.6,.65))),0.),160.);
-        col+=vec3(.92,1.,.98)*(box*.4+side*.5)*(.35+fres)+vec3(1.)*spec*1.3;
-        col+=uTint*fres*.55+uTint*pow(1.-ndv,7.)*.5;
+        float top=smoothstep(.45,.95,R.y)*(1.-smoothstep(.5,1.,abs(R.x)));
+        float strip=(1.-smoothstep(.0,.13,abs(R.x-.38)))*smoothstep(.0,.5,R.y+.25)*smoothstep(-.2,.3,R.z);
+        float side=pow(max(dot(R,normalize(vec3(-.8,.25,.5))),0.),26.);
+        float spec=pow(max(dot(R,normalize(vec3(.4,.62,.68))),0.),240.);
+        float warm=pow(max(dot(R,normalize(vec3(.25,-.8,.5))),0.),7.);
+        col+=(vec3(.93,1.,.98)*(top*.55+strip*.9+side*.55)+vec3(1.)*spec*1.8+vec3(1.,.6,.48)*warm*.26)*clamp(fres*1.7+.22,0.,1.);
+        float rim=smoothstep(.7,.985,1.-ndv);
+        col+=mix(uTint,vec3(.92,1.,.98),.45)*rim*.85;
         col+=uTint*uGlow*.6;
+        float fz=smoothstep(uFog.x,uFog.y,-vP.z); col=mix(col,bg(suv)*1.15,fz*.55);
         gl_FragColor=vec4(col,uOp);
       }`
   });
@@ -2402,10 +2421,10 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       'Курс работает циклом: диагностика, микрообучение, практика, AI-анализ коммуникаций, интерпретация методологом, адаптация.',
       'Когда меняются потребности команды, структура перестраивается, а не создаётся заново. Попробуйте: нажмите кнопку.'
     ],
-    fit: { w: 2.35, h: 1.9 }, elev: 0.32, lookY: 0.1,
+    fit: { w: 2.35, h: 1.9 }, elev: 0.32, lookY: 0.1, hq: true,
     build(k) {
       const THREE = k.THREE, V = THREE.Vector3, TAU = Math.PI * 2;
-      const U = { uTime: { value: 0 }, uAspect: { value: 1 }, uRes: { value: new THREE.Vector2(1, 1) } };
+      const U = { uTime: { value: 0 }, uAspect: { value: 1 }, uRes: { value: new THREE.Vector2(1, 1) }, uFog: { value: new THREE.Vector2(6, 9) } };
       const BG = `
         uniform float uTime; uniform float uAspect;
         vec3 bg(vec2 uv){
@@ -2414,6 +2433,8 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
           vec2 d=(uv-vec2(.52,.5))*a; col=mix(col,vec3(.047,.25,.28),.9*exp(-2.1*dot(d,d)));
           vec2 d2=(uv-vec2(.85,.15))*a; col=mix(col,vec3(.36,.17,.13),.55*exp(-4.*dot(d2,d2)));
           vec2 d3=(uv-vec2(.5,.62+.03*sin(uTime*.2)))*a; col+=vec3(.88,.64,.57)*.06*exp(-9.*dot(d3,d3));
+          float cs=sin(uv.x*a.x*17.+sin(uv.y*13.+uTime*.3)*1.4)*sin(uv.y*15.+sin(uv.x*a.x*10.-uTime*.25)*1.2);
+          col+=vec3(.35,.85,.8)*.02*smoothstep(.55,1.,cs)*exp(-2.6*dot(d,d));
           float v=length((uv-.5)*vec2(1.,1.15)); col*=1.-.42*smoothstep(.35,.95,v);
           return col;
         }`;
@@ -2422,6 +2443,31 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
         fragmentShader: BG + 'varying vec2 vUv;void main(){gl_FragColor=vec4(bg(vUv),1.);}' }));
       bgMesh.frustumCulled = false; bgMesh.renderOrder = -10; k.scene.add(bgMesh);
       const G = (t, o) => window.AIO_GLASS(BG, U, t, o);
+      /* боке и светящаяся платформа */
+      let sd = 37; const r2 = () => { sd = (sd * 16807) % 2147483647; return (sd - 1) / 2147483646; };
+      const BK = 16, bkGeo = new THREE.BufferGeometry(), bkPos = new Float32Array(BK * 3), bkCol = new Float32Array(BK * 3), bkSize = new Float32Array(BK), bk = [];
+      for (let i = 0; i < BK; i++) {
+        const near = i % 3 === 0;
+        bk.push({ x: (r2() - 0.5) * 5, y: (r2() - 0.5) * 3, z: near ? 1.6 + r2() * 1.1 : -1.8 - r2() * 1.6, ph: r2() * 6.28, sp: 0.03 + r2() * 0.04 });
+        const warm = i % 4 === 0, a = near ? 0.05 : 0.08;
+        bkCol.set(warm ? [0.95 * a, 0.6 * a, 0.48 * a] : [0.3 * a, 0.85 * a, 0.8 * a], i * 3); bkSize[i] = near ? 70 + r2() * 60 : 20 + r2() * 24;
+      }
+      bkGeo.setAttribute('position', new THREE.BufferAttribute(bkPos, 3).setUsage(THREE.DynamicDrawUsage));
+      bkGeo.setAttribute('aColor', new THREE.BufferAttribute(bkCol, 3)); bkGeo.setAttribute('aSize', new THREE.BufferAttribute(bkSize, 1));
+      const bkMat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uPR: { value: 1 } },
+        vertexShader: `attribute vec3 aColor; attribute float aSize; uniform float uPR; varying vec3 vC;
+          void main(){ vC=aColor; vec4 mv=modelViewMatrix*vec4(position,1.); gl_PointSize=min(aSize*uPR,240.); gl_Position=projectionMatrix*mv; }`,
+        fragmentShader: `varying vec3 vC; void main(){ float d=length(gl_PointCoord-.5)*2.; if(d>1.) discard;
+          float disc=1.-smoothstep(.82,1.,d); float ring=smoothstep(.6,.95,d)*disc*.6; gl_FragColor=vec4(vC*(disc*.7+ring),1.); }` });
+      const bokeh = new THREE.Points(bkGeo, bkMat); bokeh.frustumCulled = false; k.root.add(bokeh);
+      const floorMat = new THREE.ShaderMaterial({ uniforms: { uTime: U.uTime }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+        vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+        fragmentShader: `uniform float uTime; varying vec2 vUv;
+          void main(){ vec2 p=(vUv-.5)*vec2(8.,6.); float r=length(p*vec2(1.,1.3)); float glow=exp(-r*r*.18);
+            float rings=0.; for(int i=0;i<3;i++){ float rr=1.0+float(i)*.9; rings+=(1.-smoothstep(0.,fwidth(r)*1.2+.012,abs(r-rr)))*(1.-float(i)*.25); }
+            float sweep=.5+.5*sin(atan(p.y,p.x)*2.-uTime*.35);
+            gl_FragColor=vec4(vec3(.16,.62,.6)*glow*.2+vec3(.45,.92,.86)*rings*.2*(.5+.5*sweep)*exp(-r*.25)+vec3(.95,.6,.48)*rings*.06*(1.-sweep),1.); }` });
+      const floorM = new THREE.Mesh(new THREE.PlaneGeometry(8, 6), floorMat); floorM.rotation.x = -Math.PI / 2; floorM.position.y = -1.18; floorM.renderOrder = -5; k.root.add(floorM);
 
       /* ---- слои образовательной структуры ---- */
       const LAYERS = 5;
@@ -2446,9 +2492,8 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       }
       /* ---- вертикальные потоки между слоями ---- */
       const flowN = 18;
-      const flowGeo = new THREE.BufferGeometry(); flowGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(flowN * 6), 3));
-      const flowMat = new THREE.LineBasicMaterial({ color: new THREE.Color().setRGB(0.6, 0.9, 0.86), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
-      const flows = new THREE.LineSegments(flowGeo, flowMat); flows.frustumCulled = false; tower.add(flows);
+      const flowRb = window.AIO_RIBBONS(flowN, [0.6, 0.9, 0.86], { width: 1.4, fog: U.uFog }); tower.add(flowRb.mesh);
+      const flowMat = { opacity: 0 };
 
       /* ---- цикл обучения: кольцо с шестью узлами и световым импульсом ---- */
       const CYCLE = ['Диагностика', 'Микрообучение', 'Практика', 'AI-анализ коммуникаций', 'Интерпретация методологом', 'Адаптация'];
@@ -2470,18 +2515,16 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       const trailN = 14, trail = [];
       for (let i = 0; i < trailN; i++) { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: pulseTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 })); s.scale.setScalar(0.3 * (1 - i / trailN)); cycle.add(s); trail.push(s); }
       /* связь «узел цикла → структура» */
-      const beamGeo = new THREE.BufferGeometry(); beamGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
-      const beam = new THREE.Line(beamGeo, new THREE.LineBasicMaterial({ color: new THREE.Color().setRGB(0.95, 0.7, 0.6), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-      beam.frustumCulled = false; k.root.add(beam);
+      const beamRb = window.AIO_RIBBONS(1, [0.95, 0.7, 0.6], { width: 2.4, fog: U.uFog }); k.root.add(beamRb.mesh);
+      const beam = { material: { opacity: 0 } };
 
       /* ---- три участника: эксперт, методология, AI ---- */
       const AGENTS = [{ n: 'Эксперт', t: [1, 0.72, 0.62], g: new THREE.OctahedronGeometry(0.13, 0) },
         { n: 'Методология', t: [0.95, 0.95, 0.93], g: new THREE.IcosahedronGeometry(0.13, 0) },
         { n: 'AI', t: [0.55, 1, 1], g: new THREE.TorusGeometry(0.1, 0.035, 12, 40) }];
       const agents = AGENTS.map((a, i) => { const m = new THREE.Mesh(a.g, G(a.t, { flat: i < 2 })); m.scale.setScalar(0.001); k.root.add(m); return { m, a: i / 3 * TAU }; });
-      const agentLinesGeo = new THREE.BufferGeometry(); agentLinesGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(18), 3));
-      const agentLines = new THREE.LineSegments(agentLinesGeo, new THREE.LineBasicMaterial({ color: new THREE.Color().setRGB(0.8, 0.9, 0.88), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-      agentLines.frustumCulled = false; k.root.add(agentLines);
+      const agentRb = window.AIO_RIBBONS(3, [0.8, 0.9, 0.88], { width: 1.6, fog: U.uFog }); k.root.add(agentRb.mesh);
+      const agentLines = { material: { opacity: 0 } };
 
       /* ---- подписи ---- */
       let activeNode = 0;
@@ -2518,7 +2561,12 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       }
 
       return {
-        resize(W, H) { U.uAspect.value = W / H; const v = new THREE.Vector2(); k.renderer.getDrawingBufferSize(v); U.uRes.value.copy(v); },
+        resize(W, H) {
+          U.uAspect.value = W / H;
+          const dist = k.camera.position.length(); U.uFog.value.set(dist - 0.6, dist + 2.6);
+          if (k.res) { U.uRes.value.set(k.res.w, k.res.h); [flowRb, beamRb, agentRb].forEach(r => r.view(k.res.w, k.res.h, k.res.pr)); bkMat.uniforms.uPR.value = k.res.pr; }
+          else { const v = new THREE.Vector2(); k.renderer.getDrawingBufferSize(v); U.uRes.value.copy(v); }
+        },
         stage(s) {
           tiles.forEach(t => t.from.copy(t.m.position));
           if (adaptBtn) adaptBtn.hidden = s !== 3;
@@ -2554,13 +2602,10 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
           /* потоки */
           const fo = s >= 1 ? Math.min(1, st / 2) * 0.35 : 0;
           flowMat.opacity += (fo - flowMat.opacity) * Math.min(1, dt * 3);
+          flowRb.mat.uniforms.uOp.value = flowMat.opacity * 1.6; flowRb.mesh.visible = flowMat.opacity > 0.01;
           if (flowMat.opacity > 0.01) {
-            const arr = flowGeo.attributes.position.array;
-            for (let i = 0; i < flowN; i++) {
-              const a = tiles[i], b = tiles[(i + 7) % NM];
-              arr.set([a.m.position.x, a.m.position.y, a.m.position.z, b.m.position.x, b.m.position.y, b.m.position.z], i * 6);
-            }
-            flowGeo.attributes.position.needsUpdate = true;
+            for (let i = 0; i < flowN; i++) flowRb.set(i, tiles[i].m.position, tiles[(i + 7) % NM].m.position);
+            flowRb.count(flowN);
           }
           /* цикл */
           const cyc = s >= 2;
@@ -2578,10 +2623,10 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
             if (ni !== lastNode) { lastNode = ni; nodes[ni].glow = 1; activeNode = ni; nodes.forEach((n, j) => n.label && n.label.el.classList.toggle('on', j === ni)); }
             /* луч от активного узла к структуре */
             tmp.copy(nodes[ni].m.position).applyMatrix4(cycle.matrix); tmp2.set(0, layers[Math.min(LAYERS - 1, ni % LAYERS)].y, 0);
-            beamGeo.attributes.position.array.set([tmp.x, tmp.y, tmp.z, tmp2.x, tmp2.y, tmp2.z]); beamGeo.attributes.position.needsUpdate = true;
+            beamRb.set(0, tmp, tmp2); beamRb.count(1);
             beam.material.opacity = 0.55 * nodes[ni].glow;
           } else beam.material.opacity = 0;
-          pulse.visible = cyc;
+          pulse.visible = cyc; beamRb.mat.uniforms.uOp.value = beam.material.opacity * 1.5; beamRb.mesh.visible = beam.material.opacity > 0.01;
           /* участники */
           const ag = s === 2 ? 1 : 0.001;
           agents.forEach((a, i) => {
@@ -2589,11 +2634,14 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
             const sc = a.m.scale.x + (ag - a.m.scale.x) * Math.min(1, dt * 3); a.m.scale.setScalar(Math.max(0.001, sc)); a.m.rotation.y = time * 0.8; a.m.rotation.x = time * 0.4;
           });
           agentLines.material.opacity += ((s === 2 ? 0.4 : 0) - agentLines.material.opacity) * Math.min(1, dt * 3);
+          agentRb.mat.uniforms.uOp.value = agentLines.material.opacity * 1.6; agentRb.mesh.visible = agentLines.material.opacity > 0.01;
           if (agentLines.material.opacity > 0.01) {
-            const arr = agentLinesGeo.attributes.position.array; const top = layers[LAYERS - 1];
-            agents.forEach((a, i) => arr.set([a.m.position.x, a.m.position.y, a.m.position.z, 0, top.y + 0.05, 0], i * 6));
-            agentLinesGeo.attributes.position.needsUpdate = true;
+            const top = layers[LAYERS - 1]; tmp2.set(0, top.y + 0.05, 0);
+            agents.forEach((a, i) => agentRb.set(i, a.m.position, tmp2)); agentRb.count(3);
           }
+          /* боке */
+          for (let i = 0; i < BK; i++) { const b = bk[i]; bkPos.set([b.x + Math.sin(time * b.sp + b.ph) * 0.35, b.y + Math.cos(time * b.sp * 1.3 + b.ph) * 0.22, b.z], i * 3); }
+          bkGeo.attributes.position.needsUpdate = true;
         }
       };
     }
