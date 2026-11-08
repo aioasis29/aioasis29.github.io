@@ -229,7 +229,7 @@ a{color:inherit}
 .directions-grid{margin-top:clamp(56px,7vw,96px);display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,6vw,96px);align-items:start}
 .directions-aside{position:sticky;top:110px;display:grid;gap:20px}
 .consult{position:relative;border-radius:28px;padding:30px;color:var(--on-dark);overflow:hidden;isolation:isolate;background:radial-gradient(90% 90% at 100% 0%, var(--jade), var(--deep) 60%, var(--abyss));box-shadow:0 40px 80px -40px rgba(7,59,70,.7)}
-.consult::after{content:"";position:absolute;width:220px;height:220px;right:-70px;bottom:-80px;border-radius:50%;z-index:-1;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55),rgba(160,227,216,.2) 30%,rgba(41,180,174,.15) 60%,transparent 70%);box-shadow:inset 0 0 40px rgba(160,227,216,.25)}
+.consult::after{content:"";position:absolute;width:260px;height:260px;right:-90px;bottom:-100px;border-radius:50%;z-index:-1;background:radial-gradient(circle at 34% 30%,rgba(234,247,244,0.300) 0%,rgba(234,247,244,0.285) 4%,rgba(234,247,244,0.245) 8%,rgba(234,247,244,0.190) 13%,rgba(234,247,244,0.131) 17%,rgba(234,247,244,0.080) 21%,rgba(234,247,244,0.042) 25%,rgba(234,247,244,0.018) 29%,rgba(234,247,244,0.006) 34%,rgba(234,247,244,0.001) 38%,rgba(234,247,244,0.000) 42%),radial-gradient(circle at 55% 58%,rgba(95,223,222,0.320) 0%,rgba(95,223,222,0.304) 8%,rgba(95,223,222,0.262) 16%,rgba(95,223,222,0.202) 24%,rgba(95,223,222,0.140) 32%,rgba(95,223,222,0.085) 40%,rgba(95,223,222,0.045) 48%,rgba(95,223,222,0.019) 56%,rgba(95,223,222,0.006) 64%,rgba(95,223,222,0.001) 72%,rgba(95,223,222,0.000) 80%),radial-gradient(circle at 50% 50%,rgba(160,227,216,0.220) 0%,rgba(160,227,216,0.209) 10%,rgba(160,227,216,0.180) 20%,rgba(160,227,216,0.139) 30%,rgba(160,227,216,0.096) 40%,rgba(160,227,216,0.058) 50%,rgba(160,227,216,0.031) 60%,rgba(160,227,216,0.013) 70%,rgba(160,227,216,0.004) 80%,rgba(160,227,216,0.001) 90%,rgba(160,227,216,0.000) 100%);-webkit-mask-image:radial-gradient(closest-side,#000 55%,rgba(0,0,0,.6) 75%,rgba(0,0,0,.2) 90%,transparent 100%);mask-image:radial-gradient(closest-side,#000 55%,rgba(0,0,0,.6) 75%,rgba(0,0,0,.2) 90%,transparent 100%);box-shadow:none}
 .consult h3{font-size:1.45rem;margin:10px 0 12px}
 .consult p{color:var(--on-dark-2);font-size:.98rem}
 .consult .btn{margin-top:22px;--h:48px}
@@ -306,15 +306,12 @@ details.more .note{margin-top:14px;font-size:.88rem;color:var(--ink-2);padding:1
 .placeholder-note{position:absolute;left:20px;right:20px;bottom:20px;font-size:.78rem;color:var(--on-dark-2);border:1px dashed rgba(160,227,216,.35);border-radius:12px;padding:10px 12px;background:rgba(3,34,42,.35)}
 .project-list{margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(24px,4vw,64px)}
 .project{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:start;padding-block:22px;border-top:1px solid var(--line)}
+.guided.seq-ready .project{border-top-color:transparent;transition:border-color 1s var(--ease) .9s}.guided.seq-ready .project.sq-in{border-top-color:var(--line)}
 .project h4{margin:0;font:500 1.12rem/1.3 var(--f-display);letter-spacing:-.01em}
 .project p{grid-column:1/-1;font-size:.92rem;color:var(--ink-2)}
 
 /* общий «стеклянный» объект для CSS-сцен */
-.orb{background:
-   radial-gradient(circle at 30% 26%, rgba(255,255,255,.9) 0 4%, rgba(255,255,255,.25) 12%, transparent 28%),
-   radial-gradient(circle at 70% 78%,rgba(160,227,216,0.550) 0%,rgba(160,227,216,0.523) 5.8%,rgba(160,227,216,0.450) 11.6%,rgba(160,227,216,0.348) 17.4%,rgba(160,227,216,0.240) 23.2%,rgba(160,227,216,0.146) 29.0%,rgba(160,227,216,0.077) 34.8%,rgba(160,227,216,0.033) 40.6%,rgba(160,227,216,0.010) 46.4%,rgba(160,227,216,0.002) 52.2%,rgba(160,227,216,0.000) 58%),
-   radial-gradient(circle at 50% 50%, rgba(41,180,174,.18), rgba(8,126,131,.32) 70%, rgba(160,227,216,.5) 100%);
-  box-shadow:inset 0 0 0 1px rgba(234,247,244,.35), inset -18px -24px 50px rgba(3,34,42,.45), inset 14px 18px 40px rgba(234,247,244,.18), 0 40px 80px -30px rgba(0,0,0,.55)}
+.orb{background:radial-gradient(circle at 34% 30%,rgba(234,247,244,0.320) 0%,rgba(234,247,244,0.304) 4%,rgba(234,247,244,0.262) 8%,rgba(234,247,244,0.202) 13%,rgba(234,247,244,0.140) 17%,rgba(234,247,244,0.085) 21%,rgba(234,247,244,0.045) 25%,rgba(234,247,244,0.019) 29%,rgba(234,247,244,0.006) 34%,rgba(234,247,244,0.001) 38%,rgba(234,247,244,0.000) 42%),radial-gradient(circle at 55% 58%,rgba(95,223,222,0.450) 0%,rgba(95,223,222,0.428) 8%,rgba(95,223,222,0.368) 16%,rgba(95,223,222,0.284) 24%,rgba(95,223,222,0.196) 32%,rgba(95,223,222,0.120) 40%,rgba(95,223,222,0.063) 48%,rgba(95,223,222,0.027) 56%,rgba(95,223,222,0.009) 64%,rgba(95,223,222,0.001) 72%,rgba(95,223,222,0.000) 80%),radial-gradient(circle at 50% 50%,rgba(160,227,216,0.300) 0%,rgba(160,227,216,0.285) 10%,rgba(160,227,216,0.245) 20%,rgba(160,227,216,0.190) 30%,rgba(160,227,216,0.131) 40%,rgba(160,227,216,0.080) 50%,rgba(160,227,216,0.042) 60%,rgba(160,227,216,0.018) 70%,rgba(160,227,216,0.006) 80%,rgba(160,227,216,0.001) 90%,rgba(160,227,216,0.000) 100%);-webkit-mask-image:radial-gradient(closest-side,#000 55%,rgba(0,0,0,.6) 75%,rgba(0,0,0,.2) 90%,transparent 100%);mask-image:radial-gradient(closest-side,#000 55%,rgba(0,0,0,.6) 75%,rgba(0,0,0,.2) 90%,transparent 100%);box-shadow:none}
 
 
 /* ---------- ОСНОВАТЕЛЬ ---------- */
@@ -611,9 +608,7 @@ fieldset.field{border:0;margin:0;padding:0}
   display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,4vw,64px);align-items:center;
   background:radial-gradient(60% 80% at 100% 0%,rgba(12,69,76,0.950) 0%,rgba(12,69,76,0.904) 9.1%,rgba(12,69,76,0.777) 18.2%,rgba(12,69,76,0.601) 27.3%,rgba(12,69,76,0.415) 36.4%,rgba(12,69,76,0.252) 45.5%,rgba(12,69,76,0.132) 54.6%,rgba(12,69,76,0.057) 63.7%,rgba(12,69,76,0.018) 72.8%,rgba(12,69,76,0.003) 81.9%,rgba(12,69,76,0.000) 91%),radial-gradient(50% 70% at 0% 100%,rgba(69,30,25,0.750) 0%,rgba(69,30,25,0.713) 9.1%,rgba(69,30,25,0.613) 18.2%,rgba(69,30,25,0.474) 27.3%,rgba(69,30,25,0.327) 36.4%,rgba(69,30,25,0.199) 45.5%,rgba(69,30,25,0.104) 54.6%,rgba(69,30,25,0.045) 63.7%,rgba(69,30,25,0.014) 72.8%,rgba(69,30,25,0.002) 81.9%,rgba(69,30,25,0.000) 91%),var(--graphite);
   box-shadow:0 50px 100px -60px rgba(7,59,70,.6)}
-.digital::after{content:"";position:absolute;width:340px;height:340px;right:-90px;bottom:-140px;border-radius:50%;z-index:-1;
-  background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.45) 0 4%,rgba(255,255,255,.08) 14%,transparent 28%),radial-gradient(circle,rgba(41,180,174,.12),rgba(8,126,131,.3) 70%,rgba(160,227,216,.4));
-  box-shadow:inset 0 0 0 1px rgba(234,247,244,.25),inset -18px -24px 50px rgba(3,34,42,.45)}
+.digital::after{content:"";position:absolute;width:380px;height:380px;right:-110px;bottom:-160px;border-radius:50%;z-index:-1;background:radial-gradient(circle at 34% 30%,rgba(234,247,244,0.220) 0%,rgba(234,247,244,0.209) 4%,rgba(234,247,244,0.180) 8%,rgba(234,247,244,0.139) 13%,rgba(234,247,244,0.096) 17%,rgba(234,247,244,0.058) 21%,rgba(234,247,244,0.031) 25%,rgba(234,247,244,0.013) 29%,rgba(234,247,244,0.004) 34%,rgba(234,247,244,0.001) 38%,rgba(234,247,244,0.000) 42%),radial-gradient(circle at 55% 58%,rgba(95,223,222,0.300) 0%,rgba(95,223,222,0.285) 8%,rgba(95,223,222,0.245) 16%,rgba(95,223,222,0.190) 24%,rgba(95,223,222,0.131) 32%,rgba(95,223,222,0.080) 40%,rgba(95,223,222,0.042) 48%,rgba(95,223,222,0.018) 56%,rgba(95,223,222,0.006) 64%,rgba(95,223,222,0.001) 72%,rgba(95,223,222,0.000) 80%),radial-gradient(circle at 50% 50%,rgba(160,227,216,0.200) 0%,rgba(160,227,216,0.190) 10%,rgba(160,227,216,0.163) 20%,rgba(160,227,216,0.126) 30%,rgba(160,227,216,0.087) 40%,rgba(160,227,216,0.053) 50%,rgba(160,227,216,0.028) 60%,rgba(160,227,216,0.012) 70%,rgba(160,227,216,0.004) 80%,rgba(160,227,216,0.001) 90%,rgba(160,227,216,0.000) 100%);-webkit-mask-image:radial-gradient(closest-side,#000 55%,rgba(0,0,0,.6) 75%,rgba(0,0,0,.2) 90%,transparent 100%);mask-image:radial-gradient(closest-side,#000 55%,rgba(0,0,0,.6) 75%,rgba(0,0,0,.2) 90%,transparent 100%);box-shadow:none}
 .digital-head{display:grid;gap:14px}
 .digital-head .eyebrow{color:var(--coral)}
 .digital-head h3{font-size:clamp(1.6rem,1.2rem + 1.4vw,2.5rem);letter-spacing:-.035em;line-height:1.08}
@@ -724,7 +719,7 @@ fieldset.field{border:0;margin:0;padding:0}
 /* ---------- «Знакомые ситуации»: последовательный рассказ при прокрутке ----------
    Скрытое состояние действует только когда скрипт добавил .seq-ready, поэтому без JS всё видно. */
 .recognize.seq-ready .sq{opacity:0;transform:translate3d(var(--sq-x,0),var(--sq-y,20px),0);filter:contrast(.8) saturate(.7);
-  transition:opacity .75s var(--ease),transform .75s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,130ms))}
+  transition:opacity .75s var(--ease),transform .75s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + var(--p,0) * var(--sq-pause,650ms))}
 .recognize.seq-ready .sq-l{--sq-x:-14px}
 .recognize.seq-ready .sq-block.sq-in .sq{opacity:1;transform:none;filter:none}
 .recognize.seq-ready .thought{border-top-color:transparent;transition:border-color .8s var(--ease)}
@@ -737,7 +732,7 @@ fieldset.field{border:0;margin:0;padding:0}
   background:radial-gradient(40% 60% at 22% 50%,rgba(41,180,174,0.160) 0%,rgba(41,180,174,0.152) 9.1%,rgba(41,180,174,0.131) 18.2%,rgba(41,180,174,0.101) 27.3%,rgba(41,180,174,0.070) 36.4%,rgba(41,180,174,0.043) 45.5%,rgba(41,180,174,0.022) 54.6%,rgba(41,180,174,0.010) 63.7%,rgba(41,180,174,0.003) 72.8%,rgba(41,180,174,0.001) 81.9%,rgba(41,180,174,0.000) 91%),radial-gradient(30% 50% at 80% 50%,rgba(225,164,146,0.180) 0%,rgba(225,164,146,0.171) 9.1%,rgba(225,164,146,0.147) 18.2%,rgba(225,164,146,0.114) 27.3%,rgba(225,164,146,0.079) 36.4%,rgba(225,164,146,0.048) 45.5%,rgba(225,164,146,0.025) 54.6%,rgba(225,164,146,0.011) 63.7%,rgba(225,164,146,0.003) 72.8%,rgba(225,164,146,0.001) 81.9%,rgba(225,164,146,0.000) 91%)}
 .recognize.seq-ready .relief::before{opacity:0;transform:scale(.92);transition:opacity 1.4s var(--ease) .2s,transform 1.6s var(--ease) .2s}
 .recognize.seq-ready .relief.sq-in::before{opacity:1;transform:none}
-.recognize.seq-ready .sq-t{opacity:0;transition:opacity .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,130ms))}
+.recognize.seq-ready .sq-t{opacity:0;transition:opacity .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + var(--p,0) * var(--sq-pause,650ms))}
 .recognize.seq-ready .sq-in .sq-t{opacity:1}
 @media (max-width:860px){.recognize.seq-ready{--sq-step:100ms}.recognize.seq-ready .sq{--sq-y:16px}.recognize.seq-ready .sq-l{--sq-x:0}}
 
@@ -758,7 +753,7 @@ fieldset.field{border:0;margin:0;padding:0}
 /* ---------- «Сначала задача»: тот же приём управляемого чтения ---------- */
 .philosophy.seq-ready{--sq-step:170ms}
 .philosophy.seq-ready .sq{opacity:0;transform:translate3d(0,var(--sq-y,20px),0);filter:contrast(.8) saturate(.7);
-  transition:opacity .8s var(--ease),transform .8s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,170ms))}
+  transition:opacity .8s var(--ease),transform .8s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,170ms) + var(--p,0) * var(--sq-pause,650ms))}
 .philosophy.seq-ready .sq-block.sq-in .sq,.philosophy.seq-ready .sq-tail.sq-in,.philosophy.seq-ready.tail-in .sq-tail{opacity:1;transform:none;filter:none}
 .philosophy.seq-ready .sq-self{opacity:0;transform:translate3d(0,24px,0) scale(.985);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
 .philosophy.seq-ready .sq-self.sq-in{opacity:1;transform:none}
@@ -785,7 +780,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 
 /* ---------- управляемое чтение: общий механизм для разделов с классом .guided ---------- */
 .guided.seq-ready .sq{opacity:0;transform:translate3d(var(--sq-x,0),var(--sq-y,20px),0);filter:contrast(.8) saturate(.7);
-  transition:opacity .75s var(--ease),transform .75s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,130ms))}
+  transition:opacity .75s var(--ease),transform .75s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + var(--p,0) * var(--sq-pause,650ms))}
 .guided.seq-ready .sq-l{--sq-x:-14px}
 .guided.seq-ready .sq-block.sq-in .sq{opacity:1;transform:none;filter:none}
 .guided.seq-ready .dir{border-top-color:transparent;transition:border-color .8s var(--ease)}
@@ -794,7 +789,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .guided.seq-ready .dir:last-child.sq-in{border-bottom-color:var(--line)}
 .guided.seq-ready .digital{opacity:0;transform:translate3d(0,24px,0) scale(.985);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
 .guided.seq-ready .digital.sq-in{opacity:1;transform:none}
-.guided.seq-ready .digital .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + 750ms)} /* текст — после того, как проявилась тёмная карточка */
+.guided.seq-ready .digital .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + var(--p,0) * var(--sq-pause,650ms) + 750ms)} /* текст — после того, как проявилась тёмная карточка */
 .guided.seq-ready .cx-card{opacity:0;transform:translate3d(0,24px,0) scale(.985);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
 .guided.seq-ready .cx-card.sq-in{opacity:1;transform:none}
 .guided.seq-ready .cx-card .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + 650ms)}
@@ -847,7 +842,7 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
   .step::before{transition:background .4s,box-shadow .4s}
 }
 /* кейсы: у каждого своё раскрытие визуала */
-.guided.seq-ready .case-visual.sq{transition:opacity .9s var(--ease),transform 1s var(--ease),clip-path 1.3s cubic-bezier(.65,0,.25,1)}
+.guided.seq-ready .case-visual.sq{transition:opacity .9s var(--ease),transform 1s var(--ease),clip-path 1.3s cubic-bezier(.65,0,.25,1);transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + var(--p,0) * var(--sq-pause,650ms))}
 .guided.seq-ready .case-visual.sq[data-fx="wipe"]{clip-path:inset(0 100% 0 0 round 32px)}
 .guided.seq-ready .case-visual.sq[data-fx="iris"]{clip-path:circle(0% at 50% 45%)}
 .guided.seq-ready .case-visual.sq[data-fx="rise"]{clip-path:inset(100% 0 0 0 round 32px)}
@@ -1271,9 +1266,20 @@ strong.hl{font-weight:500}
 /* финальный призыв витрины: мягкий световой перелив по кнопке после появления */
 .sb-glow{position:relative;overflow:hidden}
 .sb-glow::after{content:"";position:absolute;inset:-2px;border-radius:inherit;pointer-events:none;background:linear-gradient(100deg,transparent 30%,rgba(255,214,196,.55) 45%,rgba(160,240,232,.5) 55%,transparent 70%) -150% 0/220% 100% no-repeat;opacity:0}
-.sq-in .sb-glow::after,.sb-glow.lit::after{animation:sbSheen 2.6s 1.6s var(--ease) both}
+.sq-in .sb-glow::after,.sb-glow.lit::after{animation:sbSheen 2.6s var(--gd,1.6s) var(--ease) both}
 @keyframes sbSheen{0%{opacity:0;background-position:-150% 0}25%{opacity:1}100%{opacity:0;background-position:150% 0}}
 @media (prefers-reduced-motion:reduce){.sb-glow::after{animation:none!important}}
+/* «Шесть шагов»: каждый шаг появляется отдельно, линия к следующему прорисовывается после него */
+.guided.seq-ready #steps .step.sq{transition:opacity .7s var(--ease),transform .7s var(--ease),filter .8s var(--ease)!important;transition-delay:0s!important}
+.guided.seq-ready #cycle #steps .step.sq:not(.shown){opacity:0;transform:translate3d(0,14px,0);filter:contrast(.8) saturate(.7)}
+.guided.seq-ready #cycle.sq-in #steps .step.shown{opacity:1;transform:none;filter:none}
+.track-fill,.bead{transition:none!important}
+#steps::after{transition:none!important}
+.method-cost{margin-top:clamp(20px,3vw,32px);font-size:.95rem;line-height:1.55;color:var(--on-dark-2);max-width:46em}
+.method-cost a{color:var(--mint)}
+/* основатель и «Необязательно знать заранее»: меньше пустого пространства сверху */
+.founder.section{padding-top:clamp(56px,7vw,104px)}
+.final.section{padding-top:clamp(56px,7vw,104px)}
 </style>
 
 </head>
@@ -1425,33 +1431,33 @@ strong.hl{font-weight:500}
     <div class="wrap">
       <div class="section-head sq-block">
         <p class="eyebrow sq" style="--i:0">Знакомые ситуации</p>
-        <h2 id="recognize-title" class="sq" style="--i:1">Сложность не всегда в самой задаче. Иногда в том, что непонятно, с чего начать.</h2>
+        <h2 id="recognize-title"><span class="sq sq-line" style="--i:1">Сложность не всегда в самой задаче.</span> <span class="sq sq-line" style="--i:2;--p:1">Иногда в том, что непонятно, с чего начать.</span></h2>
       </div>
       <div class="thoughts">
         <article class="thought sq-block">
           <q class="sq sq-l" style="--i:0">Работы всё больше, а времени на то, чтобы разобраться в новом, не остаётся.</q>
-          <div class="reply"><p class="eyebrow sq" style="--i:1">С чего можно начать</p><p class="sq" style="--i:2">С того, что <span class="hl">отнимает больше всего часов</span>. Часто часть рутины можно упростить или передать инструментам.</p></div>
+          <div class="reply"><p class="eyebrow sq" style="--i:1;--p:1">С чего можно начать</p><p class="sq" style="--i:2;--p:1">С того, что <span class="hl">отнимает больше всего часов</span>. Часто часть рутины можно упростить или передать инструментам.</p></div>
         </article>
         <article class="thought sq-block">
           <q class="sq sq-l" style="--i:0">Инструментов десятки. Какой из них нужен мне, непонятно.</q>
-          <div class="reply"><p class="eyebrow sq" style="--i:1">С чего можно начать</p><p class="sq" style="--i:2">Выбор начинается не с инструмента. Сначала разбираем задачу, затем подбираем то, что ей подходит. <span class="hl">Иногда это вовсе не нейросеть.</span></p></div>
+          <div class="reply"><p class="eyebrow sq" style="--i:1;--p:1">С чего можно начать</p><p class="sq" style="--i:2;--p:1">Выбор начинается не с инструмента. Сначала разбираем задачу, затем подбираем то, что ей подходит. <span class="hl">Иногда это вовсе не нейросеть.</span></p></div>
         </article>
         <article class="thought sq-block">
           <q class="sq sq-l" style="--i:0">Идея есть. Как превратить её в результат, неясно.</q>
-          <div class="reply"><p class="eyebrow sq" style="--i:1">С чего можно начать</p><p class="sq" style="--i:2">Разложим идею на шаги, определим ресурсы и <span class="hl">первый реальный шаг</span>, который можно сделать уже сейчас.</p></div>
+          <div class="reply"><p class="eyebrow sq" style="--i:1;--p:1">С чего можно начать</p><p class="sq" style="--i:2;--p:1">Разложим идею на шаги, определим ресурсы и <span class="hl">первый реальный шаг</span>, который можно сделать уже сейчас.</p></div>
         </article>
         <article class="thought sq-block">
           <q class="sq sq-l" style="--i:0">Сотрудники уже пользуются нейросетями, но каждый по-своему.</q>
-          <div class="reply"><p class="eyebrow sq" style="--i:1">С чего можно начать</p><p class="sq" style="--i:2">С диагностики: где технологии действительно помогают команде. Затем обучение <span class="hl">на ваших рабочих задачах</span>.</p></div>
+          <div class="reply"><p class="eyebrow sq" style="--i:1;--p:1">С чего можно начать</p><p class="sq" style="--i:2;--p:1">С диагностики: где технологии действительно помогают команде. Затем обучение <span class="hl">на ваших рабочих задачах</span>.</p></div>
         </article>
         <article class="thought sq-block">
           <q class="sq sq-l" style="--i:0">Знаний и опыта много, а курс никак не складывается в систему.</q>
-          <div class="reply"><p class="eyebrow sq" style="--i:1">С чего можно начать</p><p class="sq" style="--i:2"><span class="hl">Со структуры и методологии</span>: логика продукта, программа, учебные материалы, практика.</p></div>
+          <div class="reply"><p class="eyebrow sq" style="--i:1;--p:1">С чего можно начать</p><p class="sq" style="--i:2;--p:1"><span class="hl">Со структуры и методологии</span>: логика продукта, программа, учебные материалы, практика.</p></div>
         </article>
       </div>
       <div class="relief sq-block sq-final">
-        <p><span class="sq-t" style="--i:0">Если вы узнали себя, вы по адресу.</span> <span class="sq-t" style="--i:2">Разбираться во всех технологиях самостоятельно не обязательно.</span></p>
-        <a class="btn btn-dark sq" style="--i:4" href="#contact">Рассказать о своей ситуации</a>
+        <p><span class="sq-t" style="--i:0">Если вы узнали себя, вы по адресу.</span> <span class="sq-t" style="--i:2;--p:1">Разбираться во всех технологиях самостоятельно не обязательно.</span></p>
+        <a class="btn btn-dark sq sb-glow" style="--i:4;--p:2;--gd:2.7s" href="#contact">Рассказать о своей ситуации</a>
       </div>
     </div>
   </section>
@@ -1515,35 +1521,35 @@ strong.hl{font-weight:500}
             <h3 class="sq sq-l" style="--i:0">Искусственный интеллект в работе и бизнесе</h3>
             <div class="dir-pair">
               <div><p class="eyebrow sq" style="--i:1">Когда</p><p class="sq" style="--i:2">Хочется понять, где AI действительно сэкономит время, а где он не нужен.</p></div>
-              <div class="res"><p class="eyebrow sq" style="--i:3">Что получится</p><p class="sq" style="--i:4">Сценарии применения <span class="hl">под ваши задачи</span>, подобранные инструменты, рабочие инструкции и обучение команды.</p></div>
+              <div class="res"><p class="eyebrow sq" style="--i:3;--p:1">Что получится</p><p class="sq" style="--i:4;--p:1">Сценарии применения <span class="hl">под ваши задачи</span>, подобранные инструменты, рабочие инструкции и обучение команды.</p></div>
             </div>
           </article>
           <article class="dir sq-block">
             <h3 class="sq sq-l" style="--i:0">Корпоративное обучение</h3>
             <div class="dir-pair">
               <div><p class="eyebrow sq" style="--i:1">Когда</p><p class="sq" style="--i:2">Сотрудники пользуются технологиями бессистемно, и результат зависит от случая.</p></div>
-              <div class="res"><p class="eyebrow sq" style="--i:3">Что получится</p><p class="sq" style="--i:4">Программа по итогам диагностики, <span class="hl">практика на рабочих материалах</span>, учебные модули и оценка результатов.</p></div>
+              <div class="res"><p class="eyebrow sq" style="--i:3;--p:1">Что получится</p><p class="sq" style="--i:4;--p:1">Программа по итогам диагностики, <span class="hl">практика на рабочих материалах</span>, учебные модули и оценка результатов.</p></div>
             </div>
           </article>
           <article class="dir sq-block">
             <h3 class="sq sq-l" style="--i:0">Образовательные продукты и методология</h3>
             <div class="dir-pair">
               <div><p class="eyebrow sq" style="--i:1">Когда</p><p class="sq" style="--i:2">Есть экспертиза и идея курса, но <span class="hl">нет структуры</span> и понятной логики обучения.</p></div>
-              <div class="res"><p class="eyebrow sq" style="--i:3">Что получится</p><p class="sq" style="--i:4">Образовательная программа, учебно-методический комплекс, интерактивные задания, сопровождение автора.</p></div>
+              <div class="res"><p class="eyebrow sq" style="--i:3;--p:1">Что получится</p><p class="sq" style="--i:4;--p:1">Образовательная программа, учебно-методический комплекс, интерактивные задания, сопровождение автора.</p></div>
             </div>
           </article>
           <article class="dir sq-block">
             <h3 class="sq sq-l" style="--i:0">Цифровые решения и автоматизация</h3>
             <div class="dir-pair">
               <div><p class="eyebrow sq" style="--i:1">Когда</p><p class="sq" style="--i:2">Рабочий процесс отнимает слишком много ручных операций.</p></div>
-              <div class="res"><p class="eyebrow sq" style="--i:3">Что получится</p><p class="sq" style="--i:4"><span class="hl">Схема упрощения процесса</span>, подбор инструментов, концепция или прототип решения и сопровождение реализации.</p></div>
+              <div class="res"><p class="eyebrow sq" style="--i:3;--p:1">Что получится</p><p class="sq" style="--i:4;--p:1"><span class="hl">Схема упрощения процесса</span>, подбор инструментов, концепция или прототип решения и сопровождение реализации.</p></div>
             </div>
           </article>
           <article class="dir sq-block">
             <h3 class="sq sq-l" style="--i:0">Проектирование и сопровождение проектов</h3>
             <div class="dir-pair">
               <div><p class="eyebrow sq" style="--i:1">Когда</p><p class="sq" style="--i:2">Цель понятна, но неясно, как организовать работу и измерить результат.</p></div>
-              <div class="res"><p class="eyebrow sq" style="--i:3">Что получится</p><p class="sq" style="--i:4">Концепция, <span class="hl">цели и показатели</span>, этапы, команда, контроль результатов.</p></div>
+              <div class="res"><p class="eyebrow sq" style="--i:3;--p:1">Что получится</p><p class="sq" style="--i:4;--p:1">Концепция, <span class="hl">цели и показатели</span>, этапы, команда, контроль результатов.</p></div>
             </div>
           </article>
         </div>
@@ -1641,10 +1647,11 @@ strong.hl{font-weight:500}
           <li class="step sq sq-l" style="--i:6"><span class="num">05</span><h3>Реализация</h3><p>Создаём, адаптируем или внедряем решение. При необходимости привлекаем профильных специалистов.</p></li>
           <li class="step sq sq-l" style="--i:7"><span class="num">06</span><h3>Оценка результата</h3><p>Проверяем, насколько решение соответствует поставленной цели.</p></li>
         </ol>
-        <p class="loop sq" style="--i:9">
+        <p class="loop sq" style="--i:9;--p:6">
           <svg viewBox="0 0 52 52" aria-hidden="true"><path d="M40 16a17 17 0 1 0 3 16" fill="none" stroke="#A0E3D8" stroke-width="1.5" stroke-linecap="round"/><path d="M33 15h8V7" fill="none" stroke="#A0E3D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span><b>Это цикл.</b> Оценка показывает, что работает и что стоит улучшить, и при необходимости работа идёт на следующий круг.</span>
         </p>
+        <p class="method-cost sq" style="--i:10;--p:6">Стоимость работы складывается из этих шагов: постановки задачи, проектирования, реализации, проверки и передачи результата. <a href="#pricing">Форматы и стоимость</a></p>
       </div>
     </div>
   </section>
@@ -1664,7 +1671,7 @@ strong.hl{font-weight:500}
       </div>
       <div class="case-list">
       <article class="case-story sq-block" id="case-production">
-        <div class="case-visual sq" data-fx="wipe" style="--i:0">
+        <div class="case-visual sq" data-fx="wipe" style="--i:3;--p:2">
           <div class="scene case-scene" id="case-scene" role="group" aria-label="Схема хода проекта: от рабочей задачи к понятному решению">
           <canvas aria-hidden="true"></canvas>
           <div class="cs-labels" aria-hidden="true"></div>
@@ -1688,17 +1695,17 @@ strong.hl{font-weight:500}
         </div>
         </div>
         <div class="case-body">
-          <span class="tag t-done sq" style="--i:1">Выполненный проект</span>
-          <h3 class="sq" style="--i:2">Корпоративное обучение работе с AI для производственного предприятия</h3>
-          <p class="client sq" style="--i:3">Лесохимическое предприятие. Название клиента не публикуется.</p>
-          <p class="case-lead sq" style="--i:4">Разобрались, где AI действительно полезен сотрудникам в их работе, и <span class="hl">научили применять его системно</span>: от диагностики до индивидуальной программы и практики.</p>
-          <div class="facts sq" style="--i:5"><div class="fact"><b>12</b><span>сотрудников участвовали в диагностике потребностей</span></div><div class="fact"><b>17</b><span>человек прошли обучение в разных форматах</span></div></div>
+          <span class="tag t-done sq" style="--i:0">Выполненный проект</span>
+          <h3 class="sq" style="--i:1">Корпоративное обучение работе с AI для производственного предприятия</h3>
+          <p class="client sq" style="--i:4;--p:2">Лесохимическое предприятие. Название клиента не публикуется.</p>
+          <p class="case-lead sq" style="--i:2;--p:1">Разобрались, где AI действительно полезен сотрудникам в их работе, и <span class="hl">научили применять его системно</span>: от диагностики до индивидуальной программы и практики.</p>
+          <div class="facts sq" style="--i:5;--p:2"><div class="fact"><b>12</b><span>сотрудников участвовали в диагностике потребностей</span></div><div class="fact"><b>17</b><span>человек прошли обучение в разных форматах</span></div></div>
           
-          <button type="button" class="btn btn-dark story-open sq" style="--i:6" data-story="story-production" aria-haspopup="dialog">Подробнее о проекте <span class="arr" aria-hidden="true">→</span></button>
+          <button type="button" class="btn btn-dark story-open sq" style="--i:6;--p:2" data-story="story-production" aria-haspopup="dialog">Подробнее о проекте <span class="arr" aria-hidden="true">→</span></button>
         </div>
       </article>
       <article class="case-story sq-block flip" id="case-pharma">
-        <div class="case-visual sq" data-fx="iris" style="--i:8">
+        <div class="case-visual sq" data-fx="iris" style="--i:3;--p:2">
           <div class="scene" id="scene-pharma" role="group" aria-label="Живая архитектура образовательного продукта">
             <canvas aria-hidden="true"></canvas>
             <div class="cs-labels" aria-hidden="true"></div>
@@ -1715,15 +1722,15 @@ strong.hl{font-weight:500}
         <div class="case-body">
           <span class="tag t-method sq" style="--i:0">Методологическое консультирование</span>
           <h3 class="sq" style="--i:1">Корпоративный образовательный продукт для аптечной сети</h3>
-          <p class="client sq" style="--i:2">Крупная аптечная сеть. Отраслевую экспертизу и содержание курса обеспечивал специалист со стороны клиента.</p>
-          <p class="case-lead sq" style="--i:3">Помогли превратить множество идей в <span class="hl">стройную логику образовательного продукта</span> и выстроить работу с AI так, чтобы обучение можно было быстро перестраивать.</p>
-          <div class="facts sq" style="--i:4"><div class="fact"><b>2</b><span>консультации от идеи до подписанного договора</span></div><div class="fact"><b>6</b><span>этапов в цикле обучения, который адаптируется</span></div></div>
+          <p class="client sq" style="--i:4;--p:2">Крупная аптечная сеть. Отраслевую экспертизу и содержание курса обеспечивал специалист со стороны клиента.</p>
+          <p class="case-lead sq" style="--i:2;--p:1">Помогли превратить множество идей в <span class="hl">стройную логику образовательного продукта</span> и выстроить работу с AI так, чтобы обучение можно было быстро перестраивать.</p>
+          <div class="facts sq" style="--i:5;--p:2"><div class="fact"><b>2</b><span>консультации от идеи до подписанного договора</span></div><div class="fact"><b>6</b><span>этапов в цикле обучения, который адаптируется</span></div></div>
           <blockquote class="pull sq" style="--i:5">«Пара предложений за считаные минуты превращалась в структурированную, стройную систему». <cite>Автор образовательного продукта</cite></blockquote>
-          <button type="button" class="btn btn-dark story-open sq" style="--i:6" data-story="story-pharma" aria-haspopup="dialog">Подробнее о проекте <span class="arr" aria-hidden="true">→</span></button>
+          <button type="button" class="btn btn-dark story-open sq" style="--i:6;--p:2" data-story="story-pharma" aria-haspopup="dialog">Подробнее о проекте <span class="arr" aria-hidden="true">→</span></button>
         </div>
       </article>
       <article class="case-story sq-block" id="case-games">
-        <div class="case-visual sq" data-fx="rise" style="--i:0">
+        <div class="case-visual sq" data-fx="rise" style="--i:3;--p:2">
           <div class="scene" id="scene-games" role="group" aria-label="От учебной задачи к интерактивному игровому миру">
             <canvas aria-hidden="true"></canvas>
             <div class="cs-labels" aria-hidden="true"></div>
@@ -1738,17 +1745,17 @@ strong.hl{font-weight:500}
           </div>
         </div>
         <div class="case-body">
-          <span class="tag t-done sq" style="--i:1">Индивидуальное сопровождение</span>
-          <h3 class="sq" style="--i:2">Цифровые обучающие игры для занятий логопеда</h3>
-          <p class="client sq" style="--i:3">Индивидуальная работа со специалистом-логопедом.</p>
-          <p class="case-lead sq" style="--i:4">Специалист хотела создавать короткие компьютерные игры для занятий с детьми, но не имела технических навыков. Главный результат — <span class="hl">умение делать новые игры самостоятельно</span>.</p>
-          <div class="facts sq" style="--i:5"><div class="fact"><b>4–6</b><span>минут длится каждая игра на занятии</span></div><div class="fact"><b>60–90</b><span>минут заняла индивидуальная онлайн-встреча</span></div></div>
+          <span class="tag t-done sq" style="--i:0">Индивидуальное сопровождение</span>
+          <h3 class="sq" style="--i:1">Цифровые обучающие игры для занятий логопеда</h3>
+          <p class="client sq" style="--i:4;--p:2">Индивидуальная работа со специалистом-логопедом.</p>
+          <p class="case-lead sq" style="--i:2;--p:1">Специалист хотела создавать короткие компьютерные игры для занятий с детьми, но не имела технических навыков. Главный результат — <span class="hl">умение делать новые игры самостоятельно</span>.</p>
+          <div class="facts sq" style="--i:5;--p:2"><div class="fact"><b>4–6</b><span>минут длится каждая игра на занятии</span></div><div class="fact"><b>60–90</b><span>минут заняла индивидуальная онлайн-встреча</span></div></div>
           <blockquote class="pull sq" style="--i:6">«Теперь я знаю секрет, как превратить закрепление любой темы в захватывающее приключение». <cite>Логопед, участница занятия</cite></blockquote>
-          <button type="button" class="btn btn-dark story-open sq" style="--i:7" data-story="story-games" aria-haspopup="dialog">Подробнее о проекте <span class="arr" aria-hidden="true">→</span></button>
+          <button type="button" class="btn btn-dark story-open sq" style="--i:6;--p:2" data-story="story-games" aria-haspopup="dialog">Подробнее о проекте <span class="arr" aria-hidden="true">→</span></button>
         </div>
       </article>
       <article class="case-story sq-block flip" id="case-motion">
-        <div class="case-visual sq" data-fx="aperture" style="--i:7">
+        <div class="case-visual sq" data-fx="aperture" style="--i:3;--p:2">
           <div class="scene" id="scene-motion" role="group" aria-label="Как рождается мультфильм в технике stop-motion">
             <canvas aria-hidden="true"></canvas>
             <div class="cs-labels" aria-hidden="true"></div>
@@ -1765,11 +1772,11 @@ strong.hl{font-weight:500}
         <div class="case-body">
           <span class="tag t-done sq" style="--i:0">Выполненный проект</span>
           <h3 class="sq" style="--i:1">«Синергия»: программа по созданию мультфильма в технике stop-motion</h3>
-          <p class="client sq" style="--i:2">Методический комплекс для каникулярной программы сети «Синергия».</p>
-          <p class="case-lead sq" style="--i:3">Полный методический пакет программы «Основы анимации: создание мультфильма в технике stop-motion». Комплекс <span class="hl">принят сетью и допущен к тиражированию</span>.</p>
-          <div class="facts sq" style="--i:4"><div class="fact"><b>20</b><span>академических часов: 5 дней по 4 часа</span></div><div class="fact"><b>8–11</b><span>лет — возраст учащихся</span></div></div>
+          <p class="client sq" style="--i:4;--p:2">Методический комплекс для каникулярной программы сети «Синергия».</p>
+          <p class="case-lead sq" style="--i:2;--p:1">Полный методический пакет программы «Основы анимации: создание мультфильма в технике stop-motion». Комплекс <span class="hl">принят сетью и допущен к тиражированию</span>.</p>
+          <div class="facts sq" style="--i:5;--p:2"><div class="fact"><b>20</b><span>академических часов: 5 дней по 4 часа</span></div><div class="fact"><b>8–11</b><span>лет — возраст учащихся</span></div></div>
           
-          <button type="button" class="btn btn-dark story-open sq" style="--i:5" data-story="story-motion" aria-haspopup="dialog">Подробнее о проекте <span class="arr" aria-hidden="true">→</span></button>
+          <button type="button" class="btn btn-dark story-open sq" style="--i:6;--p:2" data-story="story-motion" aria-haspopup="dialog">Подробнее о проекте <span class="arr" aria-hidden="true">→</span></button>
         </div>
       </article>
       </div>
@@ -2058,25 +2065,33 @@ strong.hl{font-weight:500}
   var cycle=document.getElementById('cycle'), bead=document.getElementById('bead'), nodes=cycle.querySelectorAll('.node'), steps=cycle.querySelectorAll('.step');
   var fill=document.createElement('span'); fill.className='track-fill'; var trk=cycle.querySelector('.track'); if(trk) trk.insertBefore(fill,trk.firstChild); else fill=null;
   var stepsEl=document.getElementById('steps'), stepItems=stepsEl?[].slice.call(stepsEl.querySelectorAll('.step')):[];
+  /* шесть шагов раскрываются по очереди: шаг → линия прорисовывается к следующему → следующий шаг.
+     Запуск — когда блок с шагами вышел на экран; при быстрой прокрутке (блок уже выше экрана) — сразу итог. */
+  var STEP_MS=reduce?0:850, stepsT0=0, stepsOn=false;
+  function stepState(){
+    if(!stepsOn) return 0;
+    return reduce?6.6:(performance.now()-stepsT0)/STEP_MS;
+  }
   function updateBead(){
     var r=cycle.getBoundingClientRect(), vh=innerHeight;
-    /* старт — в момент появления блока с шагами (верх блока на середине экрана, как у управляемого чтения);
-       путь до последнего шага — примерно полэкрана прокрутки */
-    var travel=Math.max(vh*0.45,Math.min(r.height*0.7,vh*0.75));
-    var p=Math.min(1,Math.max(0,(vh*0.5-r.top)/travel));
-    if(cycle.closest('.seq-ready') && !cycle.classList.contains('sq-in')) p=0;
-    if(reduce)p=1;
-    var idx=Math.min(5,Math.floor(p*6));
+    var started=cycle.classList.contains('sq-in') || reduce || !('IntersectionObserver' in window);
+    if(started && !stepsOn){ stepsOn=true; stepsT0=r.bottom<0 ? performance.now()-99e3 : performance.now()+350; requestAnimationFrame(stepTick); }
+    var e=stepState(), shown=Math.max(0,Math.min(6,Math.floor(e)+ (e>0?1:0)));
+    /* линия идёт от текущего шага к следующему во второй половине интервала */
+    var lp=Math.max(0,Math.min(5,e-0.45)), p=lp/5;
     bead.style.left=(p*83.33)+'%'; if(fill) fill.style.width=(p*83.33)+'%';
-    if(innerWidth<=860 && stepsEl){
-      var sr=stepsEl.getBoundingClientRect(), mp=reduce?1:Math.min(1,Math.max(0,(vh*0.62-sr.top)/sr.height));
-      if(cycle.closest('.seq-ready') && !cycle.classList.contains('sq-in')) mp=0;
-      stepsEl.style.setProperty('--mp',mp.toFixed(4));
-      stepItems.forEach(function(li){ li.classList.toggle('lit', li.getBoundingClientRect().top < vh*0.62 || reduce); });
+    stepItems.forEach(function(li,i){ li.classList.toggle('shown', i<shown); li.classList.toggle('lit', i<shown); });
+    if(stepsEl && stepItems.length){
+      var k=Math.floor(lp), f=lp-k, a=stepItems[k], b2=stepItems[Math.min(5,k+1)], top0=stepItems[0].offsetTop;
+      var y=a.offsetTop+(b2.offsetTop-a.offsetTop)*f-top0, H=stepItems[5].offsetTop-top0||1;
+      stepsEl.style.setProperty('--mp',(Math.min(1,y/H)*(stepItems[5].offsetTop-top0)/stepsEl.offsetHeight).toFixed(4));
     }
-    nodes.forEach(function(n,i){n.classList.toggle('on',i<=idx)});
+    nodes.forEach(function(n,i){n.classList.toggle('on',i<shown)});
   }
+  function stepTick(){ updateBead(); if(stepState()<6.6) requestAnimationFrame(stepTick); }
   addEventListener('scroll',updateBead,{passive:true});addEventListener('resize',updateBead);updateBead();
+  /* запуск сразу, как только блок шагов раскрыт (в том числе при быстрой прокрутке, когда событий прокрутки больше нет) */
+  if('MutationObserver' in window) new MutationObserver(updateBead).observe(cycle,{attributes:true,attributeFilter:['class']});
 
   /* шёлковые ленты финального экрана (canvas 2D, рисуются только когда секция на экране) */
   (function(){
@@ -2174,6 +2189,15 @@ strong.hl{font-weight:500}
   var SQ_SWEEP=[];
   function sqInstant(b){ b.style.transition='none'; [].forEach.call(b.querySelectorAll('.sq,.sq-t,.sq-l'),function(x){ x.style.transition='none'; }); }
   function sqAbove(b){ return b.getBoundingClientRect().bottom<0; }
+  /* очередь раскрытия: соседние блоки одного раздела появляются друг за другом, а не одновременно.
+     Пауза зависит от длины сценария предыдущего блока, но не больше ~1,2 с; ожидание в очереди — не больше 1,6 с,
+     чтобы при быстрой прокрутке посетитель не ждал текст. */
+  function sqGap(b){ var m=0; [].forEach.call(b.querySelectorAll('.sq,.sq-t'),function(x){ var i=parseFloat(x.style.getPropertyValue('--i'))||0, pz=parseFloat(x.style.getPropertyValue('--p'))||0; m=Math.max(m,i*130+pz*650); }); return Math.min(1200,420+m*.5); }
+  function sqQueue(sec,b,fn){
+    var now=performance.now(), at=Math.max(now,sec._sqNext||0); if(at-now>1600) at=now+1600;
+    sec._sqNext=at+sqGap(b);
+    setTimeout(function(){ fn(b); }, at-now);
+  }
   (function(){
     var t=false; function run(){ t=false; SQ_SWEEP.forEach(function(f){ f(); }); }
     addEventListener('scroll',function(){ if(!t){ t=true; requestAnimationFrame(run); } },{passive:true});
@@ -2193,7 +2217,7 @@ strong.hl{font-weight:500}
       [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1100); }); }
     var io=new IntersectionObserver(function(es){
       es.forEach(function(e){
-        if(e.isIntersecting) show(e.target);
+        if(e.isIntersecting){ io.unobserve(e.target); sqQueue(sec,e.target,function(b){ if(!b.classList.contains('sq-in')) show(b); }); }
         else if(e.boundingClientRect.bottom<0) { e.target.style.transition='none'; [].forEach.call(e.target.querySelectorAll('.sq,.sq-t'),function(x){x.style.transition='none'}); show(e.target); } /* блок уже выше экрана (переход по ссылке): показываем сразу */
       });
     },{rootMargin:'0px 0px -50% 0px', threshold:0});
@@ -2252,31 +2276,30 @@ strong.hl{font-weight:500}
     });
   })();
 
-  /* разделы .guided: каждый блок проявляется у середины экрана, внутри — по очереди слева направо.
-     После появления служебные классы снимаются, чтобы наведение на кнопки работало без задержек. */
+  /* разделы .guided: «первый кадр» раздела появляется, когда секция подошла к экрану (верх — на 85% высоты окна);
+     остальные блоки — у середины экрана. Блоки одного раздела раскрываются по очереди (sqQueue), внутри блока —
+     части по очереди с паузой на чтение (--p). Служебные классы снимаются после появления. */
   (function(){
     if(reduce || !('IntersectionObserver' in window)) return;
     [].forEach.call(document.querySelectorAll('.guided'),function(sec){
       sec.classList.add('seq-ready');
       var headShown=false, queue=[];
-      function reveal(b){ b.classList.add('sq-in');
-        [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1300); });
-        setTimeout(function(){ [].forEach.call(b.querySelectorAll('.sq'),function(x){ x.classList.remove('sq','sq-l'); }); }, 3500); }
+      function reveal(b){ if(b.classList.contains('sq-in')) return; b.classList.add('sq-in');
+        [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1600); });
+        setTimeout(function(){ [].forEach.call(b.querySelectorAll('.sq'),function(x){ x.classList.remove('sq','sq-l'); }); }, 4800); }
       var io=new IntersectionObserver(function(es){ es.forEach(function(e){
         if(!(e.isIntersecting||e.boundingClientRect.bottom<0)) return;
         var b=e.target; io.unobserve(b);
+        if(e.boundingClientRect.bottom<0){ sqInstant(b); reveal(b); return; }
         /* блоки раздела не обгоняют его «первый кадр» (data-sq="section") */
         if(sec.querySelector('.sq-block[data-sq="section"]') && !headShown){ queue.push(b); return; }
-        b.classList.add('sq-in');
-        [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1300); });
-        setTimeout(function(){ [].forEach.call(b.querySelectorAll('.sq'),function(x){ x.classList.remove('sq','sq-l'); }); }, 3500);
-      }); },{rootMargin:'0px 0px -50% 0px'});
+        sqQueue(sec,b,reveal);
+      }); },{rootMargin:'0px 0px -42% 0px'});
       var head=[].slice.call(sec.querySelectorAll('.sq-block[data-sq="section"]'));
       if(head.length){
-        var ioS=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting||e.boundingClientRect.top<0){ ioS.disconnect(); head.forEach(function(b){ io.unobserve(b); b.classList.add('sq-in');
-          [].forEach.call(b.querySelectorAll('.hl'),function(h){ setTimeout(function(){ h.classList.add('on'); }, 1600); });
-          setTimeout(function(){ [].forEach.call(b.querySelectorAll('.sq'),function(x){ x.classList.remove('sq','sq-l'); }); }, 3500); });
-          headShown=true; queue.forEach(reveal); queue=[]; } }); },{rootMargin:'0px 0px -70% 0px'});
+        var ioS=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting||e.boundingClientRect.top<0){ ioS.disconnect();
+          head.forEach(function(b){ io.unobserve(b); sqQueue(sec,b,reveal); });
+          headShown=true; queue.forEach(function(b){ sqQueue(sec,b,reveal); }); queue=[]; } }); },{rootMargin:'0px 0px -15% 0px'});
         ioS.observe(sec);
       }
       var all=[].slice.call(sec.querySelectorAll('.sq-block'));
@@ -2286,7 +2309,7 @@ strong.hl{font-weight:500}
         var any=false;
         all.forEach(function(b){ if(!b.classList.contains('sq-in') && sqAbove(b)){ any=true; io.unobserve(b); sqInstant(b); reveal(b); } });
         /* если раздел уже прокручен, «первый кадр» больше не ждём */
-        if(any && !headShown){ headShown=true; if(typeof ioS!=='undefined' && ioS) ioS.disconnect(); queue.forEach(reveal); queue=[]; }
+        if(any && !headShown){ headShown=true; if(typeof ioS!=='undefined' && ioS) ioS.disconnect(); queue.forEach(function(b){ sqQueue(sec,b,reveal); }); queue=[]; }
       });
     });
   })();
