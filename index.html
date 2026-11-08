@@ -1171,6 +1171,7 @@ strong.hl{font-weight:500}
 .sb-li-complex{margin-top:14px}
 .sb-dir-complex{position:relative;grid-template-columns:52px minmax(0,1fr);padding:16px 16px 16px 14px;border-radius:22px;overflow:hidden;isolation:isolate;
   background:linear-gradient(135deg,rgba(225,164,146,.14),rgba(234,247,244,.04) 45%,rgba(95,223,222,.12));box-shadow:inset 0 0 0 1px rgba(225,164,146,.28),inset 0 1px 0 rgba(255,236,228,.14)}
+.sb:not(.live) .sb-dir-complex::before{animation-play-state:paused}
 .sb-dir-complex::before{content:"";position:absolute;inset:-40%;z-index:-1;background:conic-gradient(from 0deg,rgba(225,164,146,0),rgba(225,164,146,.22),rgba(95,223,222,.22),rgba(95,223,222,0) 60%,rgba(225,164,146,0));filter:blur(18px);opacity:.55;animation:sbSpin 18s linear infinite}
 @keyframes sbSpin{to{transform:rotate(360deg)}}
 .sb-dir-complex .sb-orb{width:52px;height:52px}.sb-dir-complex .sb-orb svg{width:28px;height:28px}
@@ -2072,7 +2073,9 @@ strong.hl{font-weight:500}
     if(!stepsOn) return 0;
     return reduce?6.6:(performance.now()-stepsT0)/STEP_MS;
   }
-  function updateBead(){
+  var stepsDone=false;
+  function updateBead(ev){
+    if(stepsDone && ev && ev.type==='scroll') return;
     var r=cycle.getBoundingClientRect(), vh=innerHeight;
     var started=cycle.classList.contains('sq-in') || reduce || !('IntersectionObserver' in window);
     if(started && !stepsOn){ stepsOn=true; stepsT0=r.bottom<0 ? performance.now()-99e3 : performance.now()+350; requestAnimationFrame(stepTick); }
@@ -2088,7 +2091,7 @@ strong.hl{font-weight:500}
     }
     nodes.forEach(function(n,i){n.classList.toggle('on',i<shown)});
   }
-  function stepTick(){ updateBead(); if(stepState()<6.6) requestAnimationFrame(stepTick); }
+  function stepTick(){ updateBead(); if(stepState()<6.6) requestAnimationFrame(stepTick); else stepsDone=true; }
   addEventListener('scroll',updateBead,{passive:true});addEventListener('resize',updateBead);updateBead();
   /* запуск сразу, как только блок шагов раскрыт (в том числе при быстрой прокрутке, когда событий прокрутки больше нет) */
   if('MutationObserver' in window) new MutationObserver(updateBead).observe(cycle,{attributes:true,attributeFilter:['class']});
@@ -2444,7 +2447,7 @@ if(renderer){
 
   const BG=`
     uniform float uTime; uniform float uAspect; uniform vec2 uFocus; uniform vec4 uRib;
-    float gSoft=1.;
+    float gSoft=1.; float gSilk=1.;
     /* градиентный шум с чередованием (почти синий): ±1,5 единицы яркости против полос в тёмных переходах */
     vec3 ign(vec2 p){ float n=fract(52.9829189*fract(dot(p,vec2(.06711056,.00583715)))); return vec3((n-.5)*3./255.); }
     const vec3 GR=vec3(.039,.055,.059), EM=vec3(.271,.118,.098), TG=vec3(.047,.271,.298),
@@ -2475,7 +2478,7 @@ if(renderer){
       vec2 fo=uFocus+vec2(.03*sin(t*.11)+.014*sin(t*.047+1.3),.02*cos(t*.13)+.011*sin(t*.061+.4)); /* медленный дрейф софтбокса, без заметного повтора */
       vec2 d2=(uv-fo)*a; col=mix(col,TG,.95*exp(-2.2*dot(d2,d2)));
       vec2 d3=(uv-fo-vec2(.05,.08))*a; col+=AI*.10*exp(-9.*dot(d3,d3));
-      col+=silk(uv,t);
+      if(gSilk>.5) col+=silk(uv,t);
       vec2 v=(uv-vec2(.6,.5))*vec2(1.1,1.5);
       col*=1.-.35*smoothstep(.55,1.3,length(v));
       return col;
@@ -2567,6 +2570,7 @@ if(renderer){
     uniform vec2 uRes; uniform vec3 uSun; uniform float uSunK; uniform float uCx; uniform float uSz; uniform float uInner;
     varying vec3 vN; varying vec3 vP; varying vec2 vUv;
     void main(){
+      gSilk=0.; /* для преломления внутри стекла достаточно светового фона без тонкой ленты */
       vec3 N=normalize(vN); vec3 V=normalize(-vP); if(dot(N,V)<0.) N=-N;
       float ndv=clamp(dot(N,V),0.,1.), fres=.04+.96*pow(1.-ndv,5.);
       vec2 suv=gl_FragCoord.xy/uRes;
@@ -2577,7 +2581,8 @@ if(renderer){
       vec3 base=mix(teal,coral,side); base=mix(base,lav,.28*smoothstep(.0,.5,side*(1.-side)*4.));
       /* преломлённая среда внутри стекла */
       vec3 r=refract(-V,N,1./1.45); float k=.07*(.5+(1.-ndv));
-      vec3 trans=vec3(bg(suv+r.xy*k*1.04).r,bg(suv+r.xy*k).g,bg(suv+r.xy*k*.96).b);
+      /* дисперсия только на внешней поверхности; внутренней стенке хватает одного отсчёта */
+      vec3 trans=uInner>.5 ? bg(suv+r.xy*k) : vec3(bg(suv+r.xy*k*1.04).r,bg(suv+r.xy*k).g,bg(suv+r.xy*k*.96).b);
       vec3 col=trans*mix(vec3(1.),base,.6)*.5*(1.-.45*uInner)+base*(.05+.14*side);
       /* тонкие шёлковые прожилки вдоль ленты */
       float u=vUv.x, st=0.;
@@ -2668,9 +2673,13 @@ if(renderer){
     HE.light(s); HE.center(camera);
     renderer.render(scene,camera);
   }
-  function loop(t){ render(t); raf=requestAnimationFrame(loop); }
+  /* адаптивная плотность пикселей: если кадры стабильно дольше ~22 мс, снижаем шаг за шагом (не ниже 1) */
+  let fAcc=0,fCnt=0,fPrev=0,dprNow=renderer.getPixelRatio();
+  function adaptHero(t){ if(fPrev){ fAcc+=t-fPrev; fCnt++; } fPrev=t;
+    if(fCnt>=90){ const avg=fAcc/fCnt; fAcc=0; fCnt=0; if(avg>22 && dprNow>1){ dprNow=Math.max(1,dprNow-.25); renderer.setPixelRatio(dprNow); layout(); } } }
+  function loop(t){ render(t); adaptHero(t); raf=requestAnimationFrame(loop); }
   function start(){ if(running||reduce) return; running=true; raf=requestAnimationFrame(loop); }
-  function stop(){ running=false; cancelAnimationFrame(raf); }
+  function stop(){ running=false; cancelAnimationFrame(raf); fPrev=0; }
   new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?start():stop())).observe(hero);
   document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
 
@@ -4007,6 +4016,7 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
   const mirG = new THREE.Group(); mirG.scale.y = -1; mirG.position.y = 2 * FLOOR; world.add(mirG);
   const mirror = new THREE.InstancedMesh(geo, mirMat, N); mirror.frustumCulled = false;
   mirror.instanceMatrix = mesh.instanceMatrix; mirror.instanceColor = mesh.instanceColor; mirG.add(mirror);
+  if (mobile) mirG.visible = false; /* на телефоне отражение не рисуется — экономия второго прохода */
 
   let seed = 29; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
   const TINT = { chaos: [0.62, 0.92, 0.88], method: [0.95, 0.93, 0.9], process: [0.66, 1, 0.9], data: [0.42, 0.92, 0.82], auto: [0.5, 1, 1], soft: [0.72, 0.88, 1], ai: [1, 0.78, 0.68] };
@@ -4587,6 +4597,7 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
     const avg = acc / cnt; acc = 0; cnt = 0;
     if (avg > 0.025 && quality < 3) {
       quality++;
+      mirG.visible = false; /* первым отключается отражение в полу: заметно легче, композиция сохраняется */
       if (quality > 1) renderer.setPixelRatio(Math.max(1.25, renderer.getPixelRatio() - 0.5));
       resize();
     }
@@ -5545,7 +5556,7 @@ import * as THREE from 'three';
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (es) {
       es.forEach(function (e) {
-        visible = e.isIntersecting;
+        visible = e.isIntersecting; root.classList.toggle('live', visible);
         if (visible && !seen) { seen = true; t0 = performance.now(); lastStep = -1; var p = panel(cur); p.classList.remove('in'); void p.offsetWidth; p.classList.add('in'); var b = p.querySelector('.sb-price b'); if (b) countTo(b, b.dataset.v, 850); drawBeam(true); }
         if (visible) kick(); else { cancelAnimationFrame(raf); raf = 0; }
       });
