@@ -15,7 +15,7 @@
     var rows = [
       ['Браузер', navigator.userAgent],
       ['Экран', innerWidth + '×' + innerHeight + ', плотность ' + (devicePixelRatio || 1)],
-      ['Уменьшение движения (prefers-reduced-motion)', mm('(prefers-reduced-motion: reduce)')],
+      ['Уменьшение движения (prefers-reduced-motion)', window.__yaMotion ? ((window.__rawReduce ? 'браузер сообщает «да»' : 'нет') + ' → Яндекс Браузер: сайт в полном режиме') : mm('(prefers-reduced-motion: reduce)')],
       ['Экономия данных (prefers-reduced-data / saveData)', mm('(prefers-reduced-data: reduce)') + ' / ' + (c.saveData ? 'да' : 'нет')],
       ['Сенсорный экран', mm('(pointer: coarse)')],
       ['IntersectionObserver', 'IntersectionObserver' in window ? 'есть' : 'НЕТ'],
