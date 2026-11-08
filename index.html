@@ -1123,14 +1123,17 @@ strong.hl{font-weight:500}
 /* ================= Витрина решений (секция «Форматы работы и стоимость») =================
    Светлый раздел «Что мы можем сделать» плавно переходит в тёмное студийное пространство.
    Слева — семь направлений как стеклянные объекты на дуге; справа — сцена выбранного направления. */
-.pricing{background:var(--dither) 0 0/64px 64px,linear-gradient(180deg,#0B1416 0%,#0A0F10 60%,#0B1214 100%)}
-@media (min-resolution:2dppx){.pricing{background-size:32px 32px,auto}}
-.pricing::before{content:"";position:absolute;inset:0 0 auto 0;height:clamp(160px,22vw,300px);z-index:-1;pointer-events:none;
-  background:linear-gradient(180deg,var(--mist) 0%,rgba(241,246,244,.86) 10%,rgba(214,232,228,.6) 22%,rgba(120,160,158,.32) 40%,rgba(40,70,72,.14) 62%,rgba(11,20,22,.04) 82%,rgba(11,20,22,0) 100%)}
-.pricing .studio .k{width:110vmax;height:90vmax;right:-60vmax;top:-30vmax}
+/* переход из светлого раздела: один длинный градиент в OKLab по кривой smootherstep (без «колена» в начале и конце),
+   средние тона слегка бирюзовые — без серой полосы; поверх — синий шум против ступенек */
+.pricing{--fade:clamp(300px,36vw,560px);padding-top:calc(var(--fade) * .74);
+  background:var(--dither) 0 0/64px 64px,linear-gradient(180deg,rgb(241,246,244) 0.0%,rgb(240,245,243) 6.25%,rgb(236,242,240) 12.5%,rgb(225,234,233) 18.75%,rgb(207,221,220) 25.0%,rgb(183,203,203) 31.25%,rgb(155,181,181) 37.5%,rgb(125,155,156) 43.75%,rgb(96,128,130) 50.0%,rgb(71,101,104) 56.25%,rgb(51,77,79) 62.5%,rgb(35,56,59) 68.75%,rgb(24,40,42) 75.0%,rgb(17,29,31) 81.25%,rgb(13,23,25) 87.5%,rgb(11,20,22) 93.75%,rgb(11,20,22) 100.0%) 0 0/100% var(--fade) no-repeat,linear-gradient(180deg,#0B1416 0%,#0A0F10 60%,#0B1214 100%)}
+@media (min-resolution:2dppx){.pricing{background-size:32px 32px,100% var(--fade),auto}}
+/* студийный свет витрины начинается ниже перехода и проявляется плавно — без среза по краю секции */
+.pricing .studio{-webkit-mask-image:linear-gradient(180deg,transparent 0,transparent calc(var(--fade) * .45),rgba(0,0,0,.12) calc(var(--fade) * .7),rgba(0,0,0,.45) calc(var(--fade) * .95),rgba(0,0,0,.82) calc(var(--fade) * 1.25),#000 calc(var(--fade) * 1.6));
+  mask-image:linear-gradient(180deg,transparent 0,transparent calc(var(--fade) * .45),rgba(0,0,0,.12) calc(var(--fade) * .7),rgba(0,0,0,.45) calc(var(--fade) * .95),rgba(0,0,0,.82) calc(var(--fade) * 1.25),#000 calc(var(--fade) * 1.6))}
+.pricing .studio .k{width:110vmax;height:90vmax;right:-60vmax;top:-12vmax}
 .pricing .studio .r{width:95vmax;height:85vmax;left:-60vmax;bottom:-40vmax;opacity:.8}
 .pricing .studio .f{width:100vmax;height:70vmax;left:calc(50% - 50vmax);top:25%}
-.pricing .section-head{padding-top:clamp(40px,6vw,96px)}
 .pricing .section-head .eyebrow{color:var(--coral)}
 .pricing .section-head p:not(.eyebrow){color:var(--on-dark-2)}
 .sb{position:relative;margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:minmax(300px,4fr) minmax(0,8fr);gap:clamp(28px,4vw,64px);align-items:start}
