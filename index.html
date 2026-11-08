@@ -1329,6 +1329,18 @@ strong.hl{font-weight:500}
 .sb-head>.sb-comp.left{margin-top:6px}
 .sb-agree.col{grid-area:auto;margin-top:4px}
 .sb.js .sb-panel.in .sb-head>.sb-comp{transition-delay:1.15s}
+/* заставка с шейдерным светом: холст под содержимым, поверх вуали; CSS-света и вуаль-цвет отключаются */
+.intro-gl{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.97;transition:opacity 2.4s var(--ease)}
+.intro.phase-2 .intro-gl{opacity:.94}.intro.phase-3 .intro-gl{opacity:.91}.intro.is-leaving .intro-gl{opacity:0;transition-duration:1.6s}
+.intro.gl .intro-light,.intro.gl .intro-ring{display:none}
+.intro.gl .intro-veil{background:transparent!important}
+.intro.gl::after{opacity:0}
+.intro.gl .intro-center::before{opacity:.55}
+.sb-rail{transition:transform .7s cubic-bezier(.4,0,.2,1);will-change:transform}
+@media (prefers-reduced-motion:reduce){.sb-rail{transition:none}}
+.guided.seq-ready .sb-final{opacity:0;transform:translate3d(0,24px,0) scale(.985);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
+.guided.seq-ready .sb-final.sq-in{opacity:1;transform:none}
+.guided.seq-ready .sb-final .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + var(--p,0) * var(--sq-pause,650ms) + 750ms)} /* текст — после того, как проявилась подложка */
 </style>
 
 </head>
@@ -1406,6 +1418,55 @@ strong.hl{font-weight:500}
       setTimeout(function(){ intro.classList.add('is-gone'); }, 1700);
     }, seen?0:200);
   }
+  /* студийный свет заставки: считается на видеокарте в линейном цвете с высокой точностью и выводится
+     с треугольным дизерингом — без ступенек и полос в тёмных бирюзовых переходах. Работает только пока видна заставка. */
+  (function(){
+    var cv=document.createElement('canvas'); cv.className='intro-gl'; cv.setAttribute('aria-hidden','true');
+    var gl=null; try{ gl=cv.getContext('webgl',{alpha:false,antialias:false,depth:false,premultipliedAlpha:false,powerPreference:'low-power'}); }catch(e){}
+    if(!gl) return;
+    var VS='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+    var FS=['precision highp float;uniform vec2 R;uniform float T;uniform float D;',
+      'float ign(vec2 q){return fract(52.9829189*fract(dot(q,vec2(.06711056,.00583715))));}',
+      'float g(vec2 q,vec2 c,vec2 s){vec2 d=(q-c)/s;return exp(-.5*dot(d,d));}',
+      'void main(){',
+      ' vec2 uv=gl_FragCoord.xy/R; float a=R.x/R.y; vec2 q=vec2((uv.x-.5)*a,uv.y-.5);',
+      ' float t=T*.06;',
+      /* глубокая база: от графита внизу к сине-зелёному вверху */
+      ' vec3 c=mix(vec3(.0012,.0032,.0040),vec3(.0020,.0060,.0074),smoothstep(-.6,.7,q.y));',
+      /* ключевой софтбокс за логотипом: широкий мягкий объём + ядро, медленно дышит */
+      ' vec2 k=vec2(.03*sin(t*1.3),.06+.025*sin(t*.9+1.));',
+      ' c+=vec3(.0035,.032,.037)*g(q,k,vec2(.34,.30))*(1.+.06*sin(t*2.1));',
+      ' c+=vec3(.0015,.010,.012)*g(q,k,vec2(.85,.75));',
+      /* верхний рассеянный свет */
+      ' c+=vec3(.001,.005,.006)*g(q,vec2(.15*sin(t*.7),.75),vec2(.9*a,.35));',
+      /* тёплый заполняющий (рассвет) снизу слева и холодный контровой справа */
+      ' c+=vec3(.016,.0045,.0028)*g(q,vec2(-.62*a+.04*sin(t),-.55),vec2(.45,.38));',
+      ' c+=vec3(.0012,.006,.0075)*g(q,vec2(.58*a,.10+.05*sin(t*.8)),vec2(.30,.45));',
+      /* мягкое виньетирование */
+      ' c*=1.-.35*smoothstep(.45,1.15,length(q*vec2(1./max(a,1.),1.)));',
+      ' c=pow(max(c,0.),vec3(1./2.2));',
+      ' float n=ign(gl_FragCoord.xy)+ign(gl_FragCoord.xy+vec2(5.588,2.193))-1.;',
+      ' gl_FragColor=vec4(c*D+n/255.,1.);}'].join('\n');
+    function sh(t,src){ var s=gl.createShader(t); gl.shaderSource(s,src); gl.compileShader(s); return gl.getShaderParameter(s,gl.COMPILE_STATUS)?s:null; }
+    var vs=sh(gl.VERTEX_SHADER,VS), fs=sh(gl.FRAGMENT_SHADER,FS); if(!vs||!fs) return;
+    var pr=gl.createProgram(); gl.attachShader(pr,vs); gl.attachShader(pr,fs); gl.linkProgram(pr); if(!gl.getProgramParameter(pr,gl.LINK_STATUS)) return;
+    gl.useProgram(pr);
+    var b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+    var loc=gl.getAttribLocation(pr,'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+    var uR=gl.getUniformLocation(pr,'R'), uT=gl.getUniformLocation(pr,'T'), uD=gl.getUniformLocation(pr,'D');
+    var veil=intro.querySelector('.intro-veil'); veil.parentNode.insertBefore(cv,veil.nextSibling); intro.classList.add('gl');
+    function size(){ var d=Math.min(devicePixelRatio||1,1.5); cv.width=Math.round(innerWidth*d); cv.height=Math.round(innerHeight*d); gl.viewport(0,0,cv.width,cv.height); }
+    size(); addEventListener('resize',size);
+    var t0=performance.now(), raf=0, br=.72;
+    function draw(now){
+      if(intro.classList.contains('is-gone')){ var ext=gl.getExtension('WEBGL_lose_context'); if(ext) ext.loseContext(); cv.remove(); return; }
+      /* яркость света растёт вместе с фазами заставки, как раньше прозрачность вуали */
+      var tb=intro.classList.contains('phase-3')?.84:intro.classList.contains('phase-2')?.78:.72; br+=(tb-br)*.03;
+      gl.uniform2f(uR,cv.width,cv.height); gl.uniform1f(uT,(now-t0)/1000); gl.uniform1f(uD,br);
+      gl.drawArrays(gl.TRIANGLES,0,3); raf=requestAnimationFrame(draw);
+    }
+    raf=requestAnimationFrame(draw);
+  })();
   var tick=setInterval(function(){ if(done) return clearInterval(tick); update(); },150);
   setTimeout(function(){ if(!done) finish(); }, 8000);
   if(document.readyState!=='loading') mark('dom'); else document.addEventListener('DOMContentLoaded',function(){ mark('dom'); });
@@ -3952,11 +4013,7 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
       float rays=.5+.5*sin(ang*7.+sin(ang*3.+uTime*.05)*2.2)*sin(ang*11.-uTime*.04);
       col+=vec3(.45,.86,.88)*ch*(.2*exp(-rc*rc*34.)+.035*exp(-rc*4.5)*rays*rays);
       col+=vec3(.86,.8,.95)*ch*.18*exp(-rc*rc*180.);
-      float sx=uv.x*a.x, strips=0.;
-      for(int i=0;i<7;i++){ float fi=float(i); float px=(.06+fi*.148+.025*sin(fi*3.1))*a.x; float w=.004+.011*fract(fi*.618+.1);
-        strips+=exp(-pow((sx-px)/w,2.))*(.45+.55*fract(fi*.37+.2)); }
-      float vf=smoothstep(.12,.42,uv.y)*smoothstep(1.05,.62,uv.y);
-      col+=vec3(.5,1.,.92)*strips*vf*.2*uOrder;
+      /* вертикальные световые полосы убраны: смысловой нагрузки не несли */
       col+=vec3(.2,.7,.68)*.06*uOrder*exp(-3.*r2);
       col+=vec3(.88,.64,.57)*.04*uOrder*exp(-10.*r2);
       float cs=sin(uv.x*a.x*17.+sin(uv.y*13.+uTime*.3)*1.4)*sin(uv.y*15.+sin(uv.x*a.x*10.-uTime*.25)*1.2);
@@ -4378,12 +4435,7 @@ window.AIO_RIBBONS = function (maxSeg, color, opts) {
         float glow=exp(-r*r*.16);
         float rings=0.; for(int i=0;i<3;i++){ float rr=1.1+float(i)*.95; float w=fwidth(r)*1.2; rings+=(1.-smoothstep(0.,w+.012,abs(r-rr)))*(1.-float(i)*.25); }
         float sweep=.5+.5*sin(atan(p.y,p.x)*2.-uTime*.35);
-        /* отражения студийных полос — вытянутые блики к зрителю */
-        float sx=vUv.x, strips=0.;
-        for(int i=0;i<7;i++){ float fi=float(i); float px=.06+fi*.148+.025*sin(fi*3.1); strips+=exp(-pow((sx-px)/(.006+.01*fract(fi*.618+.1)),2.))*(.45+.55*fract(fi*.37+.2)); }
-        float near=smoothstep(.2,.75,vUv.y);
-        vec3 add=vec3(.16,.62,.6)*glow*.16+vec3(.45,.92,.86)*rings*.07*(.5+.5*sweep)*exp(-r*.25)+vec3(.95,.6,.48)*rings*.02*(1.-sweep)
-          +vec3(.4,.95,.88)*strips*near*.05*uOrder;
+        vec3 add=vec3(.16,.62,.6)*glow*.16+vec3(.45,.92,.86)*rings*.07*(.5+.5*sweep)*exp(-r*.25)+vec3(.95,.6,.48)*rings*.02*(1.-sweep);
         float edge=smoothstep(4.4,2.2,length(p*vec2(1.,1.3)));
         float a=(.3+.45*uOrder)*edge;
         gl_FragColor=vec4(vec3(.01,.026,.03)*a+add*(.3+.7*uOrder),a);
@@ -5335,14 +5387,17 @@ import * as THREE from 'three';
   function panel(id) { for (var i = 0; i < panels.length; i++) if (panels[i].dataset.dir === id) return panels[i]; }
   function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
   /* цена «набирается» к точному значению из прайса; итог всегда совпадает с разметкой */
-  function countTo(b, target, delay) {
+  /* цена «набирается» уже на виду: счёт стартует, когда блок стоимости проявился. При первом показе — от нуля,
+     при смене варианта — от текущего значения к новому. Итог всегда точно совпадает с прайсом. */
+  function countTo(b, target, delay, fromCur) {
     var v = +String(target).replace(/\D/g, ''); b.dataset.v = v;
     if (reduce) { b.textContent = fmt(v); return; }
-    var from = Math.round(v * 0.55), st = performance.now() + delay;
+    var from = fromCur ? (+String(b.textContent).replace(/\D/g, '') || 0) : 0, st = performance.now() + delay, DUR = fromCur ? 900 : 1600;
+    if (!fromCur) b.textContent = fmt(0);
     (function step(now) {
       if (+b.dataset.v !== v) return;
-      var k = Math.min(1, Math.max(0, (now - st) / 900)); k = 1 - Math.pow(1 - k, 3);
-      b.textContent = fmt(Math.round((from + (v - from) * k) / 100) * 100 || v);
+      var k = Math.min(1, Math.max(0, (now - st) / DUR)); k = 1 - Math.pow(1 - k, 3);
+      b.textContent = fmt(Math.round((from + (v - from) * k) / 100) * 100);
       if (k < 1) requestAnimationFrame(step); else b.textContent = fmt(v);
     })(performance.now());
   }
@@ -5374,16 +5429,24 @@ import * as THREE from 'three';
     if (agree) { var d0 = diff(), ah = agree.getBoundingClientRect().height + 14;
       if (d0 < -ah * .6) { head.appendChild(agree); agree.classList.add('col'); } else if (d0 > ah * .6) { info.appendChild(agree); agree.classList.add('col'); } }
   }
+  /* список направлений центрируется по высоте правой панели; при смене услуги — плавно */
+  var rail = root.querySelector('.sb-rail');
+  function alignRail() {
+    if (innerWidth <= 860) { rail.style.transform = ''; return; }
+    var off = Math.max(0, (stage.offsetHeight - rail.offsetHeight) / 2);
+    rail.style.transform = 'translateY(' + off.toFixed(1) + 'px)';
+  }
+  rail.addEventListener('transitionend', function (e) { if (e.target === rail) drawBeam(false); });
   function select(id, opts) {
     opts = opts || {};
     if (id === cur && !opts.force) return;
     cur = id; t0 = performance.now();
     tabs.forEach(function (b) { var on = b.dataset.dir === id; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
     panels.forEach(function (p) { var on = p.dataset.dir === id; p.hidden = !on; p.classList.remove('in'); });
-    var p = panel(id); balance(p); void p.offsetWidth; p.classList.add('in');
+    var p = panel(id); balance(p); alignRail(); void p.offsetWidth; p.classList.add('in');
     var ch = p.querySelector('.sb-tier[aria-checked="true"]'); tier = ch ? +ch.dataset.tier : 0;
     showTierComp(p);
-    var b = p.querySelector('.sb-price b'); if (b) countTo(b, ch ? ch.dataset.price : b.textContent, 850);
+    var b = p.querySelector('.sb-price b'); if (b) countTo(b, ch ? ch.dataset.price : b.dataset.v || b.textContent, 1950);
     [].forEach.call(p.querySelectorAll('.sb-story li'), function (li, i, all) { li.classList.toggle('last', i === all.length - 1); li.classList.remove('on'); });
     drawBeam(true);
     if (opts.user && innerWidth <= 860) { var r = stage.getBoundingClientRect(); if (r.top > innerHeight * 0.55 || r.top < 0) scrollTo({ top: scrollY + r.top - 84, behavior: reduce ? 'auto' : 'smooth' }); }
@@ -5406,7 +5469,7 @@ import * as THREE from 'three';
     [].forEach.call(p.querySelectorAll('.sb-tier'), function (x) { x.setAttribute('aria-checked', x === t); });
     tier = +t.dataset.tier;
     showTierComp(p);
-    countTo(p.querySelector('.sb-price b'), t.dataset.price, 0); balance(p);
+    countTo(p.querySelector('.sb-price b'), t.dataset.price, 0, true); balance(p); alignRail();
     if (reduce) frame(performance.now() + 99e3);
   });
   root.addEventListener('keydown', function (e) {
@@ -5718,12 +5781,12 @@ import * as THREE from 'three';
     new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         visible = e.isIntersecting; root.classList.toggle('live', visible);
-        if (visible && !seen) { seen = true; t0 = performance.now(); lastStep = -1; var p = panel(cur); p.classList.remove('in'); void p.offsetWidth; p.classList.add('in'); var b = p.querySelector('.sb-price b'); if (b) countTo(b, b.dataset.v, 850); drawBeam(true); }
+        if (visible && !seen) { seen = true; t0 = performance.now(); lastStep = -1; var p = panel(cur); p.classList.remove('in'); void p.offsetWidth; p.classList.add('in'); var b = p.querySelector('.sb-price b'); if (b) countTo(b, b.dataset.v, 1950); drawBeam(true); }
         if (visible) kick(); else { cancelAnimationFrame(raf); raf = 0; }
       });
     }, { rootMargin: '0px 0px -25% 0px' }).observe(stage);
   } else { visible = true; kick(); }
-  addEventListener('resize', function () { size(); if (cur) balance(panel(cur)); drawBeam(false); if (reduce) frame(performance.now() + 99e3); });
+  addEventListener('resize', function () { size(); if (cur) balance(panel(cur)); alignRail(); drawBeam(false); if (reduce) frame(performance.now() + 99e3); });
   if (reduce) frame(performance.now() + 99e3);
 })();
 </script>
