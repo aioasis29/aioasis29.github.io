@@ -784,6 +784,51 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .guided.seq-ready .cx-card .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + 650ms)}
 @media (max-width:860px){.guided.seq-ready{--sq-step:100ms}.guided.seq-ready .sq{--sq-y:16px}.guided.seq-ready .sq-l{--sq-x:0}}
 
+
+/* ---------- Форматы работы и стоимость ---------- */
+.pricing{position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(180deg,var(--paper),#EEF5F3 60%,var(--mist));border-top:1px solid var(--line)}
+.pricing::before{content:"";position:absolute;z-index:-1;width:760px;height:760px;left:-300px;top:-220px;border-radius:50%;background:radial-gradient(circle,rgba(160,227,216,.5),transparent 62%);pointer-events:none}
+.pricing-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-areas:"aside list" "foot foot";gap:clamp(36px,5vw,80px) clamp(32px,6vw,96px);align-items:start}
+.pricing-aside{grid-area:aside;position:sticky;top:110px;display:grid;gap:28px}
+.pricing .section-head .eyebrow{color:var(--jade)}
+.pr-complex{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;padding:28px;color:var(--on-dark);display:grid;gap:12px;
+  background:radial-gradient(90% 90% at 100% 0%,var(--jade),var(--deep) 60%,var(--abyss));box-shadow:0 40px 80px -40px rgba(7,59,70,.7)}
+.pr-complex::after{content:"";position:absolute;width:200px;height:200px;right:-70px;bottom:-80px;border-radius:50%;z-index:-1;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.5),rgba(160,227,216,.2) 30%,rgba(41,180,174,.15) 60%,transparent 70%);box-shadow:inset 0 0 40px rgba(160,227,216,.25)}
+.pr-complex .eyebrow{color:var(--coral)}
+.pr-complex-text{font:500 1.15rem/1.4 var(--f-display);letter-spacing:-.01em}
+.pr-complex-price{font-size:.95rem;color:var(--mint)}
+.pr-list{grid-area:list;display:grid}
+.pr-row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:6px 22px;align-items:baseline;padding:26px 0;border-top:1px solid var(--line);transition:background .4s}
+.pr-row:last-child{border-bottom:1px solid var(--line)}
+.pr-num{font:500 .82rem/1 var(--f-display);color:var(--jade);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.pr-main{display:grid;gap:8px;min-width:0}
+.pr-main h3{font-size:clamp(1.12rem,1rem + .45vw,1.38rem);letter-spacing:-.02em}
+.pr-main p{color:var(--ink-2);font-size:.98rem;line-height:1.6}
+.pr-main .pr-note{font-size:.92rem;color:var(--ink);padding-left:12px;border-left:2px solid rgba(225,164,146,.6)}
+.pr-price{white-space:nowrap;text-align:right;font:500 1.32rem/1.2 var(--f-display);color:var(--deep);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pr-price b{font-weight:500}
+.pr-from{font:500 .82rem/1 var(--f-body);color:#A84E39;letter-spacing:.02em}
+.pr-sub{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
+.pr-sub li{display:flex;justify-content:space-between;gap:16px;padding:10px 14px;border-radius:14px;background:rgba(160,227,216,.18);font-size:.95rem;color:var(--ink)}
+.pr-sub em{font-style:normal;white-space:nowrap;font-weight:600;color:var(--deep);font-variant-numeric:tabular-nums}
+.pr-row:hover .pr-price b{color:var(--jade)}
+.pr-foot{grid-area:foot;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,64px);align-items:center}
+.pr-info{display:grid;gap:10px;padding:24px 26px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.pr-info p{font-size:1rem;line-height:1.6;color:var(--ink-2)}
+.pr-info p:first-child{font:500 1.08rem/1.4 var(--f-display);color:var(--ink)}
+.pr-cta{display:grid;gap:18px;justify-items:start}
+.pr-cta p{font:500 clamp(1.1rem,1rem + .5vw,1.35rem)/1.4 var(--f-display);letter-spacing:-.01em;color:var(--ink)}
+@media (max-width:960px){
+  .pricing-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"aside" "list" "foot"}
+  .pricing-aside{position:static}
+  .pr-foot{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .pr-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"num price" "main main";padding:22px 0}
+  .pr-num{grid-area:num}.pr-price{grid-area:price}.pr-main{grid-area:main}
+  .pr-sub li{flex-direction:column;gap:2px}
+}
+
 /* ---------- прямые контакты ---------- */
 .direct{margin-top:36px;display:grid;gap:14px}
 .direct p{font-size:.92rem;color:var(--on-dark-2)}
@@ -1095,6 +1140,7 @@ strong.hl{font-weight:500}
 <nav class="mobile-nav" id="mobile-nav" hidden aria-label="Мобильная навигация">
   <a href="#approach">Подход</a>
   <a href="#directions">Направления</a>
+  <a href="#pricing">Стоимость</a>
   <a href="#method">Как мы работаем</a>
   <a href="#projects">Проекты</a>
   <a href="#founder">Основатель</a>
@@ -1269,6 +1315,107 @@ strong.hl{font-weight:500}
           <li class="sq sq-l" style="--i:9">Решения на основе <span class="hl">искусственного интеллекта</span></li>
         </ul>
         <p class="digital-foot sq" style="--i:11">От идеи и проектирования до работающего цифрового продукта. <span>Этот сайт — собственный проект AI OASIS: от концепции до разработки.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4a. ФОРМАТЫ И СТОИМОСТЬ -->
+  <section class="section pricing guided" id="pricing" aria-labelledby="pricing-title">
+    <div class="wrap pricing-grid">
+      <div class="pricing-aside">
+        <div class="section-head sq-block" data-sq="section">
+          <p class="eyebrow sq" style="--i:0">Стоимость</p>
+          <h2 id="pricing-title" class="sq" style="--i:1">Форматы работы и стоимость</h2>
+          <p class="sq" style="--i:3">От точечной консультации до комплексного проекта. Стоимость зависит от задачи, объёма работ и сложности реализации.</p>
+        </div>
+        <div class="pr-complex sq-block">
+          <p class="eyebrow sq" style="--i:0">Комплексные проекты</p>
+          <p class="pr-complex-text sq" style="--i:1">Если задача требует сочетания нескольких технологий и компетенций, мы сформируем индивидуальное предложение и подберём подходящий состав специалистов.</p>
+          <p class="pr-complex-price sq" style="--i:2">Стоимость — по результатам обсуждения и проектной оценки.</p>
+        </div>
+      </div>
+      <div class="pr-list">
+          <article class="pr-row sq-block">
+            <span class="pr-num sq" style="--i:0">01</span>
+            <div class="pr-main">
+              <h3 class="sq sq-l" style="--i:1">Консультация и диагностика</h3>
+              <p class="sq" style="--i:3">Разбор задачи, определение возможных путей решения, подбор подходящих инструментов и рекомендации по дальнейшим действиям.</p>
+              <p class="pr-note sq" style="--i:4">Продолжительность — до 60 минут.</p>
+              
+            </div>
+            <p class="pr-price sq" style="--i:2"><b>5 000 ₽</b></p>
+          </article>
+          <article class="pr-row sq-block">
+            <span class="pr-num sq" style="--i:0">02</span>
+            <div class="pr-main">
+              <h3 class="sq sq-l" style="--i:1">Проектирование решений</h3>
+              <p class="sq" style="--i:3">Анализ задачи, разработка концепции, проектирование структуры решения, определение этапов, ресурсов и возможных технологий реализации.</p>
+              
+              
+            </div>
+            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>15 000 ₽</b></p>
+          </article>
+          <article class="pr-row sq-block">
+            <span class="pr-num sq" style="--i:0">03</span>
+            <div class="pr-main">
+              <h3 class="sq sq-l" style="--i:1">Разработка сайтов</h3>
+              <p class="sq" style="--i:3">Создание современных адаптивных сайтов с продуманной структурой, визуальной концепцией и необходимым функционалом.</p>
+              
+              <ul class="pr-sub"><li class="sq sq-l" style="--i:4"><span>Одностраничный сайт</span><em>от 60 000 ₽</em></li><li class="sq sq-l" style="--i:5"><span>Многостраничный сайт</span><em>от 100 000 ₽</em></li><li class="sq sq-l" style="--i:6"><span>Индивидуальный сайт с интерактивностью</span><em>от 150 000 ₽</em></li></ul>
+            </div>
+            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>60 000 ₽</b></p>
+          </article>
+          <article class="pr-row sq-block">
+            <span class="pr-num sq" style="--i:0">04</span>
+            <div class="pr-main">
+              <h3 class="sq sq-l" style="--i:1">Работа с данными и аналитика</h3>
+              <p class="sq" style="--i:3">Структурирование данных, разработка аналитических инструментов, отчётности, систем контроля и визуализации информации.</p>
+              
+              
+            </div>
+            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>25 000 ₽</b></p>
+          </article>
+          <article class="pr-row sq-block">
+            <span class="pr-num sq" style="--i:0">05</span>
+            <div class="pr-main">
+              <h3 class="sq sq-l" style="--i:1">Автоматизация процессов</h3>
+              <p class="sq" style="--i:3">Проектирование и настройка цифровых сценариев, автоматизация повторяющихся операций, интеграция инструментов и оптимизация рабочих процессов.</p>
+              
+              
+            </div>
+            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>35 000 ₽</b></p>
+          </article>
+          <article class="pr-row sq-block">
+            <span class="pr-num sq" style="--i:0">06</span>
+            <div class="pr-main">
+              <h3 class="sq sq-l" style="--i:1">Решения с использованием искусственного интеллекта</h3>
+              <p class="sq" style="--i:3">Разработка сценариев практического применения ИИ, интеллектуальных инструментов, ассистентов и интеграционных решений.</p>
+              <p class="pr-note sq" style="--i:4">Сложные технические интеграции и серверная разработка оцениваются индивидуально.</p>
+              
+            </div>
+            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>45 000 ₽</b></p>
+          </article>
+          <article class="pr-row sq-block">
+            <span class="pr-num sq" style="--i:0">07</span>
+            <div class="pr-main">
+              <h3 class="sq sq-l" style="--i:1">Образовательные продукты и методология</h3>
+              <p class="sq" style="--i:3">Проектирование образовательных программ, учебных курсов, методических материалов и цифровых образовательных решений.</p>
+              
+              <ul class="pr-sub"><li class="sq sq-l" style="--i:4"><span>Проектирование образовательной программы</span><em>от 35 000 ₽</em></li><li class="sq sq-l" style="--i:5"><span>Архитектура образовательного курса</span><em>от 60 000 ₽</em></li><li class="sq sq-l" style="--i:6"><span>Комплексная разработка курса</span><em>от 120 000 ₽</em></li></ul>
+            </div>
+            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>35 000 ₽</b></p>
+          </article>
+      </div>
+      <div class="pr-foot sq-block">
+        <div class="pr-info sq" style="--i:0">
+          <p>Указанные цены — ориентиры для начала обсуждения проекта.</p>
+          <p>Итоговая стоимость определяется после уточнения задачи, объёма работ, функциональных требований и сложности реализации.</p>
+          <p>До начала работ согласовываем состав проекта, сроки, этапы и стоимость. Вы заранее понимаете, что входит в предложение и какой результат получите.</p>
+        </div>
+        <div class="pr-cta">
+          <p class="sq" style="--i:2">Необязательно заранее знать, какая технология вам нужна. Достаточно рассказать, какую задачу необходимо решить.</p>
+          <a class="btn btn-primary sq" style="--i:3" href="#contact"><span class="fire" aria-hidden="true"></span>Обсудить свою задачу <span class="arr" aria-hidden="true">→</span></a>
+        </div>
       </div>
     </div>
   </section>
