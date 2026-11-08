@@ -1343,6 +1343,36 @@ strong.hl{font-weight:500}
 .guided.seq-ready .sb-final .sq{transition-delay:calc(var(--i,0) * var(--sq-step,130ms) + var(--p,0) * var(--sq-pause,650ms) + 750ms)} /* текст — после того, как проявилась подложка */
 /* стыки тёмных секций: свет не обрезается краем, а мягко гаснет к границе и передаёт сцену следующей секции */
 .method .studio,.founder .studio,.final .studio{-webkit-mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.1) 6vh,rgba(0,0,0,.36) 16vh,rgba(0,0,0,.72) 30vh,#000 46vh,#000 calc(100% - 46vh),rgba(0,0,0,.72) calc(100% - 30vh),rgba(0,0,0,.36) calc(100% - 16vh),rgba(0,0,0,.1) calc(100% - 6vh),transparent 100%);mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.1) 6vh,rgba(0,0,0,.36) 16vh,rgba(0,0,0,.72) 30vh,#000 46vh,#000 calc(100% - 46vh),rgba(0,0,0,.72) calc(100% - 30vh),rgba(0,0,0,.36) calc(100% - 16vh),rgba(0,0,0,.1) calc(100% - 6vh),transparent 100%)}
+/* ---------- «Шесть шагов»: восходящая спираль развития ---------- */
+.sp{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);grid-template-areas:"list vis" "note note" "cost cost";gap:0 clamp(24px,4vw,56px);align-items:center}
+.sp-list{grid-area:list}
+.sp-steps{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.sp-phase{font:600 .66rem/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:rgba(160,227,216,.55);margin:16px 0 6px 10px}
+.sp-phase:first-child{margin-top:0}
+.sp-step{position:relative;display:grid;grid-template-columns:36px minmax(0,1fr);gap:2px 12px;padding:10px 12px 10px 10px;border-radius:16px;cursor:default;outline:none;
+  transition:background .45s var(--ease),box-shadow .45s var(--ease),opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
+.sp-step .n{grid-row:span 2;font:500 .8rem/1.9 var(--f-display);color:var(--mint);letter-spacing:.04em}
+.sp-step h3{margin:0;font:500 1.06rem/1.3 var(--f-display);letter-spacing:-.01em;color:var(--on-dark)}
+.sp-step p{margin:0;font-size:.9rem;line-height:1.5;color:var(--on-dark-2)}
+.sp-step.act{background:rgba(234,247,244,.05);box-shadow:inset 0 0 0 1px rgba(160,227,216,.18)}
+.sp-step.act .n{color:var(--coral)}
+.sp-step:focus-visible{box-shadow:inset 0 0 0 2px var(--ai-1)}
+.sp-vis{grid-area:vis;position:relative;aspect-ratio:1.2;min-height:440px}
+.sp-vis canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sp-note{grid-area:note;margin:clamp(24px,3vw,40px) 0 0;display:flex;gap:16px;align-items:flex-start;max-width:52em;color:var(--on-dark-2)}
+.sp-note b{color:var(--on-dark);font-weight:500}
+.sp-note svg{flex:none;width:44px;height:44px}
+.sp .method-cost{grid-area:cost}
+/* последовательное раскрытие (только со скриптом): этап появляется вместе со своей точкой на спирали */
+.sp.js .sp-step:not(.shown),.sp.js .sp-phase:not(.shown){opacity:0;transform:translate3d(-12px,0,0);filter:blur(3px)}
+.sp.js:not(.done) .sp-note,.sp.js:not(.done) .method-cost{opacity:0;transform:translate3d(0,12px,0)}
+.sp.js .sp-note,.sp.js .method-cost{transition:opacity .9s var(--ease) .3s,transform .9s var(--ease) .3s}
+.sp.done .sp-step{cursor:pointer}
+@media (max-width:900px){
+  .sp{grid-template-columns:minmax(0,1fr);grid-template-areas:"vis" "list" "note" "cost"}
+  .sp-vis{min-height:0;aspect-ratio:1.05;margin:0 -10px 8px}
+}
+@media (prefers-reduced-motion:reduce){.sp-step,.sp-note,.sp .method-cost{transition:none!important}}
 </style>
 
 </head>
@@ -1767,30 +1797,26 @@ strong.hl{font-weight:500}
         <h2 id="method-title" class="sq" style="--i:1">Шесть шагов от проблемы к результату</h2>
         <p class="sq" style="--i:4">Каждый шаг отвечает на свой вопрос. Поэтому к выбору технологий мы приходим <span class="hl">только на четвёртом</span>.</p>
       </div>
-      <div class="cycle sq-block" id="cycle">
-        <div class="phases" aria-hidden="true">
-          <div class="phase sq sq-l" style="--i:0">Понять <i>шаги 1–2</i></div>
-          <div class="phase sq sq-l" style="--i:2">Спроектировать <i>шаги 3–4</i></div>
-          <div class="phase sq sq-l" style="--i:4">Сделать и проверить <i>шаги 5–6</i></div>
+      <div class="cycle sp sq-block" id="cycle">
+        <div class="sp-list">
+          <ol class="sp-steps">
+            <li class="sp-phase" aria-hidden="true">Понять · шаги 1–2</li>
+            <li class="sp-step" data-k="0" tabindex="0"><span class="n">01</span><h3>Диагностика</h3><p>Разбираемся, что происходит сейчас, в чём проблема и почему привычный способ работы не даёт нужного результата.</p></li>
+            <li class="sp-step" data-k="1" tabindex="0"><span class="n">02</span><h3>Постановка задачи</h3><p>Формулируем конкретную цель и определяем, что должно измениться.</p></li>
+            <li class="sp-phase" aria-hidden="true">Спроектировать · шаги 3–4</li>
+            <li class="sp-step" data-k="2" tabindex="0"><span class="n">03</span><h3>Проектирование решения</h3><p>Разрабатываем сценарий действий: ресурсы, инструменты, этапы.</p></li>
+            <li class="sp-step" data-k="3" tabindex="0"><span class="n">04</span><h3>Выбор технологий</h3><p>Подбираем инструменты <span class="hl">исходя из задачи, а не наоборот</span>.</p></li>
+            <li class="sp-phase" aria-hidden="true">Сделать и проверить · шаги 5–6</li>
+            <li class="sp-step" data-k="4" tabindex="0"><span class="n">05</span><h3>Реализация</h3><p>Создаём, адаптируем или внедряем решение. При необходимости привлекаем профильных специалистов.</p></li>
+            <li class="sp-step" data-k="5" tabindex="0"><span class="n">06</span><h3>Оценка результата</h3><p>Проверяем, насколько решение соответствует поставленной цели.</p></li>
+          </ol>
         </div>
-        <div class="track sq" style="--i:1" aria-hidden="true">
-          <span class="node" style="left:0%"></span><span class="node" style="left:16.66%"></span><span class="node" style="left:33.33%"></span>
-          <span class="node" style="left:50%"></span><span class="node" style="left:66.66%"></span><span class="node" style="left:83.33%"></span>
-          <span class="bead" id="bead"></span>
-        </div>
-        <ol class="steps" id="steps">
-          <li class="step sq sq-l" style="--i:2"><span class="num">01</span><h3>Диагностика</h3><p>Разбираемся, что происходит сейчас, в чём проблема и почему привычный способ работы не даёт нужного результата.</p></li>
-          <li class="step sq sq-l" style="--i:3"><span class="num">02</span><h3>Постановка задачи</h3><p>Формулируем конкретную цель и определяем, что должно измениться.</p></li>
-          <li class="step sq sq-l" style="--i:4"><span class="num">03</span><h3>Проектирование решения</h3><p>Разрабатываем сценарий действий: ресурсы, инструменты, этапы.</p></li>
-          <li class="step sq sq-l" style="--i:5"><span class="num">04</span><h3>Выбор технологий</h3><p>Подбираем инструменты <span class="hl">исходя из задачи, а не наоборот</span>.</p></li>
-          <li class="step sq sq-l" style="--i:6"><span class="num">05</span><h3>Реализация</h3><p>Создаём, адаптируем или внедряем решение. При необходимости привлекаем профильных специалистов.</p></li>
-          <li class="step sq sq-l" style="--i:7"><span class="num">06</span><h3>Оценка результата</h3><p>Проверяем, насколько решение соответствует поставленной цели.</p></li>
-        </ol>
-        <p class="loop sq" style="--i:9;--p:6">
-          <svg viewBox="0 0 52 52" aria-hidden="true"><path d="M40 16a17 17 0 1 0 3 16" fill="none" stroke="#A0E3D8" stroke-width="1.5" stroke-linecap="round"/><path d="M33 15h8V7" fill="none" stroke="#A0E3D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span><b>Это цикл.</b> Оценка показывает, что работает и что стоит улучшить, и при необходимости работа идёт на следующий круг.</span>
+        <div class="sp-vis" aria-hidden="true"><canvas></canvas></div>
+        <p class="sp-note">
+          <svg viewBox="0 0 52 52" aria-hidden="true"><path d="M14 40c-6-8-3-20 8-24 9-3 18 2 19 10 1 7-5 12-11 11-5-1-7-6-4-9" fill="none" stroke="#A0E3D8" stroke-width="1.5" stroke-linecap="round"/><path d="M33 9l6 3-4 5" fill="none" stroke="#E1A492" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><b>Это не замкнутый круг, а движение по спирали.</b> Каждый следующий цикл учитывает полученный опыт, результаты и новые возможности. Решение не возвращается в исходную точку — оно развивается.</span>
         </p>
-        <p class="method-cost sq" style="--i:10;--p:6">Стоимость работы складывается из этих шагов: постановки задачи, проектирования, реализации, проверки и передачи результата. <a href="#pricing">Форматы и стоимость</a></p>
+        <p class="method-cost">Стоимость работы складывается из этих этапов: постановки задачи, проектирования, реализации, проверки и передачи результата. <a href="#pricing">Форматы и стоимость</a></p>
       </div>
     </div>
   </section>
@@ -2200,39 +2226,127 @@ strong.hl{font-weight:500}
     document.querySelectorAll('.reveal').forEach(function(el){if(el.getBoundingClientRect().top>innerHeight)io.observe(el)});
   }
 
-  /* стеклянная бусина метода движется по шагам вместе с прокруткой */
-  var cycle=document.getElementById('cycle'), bead=document.getElementById('bead'), nodes=cycle.querySelectorAll('.node'), steps=cycle.querySelectorAll('.step');
-  var fill=document.createElement('span'); fill.className='track-fill'; var trk=cycle.querySelector('.track'); if(trk) trk.insertBefore(fill,trk.firstChild); else fill=null;
-  var stepsEl=document.getElementById('steps'), stepItems=stepsEl?[].slice.call(stepsEl.querySelectorAll('.step')):[];
-  /* шесть шагов раскрываются по очереди: шаг → линия прорисовывается к следующему → следующий шаг.
-     Запуск — когда блок с шагами вышел на экран; при быстрой прокрутке (блок уже выше экрана) — сразу итог. */
-  var STEP_MS=reduce?0:850, stepsT0=0, stepsOn=false;
-  function stepState(){
-    if(!stepsOn) return 0;
-    return reduce?6.6:(performance.now()-stepsT0)/STEP_MS;
-  }
-  var stepsDone=false;
-  function updateBead(ev){
-    if(stepsDone && ev && ev.type==='scroll') return;
-    var r=cycle.getBoundingClientRect(), vh=innerHeight;
-    var started=cycle.classList.contains('sq-in') || reduce || !('IntersectionObserver' in window);
-    if(started && !stepsOn){ stepsOn=true; stepsT0=r.bottom<0 ? performance.now()-99e3 : performance.now()+350; requestAnimationFrame(stepTick); }
-    var e=stepState(), shown=Math.max(0,Math.min(6,Math.floor(e)+ (e>0?1:0)));
-    /* линия идёт от текущего шага к следующему во второй половине интервала */
-    var lp=Math.max(0,Math.min(5,e-0.45)), p=lp/5;
-    bead.style.left=(p*83.33)+'%'; if(fill) fill.style.width=(p*83.33)+'%';
-    stepItems.forEach(function(li,i){ li.classList.toggle('shown', i<shown); li.classList.toggle('lit', i<shown); });
-    if(stepsEl && stepItems.length){
-      var k=Math.floor(lp), f=lp-k, a=stepItems[k], b2=stepItems[Math.min(5,k+1)], top0=stepItems[0].offsetTop;
-      var y=a.offsetTop+(b2.offsetTop-a.offsetTop)*f-top0, H=stepItems[5].offsetTop-top0||1;
-      stepsEl.style.setProperty('--mp',(Math.min(1,y/H)*(stepItems[5].offsetTop-top0)/stepsEl.offsetHeight).toFixed(4));
+  /* ---------- «Шесть шагов»: восходящая спираль развития ----------
+     Настоящая трёхмерная винтовая траектория в перспективе (холст 2D). Линия приходит к точке этапа, точка загорается,
+     слева появляется описание; пауза на чтение; линия идёт по витку дальше. Спираль поворачивается так, чтобы активная
+     точка была ближе к зрителю. После шестого этапа линия уходит вверх — на следующий, чуть более широкий виток.
+     Раскрытие идёт только пока блок на экране; если блок прокручен целиком — сразу итоговый вид. */
+  (function(){
+    var root=document.getElementById('cycle'); if(!root) return;
+    var cv=root.querySelector('.sp-vis canvas'), ctx=cv.getContext('2d'); if(!ctx) return;
+    var steps=[].slice.call(root.querySelectorAll('.sp-step')), phases=[].slice.call(root.querySelectorAll('.sp-phase'));
+    var NAMES=['Диагностика','Постановка задачи','Проектирование','Выбор технологий','Реализация','Оценка результата'];
+    var TURN=Math.PI*2, th0=Math.PI*.5, tLead=th0-1.05, tEnd=th0+TURN*2.05;
+    function thk(k){ return th0+TURN*k/6; }
+    var W=1,H=1,DPR=1, phi=0, phiT=0, camY=0, head=tLead, active=-1, shown=0, done=false, running=false, visible=false, last=0, idle=0;
+    function size(){ var r=cv.getBoundingClientRect(); DPR=Math.min(2,devicePixelRatio||1); W=Math.max(1,r.width); H=Math.max(1,r.height); cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); }
+    /* проекция: радиус растёт с каждым витком (больше опыта), подъём — вверх; камера смотрит сверху под ~35° */
+    function P(t){ var sc=Math.min(W/700,H/620), r=245*sc*(1+.13*(t-th0)/TURN), a=t+phi, x=r*Math.cos(a), z=r*Math.sin(a), y=-205*sc*(t-th0)/TURN;
+      var tl=-.52, y2=y*Math.cos(tl)-z*Math.sin(tl), z2=y*Math.sin(tl)+z*Math.cos(tl), cam=1500*sc, s=cam/(cam-z2);
+      return {x:W/2+x*s, y:H*.6+camY+y2*s, z:z, s:s, r:r}; }
+    /* камера мягко следует за линией: активный виток держится в центре кадра */
+    function camTarget(){ var sc=Math.min(W/700,H/620), f=Math.max(th0+TURN*.5,Math.min(head,th0+TURN*1.45)); return 205*sc*.86*((f-th0)/TURN-.5); }
+    function warmAt(t){ var u=(t-th0)/TURN; return Math.max(0,Math.min(1,(u-.55)/.3))*Math.max(0,1-(u-1)/.28); }
+    function draw(){
+      ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
+      var sc=Math.min(W/700,H/620);
+      /* мягкий объём пространства вокруг оси */
+      var c0=P(th0+TURN*.5), g0=ctx.createRadialGradient(W/2,c0.y,0,W/2,c0.y,330*sc);
+      g0.addColorStop(0,'rgba(41,180,174,.09)'); g0.addColorStop(.5,'rgba(41,180,174,.04)'); g0.addColorStop(1,'rgba(41,180,174,0)');
+      ctx.fillStyle=g0; ctx.fillRect(0,0,W,H);
+      /* траектория до «головы» */
+      var N=Math.max(2,Math.round((head-tLead)/(tEnd-tLead)*420)), prev=P(tLead);
+      ctx.lineCap='round';
+      for(var pass=0;pass<2;pass++){
+        prev=P(tLead);
+        for(var i=1;i<=N;i++){
+          var t=tLead+(head-tLead)*i/N, p=P(t), u=(t-th0)/TURN, near=Math.max(0,Math.min(1,(p.z/p.r+1)/2));
+          var fadeIn=Math.min(1,(t-tLead)/.9), fade=u<1?1:Math.max(.05,1-(u-1)/1.1), w=warmAt(t);
+          var cr=Math.round(95+130*w), cg=Math.round(223-59*w), cb=Math.round(222-76*w);
+          var a=(.16+.74*near)*fade*fadeIn;
+          ctx.strokeStyle='rgba('+cr+','+cg+','+cb+','+(pass? a: a*.13).toFixed(3)+')';
+          ctx.lineWidth=(pass? (1+1.9*near) : (6+8*near))*p.s*sc*1.15;
+          ctx.beginPath(); ctx.moveTo(prev.x,prev.y); ctx.lineTo(p.x,p.y); ctx.stroke(); prev=p;
+        }
+      }
+      /* голова линии */
+      if(!done){ var hp=P(head); var gh=ctx.createRadialGradient(hp.x,hp.y,0,hp.x,hp.y,18*sc); gh.addColorStop(0,'rgba(255,255,255,.9)'); gh.addColorStop(.3,'rgba(160,240,232,.45)'); gh.addColorStop(1,'rgba(95,223,222,0)'); ctx.fillStyle=gh; ctx.beginPath(); ctx.arc(hp.x,hp.y,18*sc,0,6.283); ctx.fill(); }
+      /* точки этапов */
+      for(var k=0;k<shown;k++){
+        var q=P(thk(k)), nr=Math.max(0,Math.min(1,(q.z/q.r+1)/2)), warm=k>=4, act=k===active;
+        var R=(act?15:9+4*nr)*q.s*sc*1.25, gl=ctx.createRadialGradient(q.x,q.y,0,q.x,q.y,R*2.6);
+        gl.addColorStop(0,warm?'rgba(255,240,232,.95)':'rgba(240,255,252,.95)'); gl.addColorStop(.3,warm?'rgba(243,201,188,.5)':'rgba(160,240,232,.45)'); gl.addColorStop(1,warm?'rgba(225,164,146,0)':'rgba(95,223,222,0)');
+        ctx.globalAlpha=.45+.55*nr; ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(q.x,q.y,R*2.6,0,6.283); ctx.fill();
+        ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(q.x,q.y,R*.42,0,6.283); ctx.fill();
+        /* подпись: номер у каждой точки; у активной — и название */
+        var ax=W/2, dx=q.x-ax, side=dx>=0?1:-1, ty=q.y-(act?6:2)*sc;
+        /* подпись не выходит за край холста: если снаружи места нет — встаёт с другой стороны точки */
+        ctx.font='500 '+Math.round(17*Math.max(.85,sc))+'px Onest, Manrope, sans-serif'; var tw=act?ctx.measureText(NAMES[k]).width:30;
+        if(side<0 && q.x-R-10*sc-tw<6) side=1; else if(side>0 && q.x+R+10*sc+tw>W-6) side=-1;
+        var tx=q.x+side*(R+10*sc);
+        ctx.textAlign=side>0?'left':'right'; ctx.textBaseline='middle'; ctx.shadowColor='rgba(6,14,16,.95)'; ctx.shadowBlur=10;
+        ctx.fillStyle=warm?'rgba(225,164,146,1)':'rgba(160,227,216,1)'; ctx.font='500 '+Math.round(13*Math.max(.85,sc))+'px Onest, Manrope, sans-serif';
+        ctx.fillText(String(k+1).padStart(2,'0'),tx,ty);
+        if(act){ ctx.fillStyle='rgba(234,247,244,1)'; ctx.font='500 '+Math.round(17*Math.max(.85,sc))+'px Onest, Manrope, sans-serif'; ctx.fillText(NAMES[k],tx,ty+19*Math.max(.85,sc)); }
+        ctx.globalAlpha=1; ctx.shadowBlur=0;
+      }
+      /* следующий цикл */
+      if(head>th0+TURN*1.35){ var nx=P(th0+TURN*1.55), al=Math.min(1,(head-(th0+TURN*1.35))/1.2);
+        ctx.globalAlpha=al*.85; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+        ctx.fillStyle='#A0E3D8'; ctx.font='600 '+Math.round(11.5*Math.max(.9,sc))+'px Manrope, sans-serif'; ctx.fillText('СЛЕДУЮЩИЙ ЦИКЛ',Math.min(nx.x+14,W-170*Math.max(.9,sc)),nx.y-8);
+        ctx.fillStyle='#A9CBC6'; ctx.font='400 '+Math.round(12.5*Math.max(.9,sc))+'px Manrope, sans-serif'; ctx.fillText('с учётом результатов и опыта',Math.min(nx.x+14,W-170*Math.max(.9,sc)),nx.y+10);
+        ctx.globalAlpha=1; }
     }
-    nodes.forEach(function(n,i){n.classList.toggle('on',i<shown)});
-  }
-  function stepTick(){ updateBead(); if(stepState()<6.6) requestAnimationFrame(stepTick); else stepsDone=true; }
-  addEventListener('scroll',updateBead,{passive:true});addEventListener('resize',updateBead);updateBead();
-  /* запуск сразу, как только блок шагов раскрыт (в том числе при быстрой прокрутке, когда событий прокрутки больше нет) */
-  if('MutationObserver' in window) new MutationObserver(updateBead).observe(cycle,{attributes:true,attributeFilter:['class']});
+    /* сценарий раскрытия */
+    function readTime(k){ var n=steps[k].textContent.length; return reduce?0:Math.min(3.2,1.3+n*.016); }
+    var seq=[], si=0, st=0;
+    seq.push({d:1.1,to:th0});
+    for(var k=0;k<6;k++){ seq.push({show:k}); seq.push({hold:readTime(k)}); if(k<5) seq.push({d:1.15,to:thk(k+1)}); }
+    seq.push({d:3.2,to:tEnd}); seq.push({end:1});
+    var fromT=tLead;
+    function setActive(k){ active=k; steps.forEach(function(s,i){ s.classList.toggle('act',i===k); }); }
+    function reveal(k){ shown=Math.max(shown,k+1); steps[k].classList.add('shown'); var ph=steps[k].previousElementSibling; if(ph&&ph.classList.contains('sp-phase')) ph.classList.add('shown'); setActive(k); phiT=Math.PI/2-thk(k); }
+    function finish(){ for(var k=0;k<6;k++) reveal(k); head=tEnd; setActive(-1); done=true; root.classList.add('done'); phiT=Math.PI/2-thk(5)+.4; camY=camTarget(); }
+    function step(dt){
+      while(si<seq.length){
+        var s=seq[si];
+        if(s.show!==undefined){ reveal(s.show); si++; st=0; fromT=head; continue; }
+        if(s.end){ setActive(-1); done=true; root.classList.add('done'); si++; break; }
+        st+=dt; dt=0;
+        if(s.hold!==undefined){ if(st>=s.hold){ si++; st=0; fromT=head; continue; } break; }
+        var k2=Math.min(1,st/s.d), e=k2<.5?2*k2*k2:1-Math.pow(-2*k2+2,2)/2; head=fromT+(s.to-fromT)*e;
+        if(s.to>th0+TURN) phiT=Math.PI/2-head+.5;   /* на новом витке спираль поворачивается вслед за линией */
+        if(k2>=1){ si++; st=0; fromT=head; continue; }
+        break;
+      }
+    }
+    function loop(now){
+      var dt=Math.min(.05,(now-last)/1000||.016); last=now;
+      if(!done) step(dt); else { idle+=dt; phiT+=dt*.04; }  /* после раскрытия — очень медленное вращение */
+      phi+=(phiT-phi)*Math.min(1,dt*2.2); camY+=(camTarget()-camY)*Math.min(1,dt*1.6);
+      draw();
+      running=visible; if(running) requestAnimationFrame(loop);
+    }
+    function start(){ if(!running&&visible){ running=true; last=performance.now(); requestAnimationFrame(loop); } }
+    root.classList.add('js'); size(); phi=phiT=Math.PI/2-th0; camY=camTarget(); draw();
+    if(reduce || !('IntersectionObserver' in window)){ finish(); phi=phiT; draw(); return; }
+    var began=false;
+    new IntersectionObserver(function(es){ es.forEach(function(e){
+      visible=e.isIntersecting;
+      if(e.boundingClientRect.bottom<0 && !done){ finish(); phi=phiT; draw(); }   /* блок прокручен целиком — итоговый вид сразу */
+      if(visible && !began && e.intersectionRatio>.25) began=true;
+      if(began) start();
+    }); },{threshold:[0,.25,.5]}).observe(root.querySelector('.sp-vis'));
+    /* быстрая прокрутка: блок проскочил экран целиком — сразу итоговый вид */
+    addEventListener('scroll',function(){ if(!done && root.getBoundingClientRect().bottom<0){ finish(); phi=phiT; draw(); } },{passive:true});
+    /* после раскрытия: наведение или нажатие на этап поворачивает спираль к его точке */
+    steps.forEach(function(s,i){
+      function go(){ if(!done) return; setActive(i); phiT=Math.PI/2-thk(i); visible=true; start(); }
+      s.addEventListener('mouseenter',go); s.addEventListener('focus',go); s.addEventListener('click',go);
+      s.addEventListener('mouseleave',function(){ if(done) setActive(-1); });
+    });
+    addEventListener('resize',function(){ size(); draw(); });
+  })();
 
   /* шёлковые ленты финального экрана (canvas 2D, рисуются только когда секция на экране) */
   (function(){
