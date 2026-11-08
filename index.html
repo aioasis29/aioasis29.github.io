@@ -801,49 +801,6 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 @media (max-width:860px){.guided.seq-ready{--sq-step:100ms}.guided.seq-ready .sq{--sq-y:16px}.guided.seq-ready .sq-l{--sq-x:0}}
 
 
-/* ---------- Форматы работы и стоимость ---------- */
-.pricing{position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(180deg,var(--paper),#EEF5F3 60%,var(--mist));border-top:1px solid var(--line)}
-.pricing::before{content:"";position:absolute;z-index:-1;width:760px;height:760px;left:-300px;top:-220px;border-radius:50%;background:radial-gradient(circle,rgba(160,227,216,0.500) 0%,rgba(160,227,216,0.476) 8.1%,rgba(160,227,216,0.409) 16.2%,rgba(160,227,216,0.316) 24.3%,rgba(160,227,216,0.218) 32.4%,rgba(160,227,216,0.133) 40.5%,rgba(160,227,216,0.070) 48.6%,rgba(160,227,216,0.030) 56.7%,rgba(160,227,216,0.010) 64.8%,rgba(160,227,216,0.002) 72.9%,rgba(160,227,216,0.000) 81%);pointer-events:none}
-.pricing-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-areas:"aside list" "foot foot";gap:clamp(36px,5vw,80px) clamp(32px,6vw,96px);align-items:start}
-.pricing-aside{grid-area:aside;position:sticky;top:110px;display:grid;gap:28px}
-.pricing .section-head .eyebrow{color:var(--jade)}
-.pr-complex{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;padding:28px;color:var(--on-dark);display:grid;gap:12px;
-  background:radial-gradient(90% 90% at 100% 0%,var(--jade),var(--deep) 60%,var(--abyss));box-shadow:0 40px 80px -40px rgba(7,59,70,.7)}
-.pr-complex::after{content:"";position:absolute;width:200px;height:200px;right:-70px;bottom:-80px;border-radius:50%;z-index:-1;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.5),rgba(160,227,216,.2) 30%,rgba(41,180,174,.15) 60%,transparent 70%);box-shadow:inset 0 0 40px rgba(160,227,216,.25)}
-.pr-complex .eyebrow{color:var(--coral)}
-.pr-complex-text{font:500 1.15rem/1.4 var(--f-display);letter-spacing:-.01em}
-.pr-complex-price{font-size:.95rem;color:var(--mint)}
-.pr-list{grid-area:list;display:grid}
-.pr-row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:6px 22px;align-items:baseline;padding:26px 0;border-top:1px solid var(--line);transition:background .4s}
-.pr-row:last-child{border-bottom:1px solid var(--line)}
-.pr-num{font:500 .82rem/1 var(--f-display);color:var(--jade);font-variant-numeric:tabular-nums;letter-spacing:.04em}
-.pr-main{display:grid;gap:8px;min-width:0}
-.pr-main h3{font-size:clamp(1.12rem,1rem + .45vw,1.38rem);letter-spacing:-.02em}
-.pr-main p{color:var(--ink-2);font-size:.98rem;line-height:1.6}
-.pr-main .pr-note{font-size:.92rem;color:var(--ink);padding-left:12px;border-left:2px solid rgba(225,164,146,.6)}
-.pr-price{white-space:nowrap;text-align:right;font:500 1.32rem/1.2 var(--f-display);color:var(--deep);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.pr-price b{font-weight:500}
-.pr-from{font:500 .82rem/1 var(--f-body);color:#A84E39;letter-spacing:.02em}
-.pr-sub{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
-.pr-sub li{display:flex;justify-content:space-between;gap:16px;padding:10px 14px;border-radius:14px;background:rgba(160,227,216,.18);font-size:.95rem;color:var(--ink)}
-.pr-sub em{font-style:normal;white-space:nowrap;font-weight:600;color:var(--deep);font-variant-numeric:tabular-nums}
-.pr-row:hover .pr-price b{color:var(--jade)}
-.pr-foot{grid-area:foot;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,64px);align-items:center}
-.pr-info{display:grid;gap:10px;padding:24px 26px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
-.pr-info p{font-size:1rem;line-height:1.6;color:var(--ink-2)}
-.pr-info p:first-child{font:500 1.08rem/1.4 var(--f-display);color:var(--ink)}
-.pr-cta{display:grid;gap:18px;justify-items:start}
-.pr-cta p{font:500 clamp(1.1rem,1rem + .5vw,1.35rem)/1.4 var(--f-display);letter-spacing:-.01em;color:var(--ink)}
-@media (max-width:960px){
-  .pricing-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"aside" "list" "foot"}
-  .pricing-aside{position:static}
-  .pr-foot{grid-template-columns:minmax(0,1fr)}
-}
-@media (max-width:560px){
-  .pr-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"num price" "main main";padding:22px 0}
-  .pr-num{grid-area:num}.pr-price{grid-area:price}.pr-main{grid-area:main}
-  .pr-sub li{flex-direction:column;gap:2px}
-}
 
 
 /* ================= Cinematic scroll: общая система ================= */
@@ -880,7 +837,6 @@ a.btn-primary[href="#contact"]:hover::before{animation-duration:2.6s}
 .philosophy .studio{opacity:calc(1 - var(--imm,0) * .6)}
 .cx-controls,.cx-desc,.cx-final{position:relative}
 /* стоимость и прочие декоративные слои: лёгкий параллакс */
-.pricing::before{transform:translate3d(0,calc((var(--p,.5) - .5) * -140px),0)}
 .final .silk{transform:translate3d(0,calc((var(--p,.5) - .6) * 60px),0)}
 /* метод: светящаяся линия хода по шагам */
 .track-fill{position:absolute;left:0;top:50%;height:2px;margin-top:-1px;width:0;background:linear-gradient(90deg,var(--coral),var(--mint));box-shadow:0 0 10px rgba(160,227,216,.6);transition:width .35s cubic-bezier(.22,.7,.2,1)}
@@ -1164,6 +1120,133 @@ strong.hl{font-weight:500}
 .method{background:var(--dither) 0 0/64px 64px,linear-gradient(180deg,#0B1F23 0%,#0A1416 40%,#0A0E0F 85%)}
 .intro::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:var(--dither) 0 0/64px 64px}
 @media (min-resolution:2dppx){.intro::after{background-size:32px 32px}}
+/* ================= Витрина решений (секция «Форматы работы и стоимость») =================
+   Светлый раздел «Что мы можем сделать» плавно переходит в тёмное студийное пространство.
+   Слева — семь направлений как стеклянные объекты на дуге; справа — сцена выбранного направления. */
+.pricing{background:var(--dither) 0 0/64px 64px,linear-gradient(180deg,#0B1416 0%,#0A0F10 60%,#0B1214 100%)}
+@media (min-resolution:2dppx){.pricing{background-size:32px 32px,auto}}
+.pricing::before{content:"";position:absolute;inset:0 0 auto 0;height:clamp(160px,22vw,300px);z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,var(--mist) 0%,rgba(241,246,244,.86) 10%,rgba(214,232,228,.6) 22%,rgba(120,160,158,.32) 40%,rgba(40,70,72,.14) 62%,rgba(11,20,22,.04) 82%,rgba(11,20,22,0) 100%)}
+.pricing .studio .k{width:110vmax;height:90vmax;right:-60vmax;top:-30vmax}
+.pricing .studio .r{width:95vmax;height:85vmax;left:-60vmax;bottom:-40vmax;opacity:.8}
+.pricing .studio .f{width:100vmax;height:70vmax;left:calc(50% - 50vmax);top:25%}
+.pricing .section-head{padding-top:clamp(40px,6vw,96px)}
+.pricing .section-head .eyebrow{color:var(--coral)}
+.pricing .section-head p:not(.eyebrow){color:var(--on-dark-2)}
+.sb{position:relative;margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:minmax(300px,4fr) minmax(0,8fr);gap:clamp(28px,4vw,64px);align-items:start}
+.sb-beam{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
+.sb-beam path{fill:none;stroke:url(#sbBeamG);stroke-width:1.4;stroke-linecap:round;opacity:.75;filter:drop-shadow(0 0 6px rgba(95,223,222,.45));stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600);transition:stroke-dashoffset 1.1s cubic-bezier(.6,0,.2,1)}
+.sb-beam.on path{stroke-dashoffset:0}
+.sb-rail-wrap{position:relative;z-index:1;display:grid;gap:28px}
+.sb-rail{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.sb-rail li{--cx:0px;transform:translateX(var(--cx));transition:transform .7s var(--ease)}
+.sb-rail li:nth-child(2),.sb-rail li:nth-child(6){--cx:16px}.sb-rail li:nth-child(3),.sb-rail li:nth-child(5){--cx:28px}.sb-rail li:nth-child(4){--cx:34px}
+.sb-dir{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:58px minmax(0,1fr);gap:16px;align-items:center;padding:8px 14px 8px 8px;border-radius:22px;color:var(--on-dark-2);
+  transition:background .5s var(--ease),box-shadow .5s var(--ease),opacity .5s var(--ease),transform .6s var(--ease)}
+.sb-dir:focus-visible{outline:2px solid var(--ai-1);outline-offset:3px}
+.sb-orb{position:relative;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.34),rgba(255,255,255,.06) 26%,rgba(255,255,255,0) 44%),linear-gradient(150deg,rgba(95,223,222,.22),rgba(8,46,52,.55) 60%,rgba(225,164,146,.12));
+  box-shadow:inset 0 0 0 1px rgba(160,227,216,.28),inset -8px -10px 18px rgba(2,20,24,.55),inset 6px 8px 14px rgba(234,247,244,.08),0 12px 26px -14px rgba(0,0,0,.8);
+  transition:transform .6s var(--ease),box-shadow .6s var(--ease)}
+.sb-orb svg{width:28px;height:28px;fill:none;stroke:var(--mint);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .5s}
+.sb-dir-t{display:grid;gap:3px;min-width:0}
+.sb-dir-n{font:500 .7rem/1 var(--f-display);letter-spacing:.14em;color:rgba(160,227,216,.6)}
+.sb-dir-name{font:500 1.02rem/1.25 var(--f-display);letter-spacing:-.01em;color:var(--on-dark)}
+.sb-dir-p{font-size:.84rem;color:var(--on-dark-2);font-variant-numeric:tabular-nums}
+.sb-rail:has(.sb-dir[aria-selected="true"]) .sb-dir:not([aria-selected="true"]){opacity:.62}
+.sb-dir:hover{opacity:1!important;background:rgba(234,247,244,.04)}
+.sb-dir:hover .sb-orb{transform:scale(1.06)}
+.sb-dir[aria-selected="true"]{background:linear-gradient(100deg,rgba(234,247,244,.08),rgba(234,247,244,.02));box-shadow:inset 0 0 0 1px rgba(160,227,216,.16)}
+.sb-rail li:has([aria-selected="true"]){transform:translateX(calc(var(--cx) + 12px))}
+.sb-dir[aria-selected="true"] .sb-orb{transform:scale(1.14);box-shadow:inset 0 0 0 1px rgba(225,164,146,.55),inset -8px -10px 18px rgba(2,20,24,.5),inset 6px 8px 14px rgba(234,247,244,.12),0 0 0 6px rgba(225,164,146,.08),0 0 34px -4px rgba(95,223,222,.55)}
+.sb-dir[aria-selected="true"] .sb-orb svg{stroke:#F3D2C6}
+.sb-dir[aria-selected="true"] .sb-dir-p{color:var(--coral)}
+.sb-complex{padding:22px 24px;border-radius:24px;display:grid;gap:8px;background:linear-gradient(150deg,rgba(234,247,244,.06),rgba(234,247,244,.015));box-shadow:inset 0 0 0 1px rgba(160,227,216,.12)}
+.sb-complex p{font-size:.92rem;line-height:1.55;color:var(--on-dark-2)}
+.sb-complex-price{color:var(--mint)!important}
+.sb-k{font:600 .68rem/1.2 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--coral)}
+.sb-stage{position:relative;z-index:1;border-radius:32px;padding:clamp(18px,2.4vw,30px);overflow:hidden;isolation:isolate;
+  background:linear-gradient(160deg,rgba(234,247,244,.075),rgba(234,247,244,.018) 45%,rgba(95,223,222,.03));-webkit-backdrop-filter:blur(14px) saturate(130%);backdrop-filter:blur(14px) saturate(130%);
+  box-shadow:inset 0 1px 0 rgba(234,247,244,.12),inset 0 0 0 1px rgba(160,227,216,.14),0 60px 120px -60px rgba(0,0,0,.85)}
+.sb-canvas{position:relative;height:clamp(220px,24vw,330px);border-radius:22px;overflow:hidden;background:radial-gradient(70% 90% at 50% 40%,rgba(18,104,110,.32),rgba(18,104,110,.12) 45%,rgba(10,15,16,0) 100%),rgba(5,12,14,.55);box-shadow:inset 0 0 0 1px rgba(160,227,216,.08)}
+.sb-canvas canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sb-story{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 6px;align-items:center}
+.sb-story li{position:relative;font:500 .8rem/1 var(--f-body);color:rgba(169,203,198,.55);padding:7px 11px;border-radius:999px;background:rgba(234,247,244,.03);box-shadow:inset 0 0 0 1px rgba(160,227,216,.1);transition:color .5s,background .5s,box-shadow .5s}
+.sb-story li+li::before{content:"";position:absolute;left:-6px;top:50%;width:6px;height:1px;background:rgba(160,227,216,.25)}
+.sb-story li.on{color:var(--on-dark);background:rgba(95,223,222,.1);box-shadow:inset 0 0 0 1px rgba(95,223,222,.38)}
+.sb-story li.last.on{background:rgba(225,164,146,.12);box-shadow:inset 0 0 0 1px rgba(225,164,146,.45)}
+.sb-body{margin-top:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,300px);gap:clamp(20px,3vw,40px);align-items:start}
+.sb-text{display:grid;gap:12px;min-width:0}
+.sb-num{font:500 .78rem/1 var(--f-display);letter-spacing:.14em;color:var(--mint)}
+.sb-text h3{font-size:clamp(1.35rem,1.1rem + .9vw,1.9rem);letter-spacing:-.025em;color:var(--on-dark);text-wrap:balance}
+.sb-desc{color:var(--on-dark-2);line-height:1.6}
+.sb-comp,.sb-full{display:grid;gap:10px;margin-top:6px}
+.sb-items{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.sb-items li{position:relative;padding:10px 12px 10px 30px;border-radius:14px;font-size:.92rem;line-height:1.4;color:var(--on-dark);background:rgba(234,247,244,.035);box-shadow:inset 0 0 0 1px rgba(160,227,216,.09)}
+.sb-items li::before{content:"";position:absolute;left:12px;top:15px;width:7px;height:7px;border-radius:50%;background:var(--ai-1);box-shadow:0 0 10px rgba(95,223,222,.7)}
+.sb-items-full li::before{background:var(--coral);box-shadow:0 0 10px rgba(225,164,146,.6)}
+.sb-small{font-size:.84rem;line-height:1.5;color:var(--on-dark-2)}
+.sb-full[hidden]{display:none}
+.sb-cost{position:relative;display:grid;gap:10px;padding:22px;border-radius:24px;background:linear-gradient(160deg,rgba(225,164,146,.1),rgba(225,164,146,.02) 50%,rgba(95,223,222,.04));box-shadow:inset 0 0 0 1px rgba(225,164,146,.22),inset 0 1px 0 rgba(255,236,228,.12)}
+.sb-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 8px;font:500 clamp(2.3rem,1.6rem + 1.9vw,3.3rem)/1 var(--f-display);white-space:nowrap;letter-spacing:-.04em;color:var(--on-dark);font-variant-numeric:tabular-nums}
+.sb-price b{font-weight:500;background:linear-gradient(100deg,#FFF3EE,#F3C9BC 55%,var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sb-from{flex:0 0 100%;font:500 .95rem/1 var(--f-body);letter-spacing:.02em;color:var(--coral)}
+.sb-panel:has(.sb-full:not([hidden])) .sb-comp{display:none}
+.sb-cur{font-size:.5em;color:var(--mint);letter-spacing:0}
+.sb-note{font-size:.88rem;line-height:1.5;color:var(--on-dark);padding-left:12px;border-left:2px solid rgba(225,164,146,.6)}
+.sb-tiers{display:grid;gap:6px;margin-top:4px}
+.sb-tier{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:3px;padding:10px 12px;border-radius:14px;color:var(--on-dark-2);background:rgba(234,247,244,.03);box-shadow:inset 0 0 0 1px rgba(160,227,216,.12);transition:background .35s,box-shadow .35s,color .35s}
+.sb-tier span{font-size:.9rem;line-height:1.3}
+.sb-tier em{font-style:normal;font-size:.84rem;color:var(--mint);font-variant-numeric:tabular-nums}
+.sb-tier:hover{background:rgba(234,247,244,.06)}
+.sb-tier[aria-checked="true"]{color:var(--on-dark);background:rgba(225,164,146,.1);box-shadow:inset 0 0 0 1px rgba(225,164,146,.5)}
+.sb-tier[aria-checked="true"] em{color:var(--coral)}
+.sb-tier:focus-visible{outline:2px solid var(--ai-1);outline-offset:2px}
+.sb-agree{margin-top:18px}
+/* смена направления: содержимое проявляется по очереди, цена — завершением демонстрации */
+.sb.js .sb-panel>*,.sb.js .sb-text>*,.sb.js .sb-cost>*{transition:opacity .7s var(--ease),transform .7s var(--ease),filter .7s var(--ease)}
+.sb.js .sb-panel:not(.in) .sb-story,.sb.js .sb-panel:not(.in) .sb-text>*,.sb.js .sb-panel:not(.in) .sb-cost>*{opacity:0;transform:translate3d(0,12px,0);filter:blur(4px)}
+.sb.js .sb-panel.in .sb-text>:nth-child(2){transition-delay:.08s}.sb.js .sb-panel.in .sb-text>:nth-child(3){transition-delay:.16s}.sb.js .sb-panel.in .sb-text>:nth-child(4){transition-delay:.26s}.sb.js .sb-panel.in .sb-text>:nth-child(5){transition-delay:.34s}
+.sb.js .sb-panel.in .sb-cost>*{transition-delay:.9s}.sb.js .sb-panel.in .sb-cost>:nth-child(n+3){transition-delay:1.05s}
+.sb.js .sb-panel.in .sb-price{animation:sbPrice 1.4s .85s var(--ease) both}
+@keyframes sbPrice{0%{text-shadow:0 0 0 rgba(225,164,146,0)}40%{text-shadow:0 0 28px rgba(225,164,146,.35)}100%{text-shadow:0 0 0 rgba(225,164,146,0)}}
+.sb-final{margin-top:clamp(48px,6vw,88px);display:grid;grid-template-columns:minmax(0,7fr) auto;grid-template-areas:"t b" "i i";gap:22px clamp(24px,4vw,56px);align-items:center;padding:clamp(24px,3vw,40px);border-radius:32px;
+  background:linear-gradient(120deg,rgba(225,164,146,.1),rgba(234,247,244,.03) 45%,rgba(95,223,222,.08));box-shadow:inset 0 0 0 1px rgba(225,164,146,.2),inset 0 1px 0 rgba(255,236,228,.1)}
+.sb-final-text{grid-area:t;display:grid;gap:10px}
+.sb-final h3{font-size:clamp(1.4rem,1.1rem + 1.2vw,2.1rem);letter-spacing:-.025em;color:var(--on-dark);text-wrap:balance}
+.sb-final-text p{color:var(--on-dark-2);max-width:42em}
+.sb-final .btn{grid-area:b;justify-self:end}
+.sb-info{grid-area:i;padding-top:18px;border-top:1px solid var(--line-dark)}
+.sb-info p{font-size:.86rem;line-height:1.55;color:var(--on-dark-2)}
+@media (max-width:1100px){.sb-body{grid-template-columns:minmax(0,1fr)}.sb-items{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:860px){
+  .sb{grid-template-columns:minmax(0,1fr);gap:22px}
+  .sb-beam{display:none}
+  .sb-rail{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .sb-rail li,.sb-rail li:has([aria-selected="true"]){--cx:0px;transform:none}
+  .sb-rail li:last-child{grid-column:1/-1}
+  .sb-dir{grid-template-columns:minmax(0,1fr);gap:10px;padding:12px;min-height:100%;align-content:start;background:rgba(234,247,244,.03);box-shadow:inset 0 0 0 1px rgba(160,227,216,.1)}
+  .sb-rail li:last-child .sb-dir{grid-template-columns:44px minmax(0,1fr)}
+  .sb-orb{width:44px;height:44px}.sb-orb svg{width:22px;height:22px}
+  .sb-dir-name{font-size:.92rem}
+  .sb-dir[aria-selected="true"] .sb-orb{transform:scale(1.06)}
+  .sb-rail-wrap{display:contents}.sb-rail{order:1}.sb-stage{order:2}.sb-complex{order:3}
+  .sb-stage{border-radius:26px;padding:14px}
+  .sb-canvas{height:220px;border-radius:18px}
+  .sb-story li{font-size:.74rem;padding:6px 9px}
+  .sb-final{grid-template-columns:minmax(0,1fr);grid-template-areas:"t" "b" "i"}
+  .sb-final .btn{justify-self:start}
+}
+@media (prefers-reduced-motion:reduce){.sb.js .sb-panel *{transition:none!important;animation:none!important}.sb-beam path{transition:none}}
+/* без JS: все направления видны списком */
+.sb:not(.js) .sb-panel+.sb-panel{margin-top:32px;padding-top:24px;border-top:1px solid var(--line-dark)}
+.sb:not(.js) .sb-canvas,.sb:not(.js) .sb-story{display:none}
+/* витрина: появление при прокрутке — пространство, затем направления по очереди */
+.pricing.seq-ready .sb{transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.pricing.seq-ready .sb:not(.sq-in){opacity:0;transform:translate3d(0,28px,0)}
+.pricing.seq-ready .sb-dir{transition:opacity .7s var(--ease) calc(var(--k,0) * 80ms + .3s),background .5s var(--ease),box-shadow .5s var(--ease),transform .6s var(--ease)}
+.sb-rail li{--k:0}
+.pricing.seq-ready .sb:not(.sq-in) .sb-dir{opacity:0!important}
 </style>
 
 </head>
@@ -1457,101 +1540,180 @@ strong.hl{font-weight:500}
   </section>
 
   <!-- 4a. ФОРМАТЫ И СТОИМОСТЬ -->
-  <section class="section pricing guided" data-scroll id="pricing" aria-labelledby="pricing-title">
-    <div class="wrap pricing-grid">
-      <div class="pricing-aside">
-        <div class="section-head sq-block" data-sq="section">
-          <p class="eyebrow sq" style="--i:0">Стоимость</p>
-          <h2 id="pricing-title" class="sq" style="--i:1">Форматы работы и стоимость</h2>
-          <p class="sq" style="--i:3">От точечной консультации до комплексного проекта. Стоимость зависит от задачи, объёма работ и сложности реализации.</p>
+  <section class="dark section pricing guided" data-scroll id="pricing" aria-labelledby="pricing-title">
+    <div class="studio" aria-hidden="true"><i class="f"></i><i class="r"></i><i class="k"></i></div>
+    <div class="wrap">
+      <div class="section-head sq-block" data-sq="section">
+        <p class="eyebrow sq" style="--i:0">Форматы работы и стоимость</p>
+        <h2 id="pricing-title" class="sq" style="--i:1">Найдём решение для вашей задачи</h2>
+        <p class="sq" style="--i:3">Выберите направление и посмотрите, что мы можем создать вместе.</p>
+      </div>
+      <div class="sb sq-block" id="solutions">
+        <svg class="sb-beam" aria-hidden="true"><defs><linearGradient id="sbBeamG" x1="0" x2="1"><stop offset="0" stop-color="#E1A492"/><stop offset="1" stop-color="#5FDFDE"/></linearGradient></defs><path/></svg>
+        <div class="sb-rail-wrap">
+          <ul class="sb-rail" role="tablist" aria-label="Направления работы" aria-orientation="vertical">
+        <li style="--k:0"><button type="button" role="tab" class="sb-dir" id="sb-tab-consult" data-dir="consult" aria-controls="sb-panel-consult" aria-selected="true" tabindex="0">
+          <span class="sb-orb" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 22c4-9 10 3 14-6s-6-8-8-2 8 9 14 3"/><circle cx="31" cy="11" r="2.4"/></svg></span>
+          <span class="sb-dir-t"><span class="sb-dir-n">01</span><span class="sb-dir-name">Консультация и диагностика</span><span class="sb-dir-p">5 000 ₽</span></span>
+        </button></li><li style="--k:1"><button type="button" role="tab" class="sb-dir" id="sb-tab-design" data-dir="design" aria-controls="sb-panel-design" aria-selected="false" tabindex="-1">
+          <span class="sb-orb" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="12" cy="12" r="4"/><rect x="21" y="8" width="11" height="8" rx="2"/><rect x="21" y="22" width="11" height="8" rx="2"/><rect x="6" y="22" width="11" height="8" rx="2"/><path d="M16 12h5M26.5 16v6M17 26h4"/></svg></span>
+          <span class="sb-dir-t"><span class="sb-dir-n">02</span><span class="sb-dir-name">Проектирование решений</span><span class="sb-dir-p">от 15 000 ₽</span></span>
+        </button></li><li style="--k:2"><button type="button" role="tab" class="sb-dir" id="sb-tab-web" data-dir="web" aria-controls="sb-panel-web" aria-selected="false" tabindex="-1">
+          <span class="sb-orb" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="5" y="8" width="24" height="18" rx="3"/><path d="M5 13h24"/><rect x="25" y="16" width="9" height="15" rx="2"/></svg></span>
+          <span class="sb-dir-t"><span class="sb-dir-n">03</span><span class="sb-dir-name">Разработка сайтов</span><span class="sb-dir-p">от 60 000 ₽</span></span>
+        </button></li><li style="--k:3"><button type="button" role="tab" class="sb-dir" id="sb-tab-data" data-dir="data" aria-controls="sb-panel-data" aria-selected="false" tabindex="-1">
+          <span class="sb-orb" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 30V20M15 30V12M22 30V17M29 30V8"/><path d="M6 31h26"/></svg></span>
+          <span class="sb-dir-t"><span class="sb-dir-n">04</span><span class="sb-dir-name">Работа с данными и аналитика</span><span class="sb-dir-p">от 25 000 ₽</span></span>
+        </button></li><li style="--k:4"><button type="button" role="tab" class="sb-dir" id="sb-tab-auto" data-dir="auto" aria-controls="sb-panel-auto" aria-selected="false" tabindex="-1">
+          <span class="sb-orb" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="9" cy="19" r="3.5"/><circle cx="20" cy="19" r="3.5"/><circle cx="31" cy="19" r="3.5"/><path d="M12.5 19h4M23.5 19h4"/><path d="M9 12c6-6 16-6 22 0"/></svg></span>
+          <span class="sb-dir-t"><span class="sb-dir-n">05</span><span class="sb-dir-name">Автоматизация процессов</span><span class="sb-dir-p">от 35 000 ₽</span></span>
+        </button></li><li style="--k:5"><button type="button" role="tab" class="sb-dir" id="sb-tab-ai" data-dir="ai" aria-controls="sb-panel-ai" aria-selected="false" tabindex="-1">
+          <span class="sb-orb" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="19" r="5"/><circle cx="8" cy="10" r="2.2"/><circle cx="32" cy="10" r="2.2"/><circle cx="8" cy="29" r="2.2"/><circle cx="32" cy="29" r="2.2"/><path d="M10 11l6 5M30 11l-6 5M10 28l6-5M30 28l-6-5"/></svg></span>
+          <span class="sb-dir-t"><span class="sb-dir-n">06</span><span class="sb-dir-name">Решения с использованием искусственного интеллекта</span><span class="sb-dir-p">от 45 000 ₽</span></span>
+        </button></li><li style="--k:6"><button type="button" role="tab" class="sb-dir" id="sb-tab-edu" data-dir="edu" aria-controls="sb-panel-edu" aria-selected="false" tabindex="-1">
+          <span class="sb-orb" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M5 14l15-7 15 7-15 7z"/><path d="M11 17v7c5 4 13 4 18 0v-7"/></svg></span>
+          <span class="sb-dir-t"><span class="sb-dir-n">07</span><span class="sb-dir-name">Образовательные продукты и методология</span><span class="sb-dir-p">от 35 000 ₽</span></span>
+        </button></li>
+          </ul>
+          <div class="sb-complex">
+            <p class="sb-k">Комплексные проекты</p>
+            <p>Если задача требует сочетания нескольких технологий и компетенций, мы сформируем индивидуальное предложение и подберём подходящий состав специалистов.</p>
+            <p class="sb-complex-price">Стоимость — по результатам обсуждения и проектной оценки.</p>
+          </div>
         </div>
-        <div class="pr-complex sq-block">
-          <p class="eyebrow sq" style="--i:0">Комплексные проекты</p>
-          <p class="pr-complex-text sq" style="--i:1">Если задача требует сочетания нескольких технологий и компетенций, мы сформируем индивидуальное предложение и подберём подходящий состав специалистов.</p>
-          <p class="pr-complex-price sq" style="--i:2">Стоимость — по результатам обсуждения и проектной оценки.</p>
+        <div class="sb-stage" aria-live="polite">
+          <div class="sb-canvas"><canvas aria-hidden="true"></canvas></div>
+        <div class="sb-panel" role="tabpanel" id="sb-panel-consult" aria-labelledby="sb-tab-consult" data-dir="consult">
+          <ol class="sb-story" aria-label="Как выглядит решение"><li style="--s:0">Исходная задача</li><li style="--s:1">Анализ</li><li style="--s:2">Ясная структура действий</li></ol>
+          <div class="sb-body">
+            <div class="sb-text">
+              <p class="sb-num">01</p>
+              <h3>Консультация и диагностика</h3>
+              <p class="sb-desc">Разбор задачи, определение возможных путей решения, подбор подходящих инструментов и рекомендации по дальнейшим действиям.</p>
+              <div class="sb-comp"><p class="sb-k">Из чего складывается работа</p><ul class="sb-items"><li>Разбор задачи</li><li>Определение возможных путей решения</li><li>Подбор подходящих инструментов</li><li>Рекомендации по дальнейшим действиям</li></ul></div>
+              
+            </div>
+            <div class="sb-cost">
+              <p class="sb-k">Стоимость</p>
+              <p class="sb-price"><b>5 000</b><span class="sb-cur">₽</span></p>
+              <p class="sb-note">Продолжительность — до 60 минут.</p>
+              
+            </div>
+          </div>
+        </div><div class="sb-panel" role="tabpanel" id="sb-panel-design" aria-labelledby="sb-tab-design" data-dir="design">
+          <ol class="sb-story" aria-label="Как выглядит решение"><li style="--s:0">Идея</li><li style="--s:1">Концепция</li><li style="--s:2">Архитектура</li><li style="--s:3">План реализации</li></ol>
+          <div class="sb-body">
+            <div class="sb-text">
+              <p class="sb-num">02</p>
+              <h3>Проектирование решений</h3>
+              <p class="sb-desc">Анализ задачи, разработка концепции, проектирование структуры решения, определение этапов, ресурсов и возможных технологий реализации.</p>
+              <div class="sb-comp"><p class="sb-k">Из чего складывается работа</p><ul class="sb-items"><li>Анализ задачи</li><li>Разработка концепции</li><li>Проектирование структуры решения</li><li>Определение этапов и ресурсов</li><li>Выбор возможных технологий реализации</li></ul></div>
+              
+            </div>
+            <div class="sb-cost">
+              <p class="sb-k">Стоимость</p>
+              <p class="sb-price"><span class="sb-from">от</span><b>15 000</b><span class="sb-cur">₽</span></p>
+              
+              
+            </div>
+          </div>
+        </div><div class="sb-panel" role="tabpanel" id="sb-panel-web" aria-labelledby="sb-tab-web" data-dir="web">
+          <ol class="sb-story" aria-label="Как выглядит решение"><li style="--s:0">Визуальная концепция</li><li style="--s:1">Структура</li><li style="--s:2">Интерфейс</li><li style="--s:3">Мобильная версия</li><li style="--s:4">Работающий продукт</li></ol>
+          <div class="sb-body">
+            <div class="sb-text">
+              <p class="sb-num">03</p>
+              <h3>Разработка сайтов</h3>
+              <p class="sb-desc">Создание современных адаптивных сайтов с продуманной структурой, визуальной концепцией и необходимым функционалом.</p>
+              <div class="sb-comp"><p class="sb-k">Из чего складывается работа</p><ul class="sb-items"><li>Продуманная структура</li><li>Визуальная концепция</li><li>Адаптивная вёрстка для разных экранов</li><li>Необходимый функционал</li></ul></div>
+              <div class="sb-full" data-tier-show="2"><p class="sb-k">Возможные составляющие индивидуального проекта</p><ul class="sb-items sb-items-full"><li>Анализ задачи и требований</li><li>Индивидуальная концепция</li><li>Архитектура и структура</li><li>Визуальный дизайн</li><li>Разработка интерактивных сценариев</li><li>Реализация анимаций</li><li>Адаптация под мобильные устройства</li><li>Тестирование</li><li>Оптимизация</li></ul><p class="sb-small">Набор работ зависит от задачи и уточняется при согласовании объёма. Не каждый проект включает все составляющие.</p></div>
+            </div>
+            <div class="sb-cost">
+              <p class="sb-k">Стоимость</p>
+              <p class="sb-price"><span class="sb-from">от</span><b>60 000</b><span class="sb-cur">₽</span></p>
+              
+              <div class="sb-tiers" role="radiogroup" aria-label="Варианты"><button type="button" role="radio" class="sb-tier" data-tier="0" data-price="60 000" aria-checked="true"><span>Одностраничный сайт</span><em>от 60 000 ₽</em></button><button type="button" role="radio" class="sb-tier" data-tier="1" data-price="100 000" aria-checked="false"><span>Многостраничный сайт</span><em>от 100 000 ₽</em></button><button type="button" role="radio" class="sb-tier" data-tier="2" data-price="150 000" aria-checked="false"><span>Индивидуальный сайт с интерактивностью</span><em>от 150 000 ₽</em></button></div>
+            </div>
+          </div>
+        </div><div class="sb-panel" role="tabpanel" id="sb-panel-data" aria-labelledby="sb-tab-data" data-dir="data">
+          <ol class="sb-story" aria-label="Как выглядит решение"><li style="--s:0">Разрозненные данные</li><li style="--s:1">Взаимосвязи</li><li style="--s:2">Система показателей</li></ol>
+          <div class="sb-body">
+            <div class="sb-text">
+              <p class="sb-num">04</p>
+              <h3>Работа с данными и аналитика</h3>
+              <p class="sb-desc">Структурирование данных, разработка аналитических инструментов, отчётности, систем контроля и визуализации информации.</p>
+              <div class="sb-comp"><p class="sb-k">Из чего складывается работа</p><ul class="sb-items"><li>Структурирование данных</li><li>Аналитические инструменты</li><li>Отчётность</li><li>Системы контроля</li><li>Визуализация информации</li></ul></div>
+              
+            </div>
+            <div class="sb-cost">
+              <p class="sb-k">Стоимость</p>
+              <p class="sb-price"><span class="sb-from">от</span><b>25 000</b><span class="sb-cur">₽</span></p>
+              
+              
+            </div>
+          </div>
+        </div><div class="sb-panel" role="tabpanel" id="sb-panel-auto" aria-labelledby="sb-tab-auto" data-dir="auto">
+          <ol class="sb-story" aria-label="Как выглядит решение"><li style="--s:0">Ручные повторы</li><li style="--s:1">Цифровой сценарий</li><li style="--s:2">Автоматический процесс</li></ol>
+          <div class="sb-body">
+            <div class="sb-text">
+              <p class="sb-num">05</p>
+              <h3>Автоматизация процессов</h3>
+              <p class="sb-desc">Проектирование и настройка цифровых сценариев, автоматизация повторяющихся операций, интеграция инструментов и оптимизация рабочих процессов.</p>
+              <div class="sb-comp"><p class="sb-k">Из чего складывается работа</p><ul class="sb-items"><li>Проектирование и настройка цифровых сценариев</li><li>Автоматизация повторяющихся операций</li><li>Интеграция инструментов</li><li>Оптимизация рабочих процессов</li></ul></div>
+              
+            </div>
+            <div class="sb-cost">
+              <p class="sb-k">Стоимость</p>
+              <p class="sb-price"><span class="sb-from">от</span><b>35 000</b><span class="sb-cur">₽</span></p>
+              
+              
+            </div>
+          </div>
+        </div><div class="sb-panel" role="tabpanel" id="sb-panel-ai" aria-labelledby="sb-tab-ai" data-dir="ai">
+          <ol class="sb-story" aria-label="Как выглядит решение"><li style="--s:0">Информация</li><li style="--s:1">Анализ с помощью ИИ</li><li style="--s:2">Готовый материал</li></ol>
+          <div class="sb-body">
+            <div class="sb-text">
+              <p class="sb-num">06</p>
+              <h3>Решения с использованием искусственного интеллекта</h3>
+              <p class="sb-desc">Разработка сценариев практического применения ИИ, интеллектуальных инструментов, ассистентов и интеграционных решений.</p>
+              <div class="sb-comp"><p class="sb-k">Из чего складывается работа</p><ul class="sb-items"><li>Сценарии практического применения ИИ</li><li>Интеллектуальные инструменты</li><li>Ассистенты</li><li>Интеграционные решения</li></ul></div>
+              
+            </div>
+            <div class="sb-cost">
+              <p class="sb-k">Стоимость</p>
+              <p class="sb-price"><span class="sb-from">от</span><b>45 000</b><span class="sb-cur">₽</span></p>
+              <p class="sb-note">Сложные технические интеграции и серверная разработка оцениваются индивидуально.</p>
+              
+            </div>
+          </div>
+        </div><div class="sb-panel" role="tabpanel" id="sb-panel-edu" aria-labelledby="sb-tab-edu" data-dir="edu">
+          <ol class="sb-story" aria-label="Как выглядит решение"><li style="--s:0">Учебная идея</li><li style="--s:1">Результаты обучения</li><li style="--s:2">Модули</li><li style="--s:3">Задания</li><li style="--s:4">Оценивание</li></ol>
+          <div class="sb-body">
+            <div class="sb-text">
+              <p class="sb-num">07</p>
+              <h3>Образовательные продукты и методология</h3>
+              <p class="sb-desc">Проектирование образовательных программ, учебных курсов, методических материалов и цифровых образовательных решений.</p>
+              <div class="sb-comp"><p class="sb-k">Из чего складывается работа</p><ul class="sb-items"><li>Образовательные программы</li><li>Учебные курсы</li><li>Методические материалы</li><li>Цифровые образовательные решения</li></ul></div>
+              
+            </div>
+            <div class="sb-cost">
+              <p class="sb-k">Стоимость</p>
+              <p class="sb-price"><span class="sb-from">от</span><b>35 000</b><span class="sb-cur">₽</span></p>
+              
+              <div class="sb-tiers" role="radiogroup" aria-label="Варианты"><button type="button" role="radio" class="sb-tier" data-tier="0" data-price="35 000" aria-checked="true"><span>Проектирование образовательной программы</span><em>от 35 000 ₽</em></button><button type="button" role="radio" class="sb-tier" data-tier="1" data-price="60 000" aria-checked="false"><span>Архитектура образовательного курса</span><em>от 60 000 ₽</em></button><button type="button" role="radio" class="sb-tier" data-tier="2" data-price="120 000" aria-checked="false"><span>Комплексная разработка курса</span><em>от 120 000 ₽</em></button></div>
+            </div>
+          </div>
+        </div>
+          <p class="sb-small sb-agree">До начала работ согласовываем состав проекта, сроки, этапы и стоимость. Вы заранее понимаете, что входит в предложение и какой результат получите.</p>
         </div>
       </div>
-      <div class="pr-list">
-          <article class="pr-row sq-block">
-            <span class="pr-num sq" style="--i:0">01</span>
-            <div class="pr-main">
-              <h3 class="sq sq-l" style="--i:1">Консультация и диагностика</h3>
-              <p class="sq" style="--i:3">Разбор задачи, определение возможных путей решения, подбор подходящих инструментов и рекомендации по дальнейшим действиям.</p>
-              <p class="pr-note sq" style="--i:4">Продолжительность — до 60 минут.</p>
-              
-            </div>
-            <p class="pr-price sq" style="--i:2"><b>5 000 ₽</b></p>
-          </article>
-          <article class="pr-row sq-block">
-            <span class="pr-num sq" style="--i:0">02</span>
-            <div class="pr-main">
-              <h3 class="sq sq-l" style="--i:1">Проектирование решений</h3>
-              <p class="sq" style="--i:3">Анализ задачи, разработка концепции, проектирование структуры решения, определение этапов, ресурсов и возможных технологий реализации.</p>
-              
-              
-            </div>
-            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>15 000 ₽</b></p>
-          </article>
-          <article class="pr-row sq-block">
-            <span class="pr-num sq" style="--i:0">03</span>
-            <div class="pr-main">
-              <h3 class="sq sq-l" style="--i:1">Разработка сайтов</h3>
-              <p class="sq" style="--i:3">Создание современных адаптивных сайтов с продуманной структурой, визуальной концепцией и необходимым функционалом.</p>
-              
-              <ul class="pr-sub"><li class="sq sq-l" style="--i:4"><span>Одностраничный сайт</span><em>от 60 000 ₽</em></li><li class="sq sq-l" style="--i:5"><span>Многостраничный сайт</span><em>от 100 000 ₽</em></li><li class="sq sq-l" style="--i:6"><span>Индивидуальный сайт с интерактивностью</span><em>от 150 000 ₽</em></li></ul>
-            </div>
-            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>60 000 ₽</b></p>
-          </article>
-          <article class="pr-row sq-block">
-            <span class="pr-num sq" style="--i:0">04</span>
-            <div class="pr-main">
-              <h3 class="sq sq-l" style="--i:1">Работа с данными и аналитика</h3>
-              <p class="sq" style="--i:3">Структурирование данных, разработка аналитических инструментов, отчётности, систем контроля и визуализации информации.</p>
-              
-              
-            </div>
-            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>25 000 ₽</b></p>
-          </article>
-          <article class="pr-row sq-block">
-            <span class="pr-num sq" style="--i:0">05</span>
-            <div class="pr-main">
-              <h3 class="sq sq-l" style="--i:1">Автоматизация процессов</h3>
-              <p class="sq" style="--i:3">Проектирование и настройка цифровых сценариев, автоматизация повторяющихся операций, интеграция инструментов и оптимизация рабочих процессов.</p>
-              
-              
-            </div>
-            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>35 000 ₽</b></p>
-          </article>
-          <article class="pr-row sq-block">
-            <span class="pr-num sq" style="--i:0">06</span>
-            <div class="pr-main">
-              <h3 class="sq sq-l" style="--i:1">Решения с использованием искусственного интеллекта</h3>
-              <p class="sq" style="--i:3">Разработка сценариев практического применения ИИ, интеллектуальных инструментов, ассистентов и интеграционных решений.</p>
-              <p class="pr-note sq" style="--i:4">Сложные технические интеграции и серверная разработка оцениваются индивидуально.</p>
-              
-            </div>
-            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>45 000 ₽</b></p>
-          </article>
-          <article class="pr-row sq-block">
-            <span class="pr-num sq" style="--i:0">07</span>
-            <div class="pr-main">
-              <h3 class="sq sq-l" style="--i:1">Образовательные продукты и методология</h3>
-              <p class="sq" style="--i:3">Проектирование образовательных программ, учебных курсов, методических материалов и цифровых образовательных решений.</p>
-              
-              <ul class="pr-sub"><li class="sq sq-l" style="--i:4"><span>Проектирование образовательной программы</span><em>от 35 000 ₽</em></li><li class="sq sq-l" style="--i:5"><span>Архитектура образовательного курса</span><em>от 60 000 ₽</em></li><li class="sq sq-l" style="--i:6"><span>Комплексная разработка курса</span><em>от 120 000 ₽</em></li></ul>
-            </div>
-            <p class="pr-price sq" style="--i:2"><span class="pr-from">от</span> <b>35 000 ₽</b></p>
-          </article>
-      </div>
-      <div class="pr-foot sq-block">
-        <div class="pr-info sq" style="--i:0">
-          <p>Указанные цены — ориентиры для начала обсуждения проекта.</p>
-          <p>Итоговая стоимость определяется после уточнения задачи, объёма работ, функциональных требований и сложности реализации.</p>
-          <p>До начала работ согласовываем состав проекта, сроки, этапы и стоимость. Вы заранее понимаете, что входит в предложение и какой результат получите.</p>
+      <div class="sb-final sq-block">
+        <div class="sb-final-text">
+          <h3 class="sq" style="--i:0">Уже представляете, каким может быть ваше решение?</h3>
+          <p class="sq" style="--i:1">Необязательно заранее знать, какая технология вам нужна. Расскажите о задаче — мы поможем определить подходящий формат работы.</p>
         </div>
-        <div class="pr-cta">
-          <p class="sq" style="--i:2">Необязательно заранее знать, какая технология вам нужна. Достаточно рассказать, какую задачу необходимо решить.</p>
-          <a class="btn btn-primary sq" style="--i:3" href="#contact"><span class="fire" aria-hidden="true"></span>Обсудить свою задачу <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-primary sq" style="--i:2" href="#contact"><span class="fire" aria-hidden="true"></span>Обсудить свою задачу <span class="arr" aria-hidden="true">→</span></a>
+        <div class="sb-info sq" style="--i:3">
+          <p>Указанные цены — ориентиры для начала обсуждения проекта. Итоговая стоимость определяется после уточнения задачи, объёма работ, функциональных требований и сложности реализации.</p>
         </div>
       </div>
     </div>
@@ -4958,6 +5120,339 @@ import * as THREE from 'three';
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   }
   requestAnimationFrame(() => host.classList.add('gl-ready'));
+})();
+</script>
+<script id="solutions-js">
+/* Витрина решений: выбор направления, мини-сцена «как выглядит решение», состав работ и цена.
+   Каждая сцена рисуется на 2D-канве в виртуальном пространстве 800×400 и проходит путь
+   от исходного состояния к результату; цикл работает только пока сцена на экране. */
+(function () {
+  var root = document.getElementById('solutions'); if (!root) return;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  root.classList.add('js');
+  var tabs = [].slice.call(root.querySelectorAll('.sb-dir')), panels = [].slice.call(root.querySelectorAll('.sb-panel'));
+  var beam = root.querySelector('.sb-beam'), beamP = beam.querySelector('path'), stage = root.querySelector('.sb-stage');
+  var cv = root.querySelector('.sb-canvas canvas'), ctx = cv.getContext('2d');
+  var cur = null, t0 = performance.now(), tier = 0, visible = false, raf = 0, seen = false, W = 1, H = 1, DPR = 1;
+  var STEPS = { consult: [0, 1.4, 2.8], design: [0, 1.2, 2.6, 3.6], web: [0, 1.1, 2.3, 3.3, 4.4], data: [0, 1.4, 2.8], auto: [0, 1.6, 2.8], ai: [0, 1.3, 2.7], edu: [0, 1, 2, 3, 4] };
+  function panel(id) { for (var i = 0; i < panels.length; i++) if (panels[i].dataset.dir === id) return panels[i]; }
+  function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  /* цена «набирается» к точному значению из прайса; итог всегда совпадает с разметкой */
+  function countTo(b, target, delay) {
+    var v = +String(target).replace(/\D/g, ''); b.dataset.v = v;
+    if (reduce) { b.textContent = fmt(v); return; }
+    var from = Math.round(v * 0.55), st = performance.now() + delay;
+    (function step(now) {
+      if (+b.dataset.v !== v) return;
+      var k = Math.min(1, Math.max(0, (now - st) / 900)); k = 1 - Math.pow(1 - k, 3);
+      b.textContent = fmt(Math.round((from + (v - from) * k) / 100) * 100 || v);
+      if (k < 1) requestAnimationFrame(step); else b.textContent = fmt(v);
+    })(performance.now());
+  }
+  function select(id, opts) {
+    opts = opts || {};
+    if (id === cur && !opts.force) return;
+    cur = id; t0 = performance.now();
+    tabs.forEach(function (b) { var on = b.dataset.dir === id; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+    panels.forEach(function (p) { var on = p.dataset.dir === id; p.hidden = !on; p.classList.remove('in'); });
+    var p = panel(id); void p.offsetWidth; p.classList.add('in');
+    var ch = p.querySelector('.sb-tier[aria-checked="true"]'); tier = ch ? +ch.dataset.tier : 0;
+    var full = p.querySelector('[data-tier-show]'); if (full) full.hidden = String(tier) !== full.dataset.tierShow;
+    var b = p.querySelector('.sb-price b'); if (b) countTo(b, ch ? ch.dataset.price : b.textContent, 850);
+    [].forEach.call(p.querySelectorAll('.sb-story li'), function (li, i, all) { li.classList.toggle('last', i === all.length - 1); li.classList.remove('on'); });
+    drawBeam(true);
+    if (opts.user && innerWidth <= 860) { var r = stage.getBoundingClientRect(); if (r.top > innerHeight * 0.55 || r.top < 0) scrollTo({ top: scrollY + r.top - 84, behavior: reduce ? 'auto' : 'smooth' }); }
+    if (reduce) frame(performance.now() + 99e3);
+    else kick();
+  }
+  tabs.forEach(function (b, i) {
+    b.addEventListener('click', function () { select(b.dataset.dir, { user: true }); });
+    b.addEventListener('keydown', function (e) {
+      var k = e.key, j = -1;
+      if (k === 'ArrowDown' || k === 'ArrowRight') j = (i + 1) % tabs.length;
+      else if (k === 'ArrowUp' || k === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+      else if (k === 'Home') j = 0; else if (k === 'End') j = tabs.length - 1;
+      if (j < 0) return; e.preventDefault(); tabs[j].focus(); select(tabs[j].dataset.dir, {});
+    });
+  });
+  root.addEventListener('click', function (e) {
+    var t = e.target.closest('.sb-tier'); if (!t) return;
+    var p = t.closest('.sb-panel');
+    [].forEach.call(p.querySelectorAll('.sb-tier'), function (x) { x.setAttribute('aria-checked', x === t); });
+    tier = +t.dataset.tier;
+    var full = p.querySelector('[data-tier-show]'); if (full) full.hidden = String(tier) !== full.dataset.tierShow;
+    countTo(p.querySelector('.sb-price b'), t.dataset.price, 0);
+    if (reduce) frame(performance.now() + 99e3);
+  });
+  root.addEventListener('keydown', function (e) {
+    var t = e.target.closest('.sb-tier'); if (!t || !/Arrow/.test(e.key)) return;
+    var all = [].slice.call(t.parentNode.children), i = all.indexOf(t), j = (i + (/Down|Right/.test(e.key) ? 1 : -1) + all.length) % all.length;
+    e.preventDefault(); all[j].focus(); all[j].click();
+  });
+
+  /* световой луч от выбранного направления к сцене */
+  function drawBeam(anim) {
+    if (innerWidth <= 860) return;
+    var sel = root.querySelector('.sb-dir[aria-selected="true"] .sb-orb'); if (!sel) return;
+    var R = root.getBoundingClientRect(), a = sel.getBoundingClientRect(), c = root.querySelector('.sb-canvas').getBoundingClientRect();
+    var btn = sel.closest('.sb-dir').getBoundingClientRect();
+    var x1 = btn.right - R.left + 6, y1 = a.top + a.height / 2 - R.top, x2 = c.left - R.left + 2, y2 = c.top + c.height * 0.5 - R.top;
+    beam.setAttribute('viewBox', '0 0 ' + R.width + ' ' + R.height); beam.setAttribute('width', R.width); beam.setAttribute('height', R.height);
+    var dx = Math.max(40, (x2 - x1) * 0.5);
+    beamP.setAttribute('d', 'M' + x1 + ' ' + y1 + ' C' + (x1 + dx) + ' ' + y1 + ' ' + (x2 - dx) + ' ' + y2 + ' ' + x2 + ' ' + y2);
+    var L = beamP.getTotalLength(); beam.style.setProperty('--len', Math.ceil(L));
+    if (anim && !reduce) { beam.classList.remove('on'); void beam.getBoundingClientRect(); requestAnimationFrame(function () { beam.classList.add('on'); }); }
+    else beam.classList.add('on');
+  }
+
+  /* ---------- рисование ---------- */
+  var TE = '95,223,222', MI = '160,227,216', CO = '225,164,146', WH = '234,247,244';
+  function C(c, a) { return 'rgba(' + c + ',' + Math.max(0, Math.min(1, a)).toFixed(3) + ')'; }
+  function cl(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+  function sm(x) { x = cl(x); return x * x * (3 - 2 * x); }
+  function eo(x) { x = cl(x); return 1 - Math.pow(1 - x, 3); }
+  function seg(t, a, b) { return cl((t - a) / (b - a)); }
+  function rr(x, y, w, h, r) { r = Math.min(r, w / 2, h / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function line(x1, y1, x2, y2, col, w, k) { if (k === undefined) k = 1; if (k <= 0) return; ctx.strokeStyle = col; ctx.lineWidth = w || 1.4; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 + (x2 - x1) * k, y1 + (y2 - y1) * k); ctx.stroke(); }
+  function dot(x, y, r, col, glow) { ctx.fillStyle = col; if (glow) { ctx.shadowColor = col; ctx.shadowBlur = glow; } ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill(); ctx.shadowBlur = 0; }
+  function glass(x, y, w, h, r, a, tint) {
+    rr(x, y, w, h, r); var g = ctx.createLinearGradient(x, y, x + w, y + h);
+    g.addColorStop(0, C(tint || TE, 0.2 * a)); g.addColorStop(1, C(tint || TE, 0.05 * a));
+    ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = C(tint || MI, 0.55 * a); ctx.lineWidth = 1.2; ctx.stroke();
+    line(x + r, y + 1.5, x + w - r, y + 1.5, C(WH, 0.25 * a), 1);
+  }
+  function rng(i) { var x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+
+  var S = {};
+  S.consult = function (t, T) {
+    var A = seg(t, 0, 1.4), B = seg(t, 1.4, 2.8), Cc = seg(t, 2.8, 4.2), N = 120;
+    ctx.lineWidth = 1.5; ctx.strokeStyle = C(CO, 0.75 - 0.4 * Cc); ctx.beginPath();
+    var P = [];
+    for (var i = 0; i < N; i++) { var a = i * 0.21 + T * 0.15; P.push([200 + 80 * Math.sin(i * 0.37) * Math.cos(i * 0.11 + T * 0.1) + 28 * Math.sin(i * 1.3), 200 + 78 * Math.cos(i * 0.29) * Math.sin(i * 0.07 + 1) + 22 * Math.cos(a * 1.7)]); }
+    var n = Math.max(2, Math.floor(N * eo(A)));
+    for (i = 0; i < n; i++) i ? ctx.lineTo(P[i][0], P[i][1]) : ctx.moveTo(P[i][0], P[i][1]);
+    ctx.stroke();
+    if (B > 0) {
+      var sx = 90 + 230 * B; line(sx, 70, sx, 330, C(TE, 0.5 * (1 - Cc)), 1.2);
+      var keys = [18, 52, 95], ins = [[400, 130], [400, 200], [400, 270]];
+      keys.forEach(function (k, j) {
+        var p = P[k], on = sm((sx - p[0]) / 30 + 1);
+        if (on > 0) { dot(p[0], p[1], 4, C(TE, on), 12); line(p[0], p[1], ins[j][0], ins[j][1], C(TE, 0.45 * on), 1.2, eo(seg(B, 0.3 + j * 0.15, 0.9 + j * 0.05))); }
+        var q = sm(seg(B, 0.55 + j * 0.12, 1)); if (q > 0) glass(ins[j][0] - 16, ins[j][1] - 12, 32, 24, 7, q);
+      });
+    }
+    if (Cc > 0) {
+      var pl = [[540, 140], [640, 200], [740, 260]];
+      line(416, 200, pl[0][0] - 20, pl[0][1], C(TE, 0.5), 1.4, eo(seg(Cc, 0, 0.35)));
+      for (var j = 0; j < 3; j++) {
+        var q = eo(seg(Cc, 0.15 + j * 0.25, 0.5 + j * 0.25)); if (q <= 0) continue;
+        if (j) line(pl[j - 1][0] + 20, pl[j - 1][1], pl[j][0] - 20, pl[j][1], C(MI, 0.6), 1.5, q);
+        glass(pl[j][0] - 22, pl[j][1] - 22, 44, 44, 12, q, j === 2 ? CO : TE);
+        ctx.fillStyle = C(WH, 0.9 * q); ctx.font = '600 16px Onest, Manrope, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(String(j + 1), pl[j][0], pl[j][1] + 1);
+      }
+      if (Cc >= 1) { var u = (T * 0.35) % 1, k = u * 2, a0 = pl[Math.min(1, Math.floor(k))], a1 = pl[Math.min(2, Math.floor(k) + 1)], f = k % 1; dot(a0[0] + (a1[0] - a0[0]) * f, a0[1] + (a1[1] - a0[1]) * f, 3, C(CO, 0.9), 14); }
+    }
+  };
+  S.design = function (t, T) {
+    var A = seg(t, 0, 1.2), B = seg(t, 1.2, 2.6), Cc = seg(t, 2.6, 4.2);
+    dot(150, 200, 4 + 6 * eo(A), C(CO, 0.95), 22);
+    ctx.strokeStyle = C(MI, 0.5 * eo(A)); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(150, 200, 58 * eo(A), 0, 6.2832); ctx.stroke();
+    ctx.strokeStyle = C(MI, 0.2 * eo(A)); ctx.beginPath(); ctx.arc(150, 200, 40 * eo(A) + 3 * Math.sin(T * 1.3), 0, 6.2832); ctx.stroke();
+    for (var i = 0; i < 9; i++) {
+      var q = eo(seg(B, i * 0.07, 0.45 + i * 0.07)); if (q <= 0) continue;
+      var cx = 340 + (i % 3) * 62, cy = 145 + Math.floor(i / 3) * 52, x = 150 + (cx - 150) * q, y = 200 + (cy - 200) * q;
+      if (i % 3 === 0) line(150 + 58, 200, x, y + 15, C(TE, 0.25 * q), 1);
+      glass(x - 2, y, 52, 32, 8, q, i === 4 ? CO : TE);
+    }
+    if (Cc > 0) {
+      var y0 = 300, xs = [560, 625, 690, 755];
+      line(545, y0, 770, y0, C(MI, 0.35), 1.2, eo(seg(Cc, 0, 0.4)));
+      xs.forEach(function (x, j) {
+        var q = eo(seg(Cc, 0.2 + j * 0.15, 0.5 + j * 0.15)); if (q <= 0) return;
+        line(456, 145 + j % 3 * 52 + 16, x, y0 - 70, C(TE, 0.18 * q), 1);
+        glass(x - 26, y0 - 86, 52, 30, 8, q, j === 3 ? CO : TE);
+        line(x, y0 - 56, x, y0, C(MI, 0.4 * q), 1, q);
+        dot(x, y0, 5 * q, C(j === 3 ? CO : TE, 0.95), 10);
+      });
+      if (Cc >= 1) { var u = (T * 0.25) % 1; line(545, y0, 545 + 225 * u, y0, C(CO, 0.8), 2); }
+    }
+  };
+  S.web = function (t, T) {
+    var A = seg(t, 0, 1.1), B = seg(t, 1.1, 2.3), Cc = seg(t, 2.3, 3.3), Dd = seg(t, 3.3, 4.4), E = seg(t, 4.4, 5.6), lv = tier;
+    [[90, TE], [128, CO], [166, '60,74,78']].forEach(function (s, i) { var q = eo(seg(A, i * 0.15, 0.6 + i * 0.15)); dot(s[0], 120, 13 * q, C(s[1], 0.85 * q), 0); });
+    ctx.fillStyle = C(WH, 0.85 * eo(seg(A, 0.3, 1))); ctx.font = '500 44px Onest, Manrope, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.fillText('Aa', 82, 200);
+    for (var i = 0; i < 3; i++) line(82, 228 + i * 14, 82 + [110, 80, 96][i] * eo(seg(A, 0.4 + i * 0.1, 1)), 228 + i * 14, C(MI, 0.4), 2.5);
+    var bx = 250, by = 70, bw = 330, bh = 240;
+    if (lv >= 1) for (var p = 2; p >= 1; p--) { var q = eo(seg(B, 0.3, 1)); rr(bx + p * 16, by - p * 14, bw, bh, 14); ctx.strokeStyle = C(MI, 0.18 * q); ctx.lineWidth = 1; ctx.stroke(); }
+    if (B > 0) {
+      var q = eo(B); glass(bx, by, bw, bh, 14, q);
+      line(bx, by + 26, bx + bw, by + 26, C(MI, 0.3 * q), 1);
+      [0, 1, 2].forEach(function (k) { dot(bx + 16 + k * 12, by + 13, 3, C(k ? MI : CO, 0.7 * q)); });
+      var wire = C(MI, 0.35 * q * (1 - Cc * 0.6)); ctx.strokeStyle = wire; ctx.lineWidth = 1;
+      rr(bx + 18, by + 42, bw - 36, 84, 8); ctx.stroke();
+      for (k = 0; k < 3; k++) { rr(bx + 18 + k * 100, by + 140, 90, 80, 8); ctx.stroke(); }
+    }
+    if (Cc > 0) {
+      var q = eo(Cc), g = ctx.createLinearGradient(bx + 18, 0, bx + bw - 18, 0);
+      g.addColorStop(0, C(CO, 0.35 * q)); g.addColorStop(0.5, C(TE, 0.3 * q)); g.addColorStop(1, C(TE, 0.12 * q));
+      rr(bx + 18, by + 42, bw - 36, 84, 8); ctx.fillStyle = g; ctx.fill();
+      ctx.strokeStyle = C(WH, 0.7 * q); ctx.lineWidth = 1.6; ctx.beginPath();
+      for (var x = 0; x <= bw - 60; x += 6) { var yy = by + 84 + Math.sin(x * 0.03 + T * (lv === 2 ? 1.6 : 0.8)) * 10 * (lv === 2 ? 1.4 : 1); x ? ctx.lineTo(bx + 30 + x, yy) : ctx.moveTo(bx + 30 + x, yy); }
+      ctx.stroke();
+      for (k = 0; k < 3; k++) {
+        var lift = E > 0 ? sm(1 - Math.abs(((T * 0.4) % 3) - k - 0.5) * 2) * 6 : 0;
+        glass(bx + 18 + k * 100, by + 140 - lift, 90, 80, 8, q, k === 1 ? CO : TE);
+        line(bx + 30 + k * 100, by + 186 - lift, bx + 80 + k * 100, by + 186 - lift, C(WH, 0.5 * q), 2);
+        line(bx + 30 + k * 100, by + 198 - lift, bx + 66 + k * 100, by + 198 - lift, C(WH, 0.3 * q), 2);
+      }
+    }
+    if (Dd > 0) {
+      var q = eo(Dd), mx = 640 + (1 - q) * 120;
+      glass(mx, 100, 100, 200, 16, q);
+      line(mx + 38, 110, mx + 62, 110, C(MI, 0.5 * q), 2);
+      var g2 = ctx.createLinearGradient(mx + 10, 0, mx + 90, 0); g2.addColorStop(0, C(CO, 0.3 * q)); g2.addColorStop(1, C(TE, 0.25 * q));
+      rr(mx + 10, 124, 80, 52, 8); ctx.fillStyle = g2; ctx.fill();
+      for (k = 0; k < 3; k++) { rr(mx + 10, 184 + k * 34, 80, 26, 6); ctx.fillStyle = C(TE, 0.12 * q); ctx.fill(); ctx.strokeStyle = C(MI, 0.35 * q); ctx.stroke(); }
+    }
+    if (E > 0) {
+      var a = T * 0.7, cx = bx + 160 + Math.cos(a) * 120, cy = by + 170 + Math.sin(a * 1.3) * 50;
+      ctx.fillStyle = C(WH, 0.95 * E); ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + 13, cy + 5); ctx.lineTo(cx + 5, cy + 7); ctx.lineTo(cx + 2, cy + 15); ctx.closePath(); ctx.fill();
+      if (lv === 2) {
+        for (var i2 = 0; i2 < 14; i2++) { var px = bx + 30 + rng(i2) * (bw - 60), py = by + 50 + rng(i2 + 7) * 70 + Math.sin(T * (0.6 + rng(i2 + 3)) + i2) * 6; dot(px, py, 1.6 + rng(i2 + 5) * 1.6, C(i2 % 4 ? MI : CO, 0.7 * E), 6); }
+        ctx.setLineDash([4, 6]); ctx.strokeStyle = C(CO, 0.5 * E); ctx.beginPath(); ctx.moveTo(bx + bw - 10, by + 60); ctx.bezierCurveTo(bx + bw + 60, by + 20, 630, 330, 690, 300); ctx.stroke(); ctx.setLineDash([]);
+        var u = (T * 0.3) % 1, iu = 1 - u, X = iu * iu * iu * (bx + bw - 10) + 3 * iu * iu * u * (bx + bw + 60) + 3 * iu * u * u * 630 + u * u * u * 690, Y = iu * iu * iu * (by + 60) + 3 * iu * iu * u * (by + 20) + 3 * iu * u * u * 330 + u * u * u * 300;
+        dot(X, Y, 4, C(CO, 0.95), 14);
+        ctx.strokeStyle = C(TE, 0.6 * E); ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(bx + bw - 40, by + 84, 16, T * 1.5, T * 1.5 + 4.2); ctx.stroke();
+      }
+    }
+  };
+  S.data = function (t, T) {
+    var A = seg(t, 0, 1.4), B = seg(t, 1.4, 2.8), Cc = seg(t, 2.8, 4.2), N = 54, cols = 6, hs = [0.45, 0.7, 0.55, 0.9, 0.65, 1];
+    for (var i = 0; i < N; i++) {
+      var x0 = 80 + rng(i) * 640, y0 = 60 + rng(i + 99) * 280, jx = Math.sin(T * 1.7 + i) * 6 * (1 - B), jy = Math.cos(T * 1.3 + i * 2) * 6 * (1 - B);
+      var c = i % cols, r = Math.floor(i / cols), x1 = 150 + c * 62, y1 = 320 - r * 26 * hs[c];
+      var k = eo(seg(B, (i % 9) * 0.04, 0.6 + (i % 9) * 0.04)), x = x0 + (x1 - x0) * k + jx, y = y0 + (y1 - y0) * k + jy;
+      var vis = (1 - Cc) * eo(seg(A, rng(i + 5) * 0.6, rng(i + 5) * 0.6 + 0.4));
+      dot(x, y, 3, C(i % 3 ? TE : CO, 0.8 * vis), 0);
+    }
+    if (B > 0.3 && Cc < 1) for (i = 0; i < N - cols; i += 2) { var c2 = i % cols, r2 = Math.floor(i / cols); line(150 + c2 * 62, 320 - r2 * 26 * hs[c2], 150 + c2 * 62, 320 - (r2 + 1) * 26 * hs[c2], C(MI, 0.2 * (1 - Cc) * seg(B, 0.3, 1)), 1); }
+    if (Cc > 0) {
+      var tops = [];
+      for (var c3 = 0; c3 < cols; c3++) {
+        var h = 230 * hs[c3] * eo(seg(Cc, c3 * 0.06, 0.6 + c3 * 0.06)), x = 150 + c3 * 62 - 16; tops.push([x + 16, 330 - h]);
+        rr(x, 330 - h, 32, h, 7); var g = ctx.createLinearGradient(0, 330 - h, 0, 330); g.addColorStop(0, C(c3 === 5 ? CO : TE, 0.55)); g.addColorStop(1, C(TE, 0.08)); ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = C(MI, 0.4); ctx.lineWidth = 1; ctx.stroke();
+      }
+      var lk = eo(seg(Cc, 0.4, 1)); ctx.strokeStyle = C(CO, 0.85); ctx.lineWidth = 2; ctx.beginPath();
+      tops.forEach(function (p, j) { var y = p[1] - 18; j ? ctx.lineTo(p[0], y) : ctx.moveTo(p[0], y); });
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, 150 + 310 * lk + 10, 400); ctx.clip();
+      ctx.beginPath(); tops.forEach(function (p, j) { var y = p[1] - 18; j ? ctx.lineTo(p[0], y) : ctx.moveTo(p[0], y); }); ctx.stroke(); ctx.restore();
+      for (var j = 0; j < 3; j++) {
+        var q = eo(seg(Cc, 0.5 + j * 0.15, 0.85 + j * 0.15)); if (q <= 0) continue;
+        glass(560, 90 + j * 82, 170, 64, 12, q, j === 0 ? CO : TE);
+        line(578, 112 + j * 82, 640, 112 + j * 82, C(WH, 0.6 * q), 3);
+        var pr = 0.4 + 0.5 * (0.5 + 0.5 * Math.sin(T * 0.5 + j * 2));
+        line(578, 134 + j * 82, 712, 134 + j * 82, C(MI, 0.2 * q), 4); line(578, 134 + j * 82, 578 + 134 * pr, 134 + j * 82, C(j === 0 ? CO : TE, 0.8 * q), 4);
+      }
+    }
+  };
+  S.auto = function (t, T) {
+    var A = seg(t, 0, 1.6), B = seg(t, 1.6, 2.8), Cc = seg(t, 2.8, 4), fade = 1 - 0.65 * B;
+    for (var i = 0; i < 5; i++) { var on = Math.floor((T * 2.2) % 5) === i && Cc < 1; rr(110, 95 + i * 44, 34, 30, 7); ctx.fillStyle = C(on ? CO : TE, (on ? 0.4 : 0.1) * fade * eo(seg(A, i * 0.1, 0.4 + i * 0.1))); ctx.fill(); ctx.strokeStyle = C(MI, 0.4 * fade); ctx.lineWidth = 1; ctx.stroke(); }
+    if (Cc < 1) { var k = (T * 2.2) % 5, ii = Math.floor(k), f = sm((k % 1) * 2), cx = 162, cy = 110 + (ii + f) * 44 + Math.sin(T * 9) * 2; ctx.fillStyle = C(WH, 0.85 * fade * (1 - Cc)); ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + 13, cy + 5); ctx.lineTo(cx + 5, cy + 7); ctx.lineTo(cx + 2, cy + 15); ctx.closePath(); ctx.fill(); }
+    var xs = [300, 420, 540, 660];
+    if (B > 0) xs.forEach(function (x, j) {
+      var q = eo(seg(B, j * 0.15, 0.5 + j * 0.15)); if (q <= 0) return;
+      if (j) line(xs[j - 1] + 24, 200, x - 24, 200, C(MI, 0.45), 1.4, q);
+      glass(x - 24, 176, 48, 48, 24, q, j === 3 ? CO : TE);
+      ctx.strokeStyle = C(j === 3 ? CO : TE, 0.6 * q); ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(x, 200, 32, T * (j % 2 ? -0.8 : 0.8), T * (j % 2 ? -0.8 : 0.8) + 1.6); ctx.stroke();
+    });
+    if (B > 0) line(160, 200, 276, 200, C(MI, 0.3), 1.2, eo(B));
+    if (Cc > 0) {
+      for (var n = 0; n < 8; n++) {
+        var u = ((T * 0.18 + n / 8) % 1), x = 160 + u * 520;
+        var near = xs.reduce(function (m, X) { return Math.min(m, Math.abs(X - x)); }, 99);
+        rr(x - 7, 193, 14, 14, 4); ctx.fillStyle = C(near < 20 ? CO : TE, (0.5 + 0.5 * (near < 20)) * Cc); ctx.fill();
+      }
+      var pr = (T * 0.12) % 1; ctx.strokeStyle = C(CO, 0.9 * Cc); ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(660, 200, 42, -1.5708, -1.5708 + pr * 6.2832); ctx.stroke();
+    }
+  };
+  S.ai = function (t, T) {
+    var A = seg(t, 0, 1.3), B = seg(t, 1.3, 2.7), Cc = seg(t, 2.7, 4.2), cx = 400, cy = 200;
+    for (var i = 0; i < 6; i++) {
+      var u = ((T * 0.16 + i / 6) % 1), lim = B > 0.5 ? 1 : 0.55, x = 90 + u * (cx - 60 - 90) * (B > 0.5 ? 1 : 0.7), y = cy + (rng(i) - 0.5) * 220 * (1 - u * (B > 0.5 ? 0.85 : 0.2));
+      var a = eo(seg(A, i * 0.1, 0.5 + i * 0.1)) * (u < lim ? 1 : 0) * (1 - sm((u - 0.85) * 6.6) * (B > 0.5 ? 1 : 0));
+      if (a <= 0) continue;
+      glass(x - 18, y - 22, 36, 44, 6, a);
+      for (var l = 0; l < 3; l++) line(x - 10, y - 10 + l * 9, x + [10, 6, 8][l], y - 10 + l * 9, C(WH, 0.45 * a), 2);
+    }
+    if (B > 0) {
+      var P = [];
+      for (var k = 0; k < 15; k++) { var r = 30 + rng(k + 20) * 62, an = k * 2.399 + T * 0.12; P.push([cx + Math.cos(an) * r, cy + Math.sin(an) * r * 0.85]); }
+      for (k = 0; k < 15; k++) { var q = eo(seg(B, k * 0.03, 0.5 + k * 0.03)); var m = P[(k * 4 + 3) % 15], m2 = P[(k + 1) % 15]; line(P[k][0], P[k][1], m[0], m[1], C(TE, 0.35 * q), 1, q); line(P[k][0], P[k][1], m2[0], m2[1], C(MI, 0.2 * q), 1, q); }
+      for (k = 0; k < 15; k++) { var q2 = eo(seg(B, k * 0.03, 0.4 + k * 0.03)); var pulse = 0.6 + 0.4 * Math.sin(T * 2.4 + k * 1.7); dot(P[k][0], P[k][1], (k % 5 ? 3.2 : 5) * q2, C(k % 5 ? TE : CO, pulse), k % 5 ? 6 : 14); }
+    }
+    if (Cc > 0) {
+      var q3 = eo(Cc); line(cx + 92, cy, 572, cy, C(CO, 0.6 * q3), 1.6, q3);
+      glass(580, 110, 150, 180, 14, q3, CO);
+      for (var j = 0; j < 7; j++) { var w = [90, 110, 70, 104, 86, 60, 96][j], p = eo(seg(Cc, 0.25 + j * 0.08, 0.5 + j * 0.08)); line(600, 140 + j * 20, 600 + w * p, 140 + j * 20, C(WH, (j === 0 ? 0.85 : 0.45) * q3), j === 0 ? 4 : 2.5); }
+      dot(712, 128, 3 + Math.sin(T * 3) * 1, C(CO, 0.95 * q3), 16);
+    }
+  };
+  S.edu = function (t, T) {
+    var A = seg(t, 0, 1), B = seg(t, 1, 2), Cc = seg(t, 2, 3), Dd = seg(t, 3, 4), E = seg(t, 4, 5);
+    dot(100, 200, 4 + 4 * eo(A), C(CO, 0.95), 18);
+    if (B > 0) { line(108, 200, 196, 200, C(MI, 0.4), 1.2, eo(B)); [44, 30, 16].forEach(function (r, i) { ctx.strokeStyle = C(i === 2 ? CO : TE, 0.7 * eo(seg(B, i * 0.2, 0.6 + i * 0.2))); ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(240, 200, r, 0, 6.2832); ctx.stroke(); }); dot(240, 200, 4 * eo(B), C(CO, 1), 10); }
+    if (Cc > 0) for (var i = 0; i < 4; i++) {
+      var q = eo(seg(Cc, i * 0.15, 0.55 + i * 0.15)); if (q <= 0) continue;
+      var y = 112 + i * 50 + (1 - q) * 20; line(284, 200, 340, y + 18, C(TE, 0.22 * q), 1);
+      ctx.beginPath(); ctx.moveTo(352, y); ctx.lineTo(462, y); ctx.lineTo(450, y + 36); ctx.lineTo(340, y + 36); ctx.closePath();
+      ctx.fillStyle = C(i === 0 ? CO : TE, 0.16 * q); ctx.fill(); ctx.strokeStyle = C(MI, 0.55 * q); ctx.lineWidth = 1.2; ctx.stroke();
+      line(362, y + 18, 362 + 60 * q, y + 18, C(WH, 0.5 * q), 2.5);
+    }
+    if (Dd > 0) for (var j = 0; j < 5; j++) {
+      var q2 = eo(seg(Dd, j * 0.12, 0.5 + j * 0.12)); if (q2 <= 0) continue;
+      var y2 = 110 + j * 40; line(466, 130 + Math.min(j, 3) * 50, 500, y2 + 12, C(TE, 0.2 * q2), 1);
+      rr(510, y2, 22, 22, 6); ctx.strokeStyle = C(MI, 0.6 * q2); ctx.lineWidth = 1.3; ctx.stroke();
+      var ck = E > 0 ? eo(seg(E, j * 0.12, 0.4 + j * 0.12)) : 0;
+      if (ck > 0) { ctx.strokeStyle = C(CO, 0.95 * ck); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(515, y2 + 11); ctx.lineTo(520, y2 + 16); ctx.lineTo(528, y2 + 6); ctx.stroke(); }
+      line(544, y2 + 11, 544 + [70, 54, 80, 62, 46][j] * q2, y2 + 11, C(WH, 0.45 * q2), 2.5);
+    }
+    if (E > 0) { var q3 = eo(E); line(640, 200, 660, 200, C(MI, 0.3), 1); ctx.strokeStyle = C(MI, 0.25); ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(710, 200, 44, Math.PI * 0.8, Math.PI * 2.2); ctx.stroke();
+      ctx.strokeStyle = C(CO, 0.9); ctx.beginPath(); ctx.arc(710, 200, 44, Math.PI * 0.8, Math.PI * 0.8 + Math.PI * 1.4 * q3 * (0.82 + 0.06 * Math.sin(T))); ctx.stroke(); dot(710, 200, 5, C(TE, 0.9 * q3), 12); }
+  };
+
+  function size() {
+    var r = cv.getBoundingClientRect(); DPR = Math.min(2, devicePixelRatio || 1);
+    W = Math.max(1, r.width); H = Math.max(1, r.height); cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  }
+  function frame(now) {
+    if (!cur) return;
+    var t = (now - t0) / 1000, T = now / 1000;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+    var s = Math.min(W / 800, H / 400) * DPR; ctx.setTransform(s, 0, 0, s, (cv.width - 800 * s) / 2, (cv.height - 400 * s) / 2);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    S[cur](t, T);
+    var st = STEPS[cur], n = 0; while (n < st.length && t >= st[n]) n++;
+    if (n !== lastStep) { lastStep = n; var lis = panel(cur).querySelectorAll('.sb-story li'); [].forEach.call(lis, function (li, i) { li.classList.toggle('on', i < n); }); }
+  }
+  var lastStep = -1;
+  function loop(now) { frame(now); raf = visible ? requestAnimationFrame(loop) : 0; }
+  function kick() { lastStep = -1; if (visible && !raf && !reduce) raf = requestAnimationFrame(loop); }
+  size();
+  select(tabs[0].dataset.dir, { force: true });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        visible = e.isIntersecting;
+        if (visible && !seen && e.boundingClientRect.top < innerHeight * 0.8) { seen = true; t0 = performance.now(); lastStep = -1; var p = panel(cur); p.classList.remove('in'); void p.offsetWidth; p.classList.add('in'); var b = p.querySelector('.sb-price b'); if (b) countTo(b, b.dataset.v, 850); drawBeam(true); }
+        if (visible) kick(); else { cancelAnimationFrame(raf); raf = 0; }
+      });
+    }, { threshold: [0, 0.15, 0.3] }).observe(stage);
+  } else { visible = true; kick(); }
+  /* луч пересчитывается при любом изменении размеров (раскрытие состава, смена варианта) */
+  if ('ResizeObserver' in window) new ResizeObserver(function () { drawBeam(false); }).observe(root);
+  addEventListener('resize', function () { size(); drawBeam(false); if (reduce) frame(performance.now() + 99e3); });
+  if (reduce) frame(performance.now() + 99e3);
 })();
 </script>
 
